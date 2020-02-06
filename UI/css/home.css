@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
 }
 .homepage-header {
   background-color: rgb(53, 171, 84);
@@ -32,6 +33,7 @@ a {
   width: 50px;
   height: 50px;
   margin-right: 5px;
+  border-radius: 50%;
 }
 .header-container .login {
   color: rgb(240, 247, 242);
@@ -45,6 +47,7 @@ a {
   width: 50px;
   height: 50px;
   margin-left: 5px;
+  border-radius: 50%;
 }
 .header-container .login:hover {
   background-color: rgb(48, 129, 70);
@@ -60,13 +63,10 @@ a {
 .services-row {
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin: auto;
-  align-items: center;
-  margin-bottom: 2%;
+  padding: 20px;
+  margin: 1%;
 }
 .sercives-col {
-  margin-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,6 +74,8 @@ a {
   background-color: rgb(53, 171, 84);
   padding: 20px;
   color: rgb(240, 247, 242);
+  width: 100%;
+  margin: 10px;
 }
 .sercives-col i {
   font-size: 2em;
@@ -88,4 +90,21 @@ footer {
   display: flex;
   justify-content: flex-end;
   padding: 5px;
+}
+
+/* Media query section for responsiveness */
+
+/* Mobile  */
+@media only screen and (max-width: 768px) {
+  .services-row {
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin: 1%;
+  }
+
+  .sercives-col {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
