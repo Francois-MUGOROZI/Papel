@@ -9,13 +9,12 @@
       rel="stylesheet"
       href="../css/font-awesome/css/font-awesome.min.css"
     />
-    <title>Papel | Dashboard</title>
+    <title>Papel | Staff Dashboard</title>
   </head>
   <body>
     <!-- The top appbar -->
     <header class="appBar">
       <div class="header">
-        <button class="menu" id="menu"><i class="fa fa-bars"></i></button>
         <div class="header-logo">
           <a href="#">
             <img src="../images/bank.png" alt="Bank" />&nbsp;
@@ -37,33 +36,15 @@
     <!-- The sidebar for menus -->
     <div class="sidebar" id="sidebar">
       <ul>
-        <li class="list-item">
-          <i></i>
-          <h3>Overview</h3>
-        </li>
-        <li class="list-item">
-          <i></i>
+        <li class="list-item" id="user-side-account">
           <h3>Accounts</h3>
         </li>
-        <li class="list-item">
-          <i></i>
+        <li class="list-item" id="user-side-transaction">
           <h3>Transactions</h3>
         </li>
-        <li class="list-item">
-          <i></i>
-          <h3>Accounts</h3>
-        </li>
-        <hr />
-        <ul>
-          <li class="list-item">
-            <i></i>
-            <h3>Staff</h3>
-          </li>
-        </ul>
         <hr />
         <li class="list-item">
-          <a href="">
-            <i></i>
+          <a href="../js/auth.js?logout">
             <h3>Logout</h3>
           </a>
         </li>
@@ -73,7 +54,41 @@
     <!-- main content rendered depending on the user logged in  -->
     <div class="main-content" id="main">
       <div class="contents">
-        <h1>Main contents</h1>
+        <h1 id="User-content-heading">Main contents</h1>
+        <div class="accounts" id="accounts">
+          <div class="content-row">
+            <h2>Account Name: Ubumwe</h2>
+            <h4>Account Type: Saving</h4>
+            <h4>Account Number: 6846513564</h4>
+
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h1>Balance: $7856</h1>
+          </div>
+          <div class="content-row">
+            <h2>Account Name: Umubano</h2>
+            <h4>Account Type: Loan</h4>
+            <h4>Account Number: 6046876546</h4>
+            <h5>Opened: 4th, Feb, 2020 <span>Status: Active</span></h5>
+            <h1>Balance: $7856</h1>
+          </div>
+          <button class="create-account-btn">Create Account</button>
+        </div>
+        <div class="transactions" id="transactions">
+          <div class="content-row">
+            <h2>Created On: 4th, Feb, 2020</h2>
+            <h4>Type: Credit</h4>
+            <h4>Account Number: 6846513564</h4>
+            <h4>Old balance: $4565</h4>
+            <h2>New balance: $7856</h2>
+          </div>
+          <div class="content-row">
+            <h2>Created On: 4th, Feb, 2020</h2>
+            <h4>Type: Debit</h4>
+            <h4>Account Number: 6846513564</h4>
+            <h4>Old balance: $4565</h4>
+            <h2>New balance: $7856</h2>
+          </div>
+        </div>
       </div>
     </div>
 
