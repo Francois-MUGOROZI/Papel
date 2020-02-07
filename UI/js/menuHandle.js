@@ -9,8 +9,20 @@ const userSideTransactionItem = document.getElementById(
   'user-side-transaction'
 );
 const userMenuHeading = document.getElementById('User-content-heading');
+const createAccountModel = document.getElementById('create-account-model');
+const accountDetailModel = document.getElementById('account-detail-model');
 
 // first setups when document loaded
+initialSetup = () => {
+  //Get the accounts from database
+
+  //populate the account div
+
+  // display the account div
+  userMenuHeading.innerHTML = 'Accounts';
+  accounts.style.display = 'block';
+  transaction.style.display = 'none';
+};
 
 // handle the menu button sidebar
 menu.addEventListener('click', ev => {
@@ -48,3 +60,22 @@ userSideTransactionItem.addEventListener('click', ev => {
   accounts.style.display = 'none';
   transaction.style.display = 'block';
 });
+
+// Create account model handle
+openCreateAccountModel = () => {
+  createAccountModel.style.display = 'block';
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = event => {
+  if (event.target == createAccountModel) {
+    createAccountModel.style.display = 'none';
+  }
+  if (event.target == accountDetailModel) {
+    accountDetailModel.style.display = 'none';
+  }
+};
+
+openDetailModel = () => {
+  accountDetailModel.style.display = 'block';
+};

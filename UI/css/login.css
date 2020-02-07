@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: rgba(46, 139, 86, 0.466);
+  background-color: rgb(10, 46, 46);
 }
 .login-container {
   display: flex;
@@ -19,7 +19,7 @@ body {
 }
 .login-container h1 {
   text-align: center;
-  color: seagreen;
+  color: rgb(58, 107, 107);
 }
 .login-container input {
   padding: 10px;
@@ -29,21 +29,24 @@ body {
   margin-bottom: 10px;
 }
 label {
-  color: rgb(23, 179, 114);
+  color: rgb(49, 78, 61);
 }
 .login-container #login-btn,
 #signup-btn {
   float: right;
-  background-color: rgb(23, 179, 114);
+  background-color: rgb(10, 46, 46);
   color: rgb(209, 209, 209);
   width: max-content;
 }
 .login-container #login-btn:hover {
-  background-color: rgb(21, 150, 96);
+  background-color: rgb(29, 31, 30);
+}
+.login-container #signup-btn:hover {
+  background-color: rgb(29, 31, 30);
 }
 .have-account {
   text-align: right;
   font-size: 1.2em;
   margin-bottom: 40px;
-  color: rgb(16, 151, 106);
+  color: rgb(25, 31, 27);
 }

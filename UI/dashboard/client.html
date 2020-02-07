@@ -11,7 +11,7 @@
     />
     <title>Papel | User Dashboard</title>
   </head>
-  <body>
+  <body onload="initialSetup()">
     <!-- The top appbar -->
     <header class="appBar">
       <div class="header">
@@ -19,7 +19,7 @@
         <div class="header-logo">
           <a href="#">
             <img src="../images/bank.png" alt="Bank" />&nbsp;
-            <h2>Papel</h2>
+            <h4>Papel</h4>
           </a>
         </div>
         <div class="header-content">
@@ -38,15 +38,15 @@
     <div class="sidebar" id="sidebar">
       <ul>
         <li class="list-item" id="user-side-account">
-          <h3>Accounts</h3>
+          <h4>Accounts</h4>
         </li>
         <li class="list-item" id="user-side-transaction">
-          <h3>Transactions</h3>
+          <h4>Transactions</h4>
         </li>
         <hr />
         <li class="list-item">
           <a href="../js/auth.js?logout">
-            <h3>Logout</h3>
+            <h4>Logout</h4>
           </a>
         </li>
       </ul>
@@ -55,39 +55,40 @@
     <!-- main content rendered depending on the user logged in  -->
     <div class="main-content" id="main">
       <div class="contents">
-        <h1 id="User-content-heading">Main contents</h1>
+        <h4 id="User-content-heading">Main contents</h4>
         <div class="accounts" id="accounts">
-          <div class="content-row">
-            <h2>Account Name: Ubumwe</h2>
-            <h4>Account Type: Saving</h4>
-            <h4>Account Number: 6846513564</h4>
-
+          <div class="content-row" onclick="openDetailModel()">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
             <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
-            <h1>Balance: $7856</h1>
+            <h4>Balance: $7856</h4>
           </div>
           <div class="content-row">
-            <h2>Account Name: Umubano</h2>
-            <h4>Account Type: Loan</h4>
-            <h4>Account Number: 6046876546</h4>
+            <h4>Account Name: Umubano</h4>
+            <h5> Type: Loan</h5>
+            <h5> Number: 6046876546</h5>
             <h5>Opened: 4th, Feb, 2020 <span>Status: Active</span></h5>
-            <h1>Balance: $7856</h1>
+            <h4>Balance: $7856</h4>
           </div>
-          <button class="create-account-btn">Create Account</button>
+          <button class="create-account-btn" onclick="openCreateAccountModel()">
+            Create Account
+          </button>
         </div>
         <div class="transactions" id="transactions">
           <div class="content-row">
-            <h2>Created On: 4th, Feb, 2020</h2>
-            <h4>Type: Credit</h4>
-            <h4>Account Number: 6846513564</h4>
-            <h4>Old balance: $4565</h4>
-            <h2>New balance: $7856</h2>
+            <h4>Created On: 4th, Feb, 2020</h4>
+            <h6>Type: Credit</h6>
+            <h6>Account Number: 6846513564</h6>
+            <h6>Old balance: $4565</h6>
+            <h4>New balance: $7856</h4>
           </div>
           <div class="content-row">
-            <h2>Created On: 4th, Feb, 2020</h2>
-            <h4>Type: Debit</h4>
-            <h4>Account Number: 6846513564</h4>
-            <h4>Old balance: $4565</h4>
-            <h2>New balance: $7856</h2>
+            <h4>Created On: 4th, Feb, 2020</h4>
+            <h6>Type: Debit</h6>
+            <h6>Account Number: 6846513564</h6>
+            <h6>Old balance: $4565</h6>
+            <h4>New balance: $7856</h4>
           </div>
         </div>
       </div>
@@ -108,6 +109,64 @@
         ></small
       >
     </footer>
+
+    <!-- Model section for user to create account  -->
+    <div id="create-account-model" class="create-account-modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Create a Bank Account</p>
+        <form onsubmit="handleCreateAccount(ev)">
+          <label for="name">Account Name:</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Account Name"
+            id="name"
+          /><br />
+          <label for="type">Account Type:</label>
+          <select name="type" id="type">
+            <option value="Saving">Saving</option>
+            <option value="Laon">Laon</option>
+          </select>
+          <br />
+          <input
+            type="submit"
+            name="create-btn"
+            value="Create"
+            id="create-btn"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- specific account details and transaction model -->
+    <div id="account-detail-model" class="account-detail-model">
+      <!-- Modal content -->
+      <div class="account-detail-model-content">
+        <span class="close">&times;</span>
+        <p>Bank Account Details</p>
+        <div class="accounts" id="accounts">
+          <div class="detail-content-row">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h4>Balance: $7856</h4>
+          </div>
+          <hr>
+          <h5>Transactions History</h5>
+          <div>
+            <div class="detail-content-row">
+              <h4>Created On: 4th, Feb, 2020</h4>
+              <h6>Type: Debit</h6>
+              <h6>Old balance: $4565</h6>
+              <h4>New balance: $7856</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Scripts -->
     <script src="../js/menuHandle.js"></script>
