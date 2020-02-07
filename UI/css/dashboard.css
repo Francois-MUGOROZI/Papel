@@ -156,6 +156,24 @@ footer {
 
 /* Create account model style  */
 .create-account-modal,
+.debit-model,
+.debit-model,
+.credit-model,
+.delete-model {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 15% 0;
+}
+
+.records-model,
 .account-detail-model {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -176,7 +194,7 @@ footer {
   border: 1px solid #888;
   width: max-content;
 }
-.account-detail-model-content{
+.account-detail-model-content {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
@@ -187,13 +205,14 @@ footer {
 .close {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
+  color: rgb(168, 114, 114);
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: rgb(114, 92, 92);
   text-decoration: none;
   cursor: pointer;
 }
@@ -207,15 +226,15 @@ footer {
   margin-bottom: 10px;
 }
 label {
-  color: rgb(23, 179, 114);
+  color: rgb(80, 128, 108);
 }
 .modal-content #create-btn {
-  background-color: rgb(23, 179, 114);
+  background-color: rgb(37, 63, 52);
   color: rgb(209, 209, 209);
   width: 100%;
 }
 .modal-content #create-btn:hover {
-  background-color: rgb(21, 150, 96);
+  background-color: rgb(22, 26, 24);
 }
 
 .detail-content-row {
@@ -225,4 +244,43 @@ label {
 }
 .detail-content-row:hover {
   cursor: context-menu;
+}
+
+/* style the staff page  */
+.staff-actions button {
+  background-color: rgb(10, 46, 46);
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(240, 248, 255, 0.829);
+  opacity: 0.7;
+}
+.staff-actions button:hover {
+  background-color: rgb(6, 26, 26);
+}
+.staff-actions #delete-btn {
+  background-color: none;
+  border: none;
+  color: rgb(185, 69, 69);
+}
+
+.content-row-staff {
+  padding: 20px;
+  margin-bottom: 10px;
+  line-height: 0.2;
+  box-shadow: 1px 1px 1px grey;
+}
+.delete-btns-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.delete-btns-group input {
+  width: fit-content;
+  margin-right: 10px;
+}
+.delete-btns-group #delete-btn {
+  background-color: rgb(185, 69, 69);
+}
+.delete-btns-group input:hover {
+  opacity: 0.8;
 }
