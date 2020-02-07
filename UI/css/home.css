@@ -5,6 +5,7 @@ body {
 .homepage-header {
   background-color: rgb(10, 46, 46);
   padding: 10px;
+  opacity: 0.6;
 }
 .header-container {
   display: flex;
@@ -50,21 +51,35 @@ a {
   border-radius: 50%;
 }
 .header-container .login:hover {
-  background-color: rgb(11, 14, 12);
+  background-color: rgba(133, 136, 133, 0.178);
 }
 
 .home-banner {
   background-image: url('../images/banner.jpg');
   background-attachment: fixed;
   background-size: cover;
-  color: rgb(2, 54, 17);
-  padding: 15%;
+  color: rgb(0, 0, 0);
+  padding: 10%;
+}
+.banner-btns {
+  padding-top: 20px;
+}
+.banner-btns a {
+  background-color: rgb(117, 121, 117);
+  padding: 10px 30px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.2em;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+.banner-btns a:hover {
+  background-color: rgb(65, 66, 65);
 }
 .services-row {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  margin: 1%;
+  padding: 10px;
+  margin: 20px;
 }
 .sercives-col {
   display: flex;
@@ -72,6 +87,7 @@ a {
   justify-content: center;
   align-items: center;
   background-color: rgb(10, 46, 46);
+  opacity: 0.6;
   padding: 20px;
   color: rgb(240, 247, 242);
   width: 100%;
@@ -83,6 +99,24 @@ a {
 .service-container h1 {
   text-align: center;
   color: rgb(8, 8, 8);
+}
+.bottom-signup {
+  display: flex;
+  justify-content: center;
+}
+.bottom-signup a {
+  background-color: rgb(117, 121, 117);
+  padding: 10px 50px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.5em;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.bottom-signup a:hover {
+  background-color: rgb(65, 66, 65);
+}
+.service-container h1 {
+  opacity: 0.7;
 }
 
 footer {
