@@ -5,7 +5,14 @@ const deleteModel = document.getElementById('delete-model');
 const sidebar = document.getElementById('sidebar');
 
 // inital setup
-const initialSetup = () => {};
+const initialSetup = () => {
+  if (window.innerWidth < 768) {
+    sidebar.classList.remove('sidebar');
+    sidebar.classList.add('sidebar-hide');
+    main.classList.remove('main-content');
+    main.classList.add('main-full');
+  }
+};
 
 // Handle model open and close events
 const openDebitModel = ev => {

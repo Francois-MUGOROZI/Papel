@@ -9,26 +9,23 @@
       rel="stylesheet"
       href="../css/font-awesome/css/font-awesome.min.css"
     />
-    <title>Papel | Dashboard</title>
+    <title>Papel | Dmin Dashboard</title>
   </head>
-  <body>
+  <body onload="initialSetup()">
     <!-- The top appbar -->
     <header class="appBar">
       <div class="header">
-        <button class="menu" id="menu"><i class="fa fa-bars"></i></button>
+        <button class="menu" id="menu" onclick="handleMenuBtn()"><i class="fa fa-bars"></i></button>
         <div class="header-logo">
           <a href="#">
             <img src="../images/bank.png" alt="Bank" />&nbsp;
-            <h2>Papel</h2>
+            <h4>Papel</h4>
           </a>
         </div>
         <div class="header-content">
-          <button class="notification">
-            <i class="fa fa-bell"><sup>785</sup></i>
-          </button>
+         
           <div class="user">
-            <img src="../images/user.jpg" alt="user" /><br />
-            <small>Username</small>
+            <img src="../images/user.jpg" alt="user" />
           </div>
         </div>
       </div>
@@ -37,45 +34,76 @@
     <!-- The sidebar for menus -->
     <div class="sidebar" id="sidebar">
       <ul>
-        <li class="list-item">
-          <i></i>
-          <h3>Overview</h3>
+        <li class="list-item" id="user-side-account" onclick="bankAccountMenu()">
+          <h4>Bank Accounts</h4>
         </li>
-        <li class="list-item">
-          <i></i>
-          <h3>Accounts</h3>
+        <li class="list-item" id="user-side-account" onclick="userAccountMenu()">
+          <h4>User Accounts</h4>
         </li>
-        <li class="list-item">
-          <i></i>
-          <h3>Transactions</h3>
-        </li>
-        <li class="list-item">
-          <i></i>
-          <h3>Accounts</h3>
+        <li class="list-item" id="user-side-account" onclick="staffMenu()">
+          <h4>Admin - Staff Accounts</h4>
         </li>
         <hr />
-        <ul>
-          <li class="list-item">
-            <i></i>
-            <h3>Staff</h3>
-          </li>
-        </ul>
-        <hr />
         <li class="list-item">
-          <a href="">
-            <i></i>
-            <h3>Logout</h3>
+          <a href="../js/auth.js?logout">
+            <h4>Logout</h4>
           </a>
         </li>
       </ul>
     </div>
 
-    <!-- main content rendered depending on the user logged in  -->
-    <div class="main-content" id="main">
-      <div class="contents">
-        <h1>Main contents</h1>
+    <!-- main content rendered depending on menu clicked  -->
+    <!-- bank account menu clicked, this is shown -->
+    <div class="main-content" id="admin-main-content">
+      <div class="contents" id="bank-account-div">
+        <h4 id="User-content-heading">Bank Accounts</h4>
+        <!-- this display bank accounts -->
+        <div class="accounts" id="bank-accounts">
+          <div class="content-row-staff">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Number: 6846513564</h5>
+            <div class="staff-actions">
+              <!-- <button id="debit-btn" onclick="openDebitModel()">Debit</button>
+              <button id="credit-btn" onclick="openCreditModel()">Credit</button> -->
+              <button id="record-btn" onclick="openRecordsModel()">Records</button>
+              <button id="delete-btn" onclick="openDeleteModel()">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- this display user accounts  -->
+        <div class="accounts" id="user-accounts">
+          <div class="content-row-staff">
+            <h5>First Name: Ubumwe</h4>
+            <h5>Last Name: Ubumwe</h4>
+            <h5> Email:francoismugorozi@gmail.com</h5>
+            <div class="staff-actions">
+              <button id="activate-btn" onclick="openDebitModel()">Deactivate</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- this display admin/staff accounts  -->
+        <div class="accounts" id="staff-accounts">
+          <div class="content-row-staff">
+            <h5>First Name: Ubumwe</h4>
+            <h5>Last Name: Ubumwe</h4>
+            <h5>Type: Admin</h4>
+            <h5> Email:francoismugorozi@gmail.com</h5>
+            <div class="staff-actions">
+              <button id="activate-btn" onclick="openDebitModel()">Deactivate</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="staff-actions">
+          <button id="create-user-btn" onclick="openCreateUserModel()">Create User</button>
+        </div>
+
       </div>
     </div>
+
 
     <!-- the footer section  -->
     <footer>
@@ -93,7 +121,118 @@
       >
     </footer>
 
+
+
+    <!-- model for creating user account-->
+    <div id="create-user-model" class="create-user-model">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeCreateUserModel()">&times;</span>
+        <div class="login-container">
+          <h4>Create a New User Account</h4>
+          <form id="login-form" onsubmit="handleSignup(this)">
+            <label for="firstname">First Name:</label>
+            <input type="text" name="firstname" required placeholder="FIrst Name" id="firstname" /><br />
+            <label for="lastname">Last Name:</label>
+            <input type="text" name="lastname" required placeholder="Last Name" id="lastname" /><br />
+            <label for="email">Email:</label>
+            <input
+              type="email" required
+              name="email"
+              placeholder="Email Address"
+              id="email"
+            /><br />
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              id="username"
+            /><br />
+            <label for="type">Type:</label>
+          <select name="usertype" id="usertype">
+            <option value="Admin">Admin</option>
+            <option value="Staff">Staff</option>
+          </select><br /><br>
+            <label for="password">Password :</label>
+            <input
+              type="password" required
+              name="password"
+              placeholder="Password"
+              id="password"
+            /><br />
+            <label for="repassword">Cofirm Password :</label>
+            <input
+              type="password"
+              name="repassword" required
+              placeholder="Re-enter Password"
+              id="repassword"
+            /><br />
+            <input type="submit" name="create-user-btn" value="Create" id="create-user-btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- delete confirmation model  -->
+    <div id="delete-model" class="delete-model">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="cancelDelete()">&times;</span>
+        <p>Are you sure to delete this Bank Account?</p>
+        <form onsubmit="handleDeleteAccount(ev)">
+          <label for="name">Account Number:46879845456</label>
+          <input hidden
+          />
+          <div class="delete-btns-group">
+            <input
+              type="submit"
+              name="delete-btn"
+              value="Delete"
+              id="delete-btn"
+            />
+            <input
+            type="button" onclick="cancelDelete()"
+            name="credit-btn"
+            value="Cancel"
+            id="cancel-delete-btn"
+          />
+      </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- specific account details and transaction model -->
+    <div id="records-model" class="records-model">
+      <!-- Modal content -->
+      <div class="account-detail-model-content">
+        <span class="close" onclick="closeRecordsModel()">&times;</span>
+        <p>Bank Account Details</p>
+        <div class="accounts" id="accounts">
+          <div class="detail-content-row">
+            <h5>Account Name: Ubumwe</h4>
+            <h5>Owner: Maliza</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h4>Balance: $7856</h4>
+          </div>
+          <hr>
+          <h5>Transactions History</h5>
+          <div>
+            <div class="detail-content-row">
+              <h4>Created On: 4th, Feb, 2020</h4>
+              <h6>Type: Debit</h6>
+              <h6>Old balance: $4565</h6>
+              <h4>New balance: $7856</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Scripts -->
-    <script src="../js/menuHandle.js"></script>
+    <script src="../js/admin.js"></script>
+
   </body>
 </html>

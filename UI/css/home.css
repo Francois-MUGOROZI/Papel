@@ -1,16 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Arvo', serif;
+  overflow-x: hidden;
 }
 .homepage-header {
   background-color: rgb(10, 46, 46);
   padding: 10px;
   opacity: 0.6;
+  width: 100% !important;
 }
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 20px;
 }
 a {
   text-decoration: none;
@@ -59,7 +64,8 @@ a {
   background-attachment: fixed;
   background-size: cover;
   color: rgb(0, 0, 0);
-  padding: 10%;
+  padding: 10% 20px;
+  width: 100% !important;
 }
 .banner-btns {
   padding-top: 20px;
@@ -78,7 +84,7 @@ a {
 .services-row {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 2%;
   margin: 20px;
 }
 .sercives-col {
@@ -123,7 +129,13 @@ footer {
   background-color: rgb(10, 46, 46);
   display: flex;
   justify-content: flex-end;
-  padding: 5px;
+  padding: 10px;
+  opacity: 0.6;
+  color: rgba(160, 153, 153, 0.938);
+  width: 100%;
+}
+footer a {
+  color: cadetblue;
 }
 
 /* Media query section for responsiveness */
@@ -134,11 +146,20 @@ footer {
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    margin: 1%;
+    padding: 2%;
+    margin: 20px;
   }
 
   .sercives-col {
-    width: 100%;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(10, 46, 46);
+    opacity: 0.6;
+    padding: 20px;
+    color: rgb(240, 247, 242);
+    width: 90%;
+    margin-bottom: 10px;
   }
 }

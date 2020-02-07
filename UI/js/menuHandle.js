@@ -14,6 +14,12 @@ const accountDetailModel = document.getElementById('account-detail-model');
 
 // first setups when document loaded
 initialSetup = () => {
+  if (window.innerWidth < 768) {
+    sidebar.classList.remove('sidebar');
+    sidebar.classList.add('sidebar-hide');
+    main.classList.remove('main-content');
+    main.classList.add('main-full');
+  }
   //Get the accounts from database
 
   //populate the account div
@@ -62,20 +68,27 @@ userSideTransactionItem.addEventListener('click', ev => {
 });
 
 // Create account model handle
-openCreateAccountModel = () => {
+const openCreateAccountModel = () => {
   createAccountModel.style.display = 'block';
 };
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = event => {
-  if (event.target == createAccountModel) {
-    createAccountModel.style.display = 'none';
-  }
-  if (event.target == accountDetailModel) {
-    accountDetailModel.style.display = 'none';
-  }
+// window.onclick = event => {
+//   if (event.target == createAccountModel) {
+//     createAccountModel.style.display = 'none';
+//   }
+//   if (event.target == accountDetailModel) {
+//     accountDetailModel.style.display = 'none';
+//   }
+// };
+
+const openDetailModel = () => {
+  accountDetailModel.style.display = 'block';
 };
 
-openDetailModel = () => {
-  accountDetailModel.style.display = 'block';
+const closeDetailModel = () => {
+  accountDetailModel.style.display = 'none';
+};
+const closeCreateAccountModel = () => {
+  createAccountModel.style.display = 'none';
 };

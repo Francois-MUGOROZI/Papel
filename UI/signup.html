@@ -5,20 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="css/login.css" />
-    <title>Papel | Login</title>
+    <title>Papel | Signup</title>
   </head>
   <body>
     <div class="login-container">
       <h1>Signup To Papel To Get Full Power</h1>
       <form id="login-form" onsubmit="handleSignup(this)">
-        <label for="name">Name:</label>
-        <input type="text" name="name" placeholder="name" id="name" /><br />
+        <label for="firstname">First Name:</label>
+        <input
+          type="text"
+          name="firstname"
+          placeholder="FIrst Name"
+          id="firstname"
+          required
+        /><br />
+        <label for="lastname">Last Name:</label>
+        <input
+          type="text"
+          name="lastname"
+          placeholder="Last Name"
+          id="lastname"
+          required
+        /><br />
         <label for="email">Email:</label>
         <input
           type="email"
           name="email"
           placeholder="Email Address"
           id="email"
+          required
         /><br />
         <label for="username">Username:</label>
         <input
@@ -33,6 +48,7 @@
           name="password"
           placeholder="Password"
           id="password"
+          required
         /><br />
         <label for="repassword">Cofirm Password :</label>
         <input
@@ -40,6 +56,7 @@
           name="repassword"
           placeholder="Re-enter Password"
           id="repassword"
+          required
         /><br />
         <input type="submit" name="signup-btn" value="Signup" id="signup-btn" />
       </form>
