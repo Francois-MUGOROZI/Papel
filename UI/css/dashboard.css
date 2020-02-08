@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+body {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  font-family: 'Arvo', serif;
+  background-color: rgba(233, 230, 230, 0.979);
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+  color: rgba(250, 250, 250, 0.8);
+}
+
+/* Styling the top bar */
+
+.appBar {
+  background-color: rgb(10, 46, 46);
+  opacity: 0.7;
+  padding: 5px;
+  width: 100% !important;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px !important;
+}
+.menu {
+  border: 0;
+  background: 0;
+  font-size: 1.5em;
+  color: rgba(250, 250, 250, 0.8);
+}
+.menu:hover {
+  background-color: rgb(10, 46, 46);
+  opacity: 0.7;
+}
+.header-content {
+  display: flex;
+  align-items: center;
+}
+.header-content .notification {
+  border: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  color: rgba(250, 250, 250, 0.8);
+  background-color: rgb(54, 59, 57);
+}
+.header-content .notification sup {
+  color: rgb(255, 0, 0);
+}
+.header-content .notification:hover {
+  background-color: rgba(58, 65, 60, 0.49);
+}
+.header-content .user {
+  color: rgba(250, 250, 250, 0.8);
+}
+.header-content .user img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.header-logo a {
+  display: flex;
+  align-items: center;
+}
+.header-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Styling the sidebar */
+
+.sidebar {
+  background-color: rgba(10, 46, 46, 0.95);
+  height: 100vmax;
+  width: 250px;
+  padding: 10px;
+  color: rgba(250, 250, 250, 0.8);
+  float: left;
+  opacity: 0.7;
+}
+
+li {
+  list-style: none;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.list-item {
+  padding: 2px 5px;
+}
+.list-item:hover {
+  cursor: pointer;
+  background-color: rgb(10, 46, 46);
+  opacity: 0.7;
+}
+
+/* style yhe main content section  */
+.main-content {
+  margin-left: 300px;
+}
+.contents {
+  color: rgb(0, 0, 0);
+  padding: 20px;
+}
+
+/* SIdebar hidding style  */
+.sidebar-hide {
+  display: none;
+}
+
+/* main show when sidebar hidden */
+.main-content-full {
+  margin-left: 50px;
+}
+
+footer {
+  background-color: rgb(10, 46, 46);
+  opacity: 0.7;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  color: rgb(6, 124, 124);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+/* Style for the main content area  */
+.content-row {
+  padding: 20px;
+  margin-bottom: 10px;
+  line-height: 0.2;
+  box-shadow: 1px 1px 1px grey;
+}
+.content-row:hover {
+  background-color: rgba(100, 105, 102, 0.096);
+  cursor: context-menu;
+}
+.create-account-btn {
+  margin: 10px 0 20px 0;
+  background-color: rgb(10, 46, 46);
+  opacity: 0.7;
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(250, 250, 250, 0.8);
+  font-size: 1.2em;
+}
+.create-account-btn:hover {
+  background-color: rgb(7, 15, 7);
+}
+
+/* Create account model style  */
+.create-account-modal,
+.debit-model,
+.debit-model,
+.credit-model,
+.delete-model {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 15% 0;
+}
+
+.records-model,
+.create-user-model,
+.account-detail-model {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: max-content;
+}
+.account-detail-model-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(168, 114, 114);
+}
+
+.close:hover,
+.close:focus {
+  color: rgb(114, 92, 92);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* model form styles */
+.modal-content input {
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 90%;
+  margin-bottom: 10px;
+}
+label {
+  color: rgb(80, 128, 108);
+}
+.modal-content #create-btn {
+  background-color: rgb(37, 63, 52);
+  color: rgb(209, 209, 209);
+  width: 100%;
+}
+.modal-content #create-btn:hover {
+  background-color: rgb(22, 26, 24);
+}
+
+.detail-content-row {
+  padding: 20px;
+  margin-bottom: 10px;
+  line-height: 0.2;
+}
+.detail-content-row:hover {
+  cursor: context-menu;
+}
+
+/* style the staff page  */
+.staff-actions button {
+  background-color: rgb(10, 46, 46);
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(240, 248, 255, 0.829);
+  opacity: 0.7;
+}
+.staff-actions button:hover {
+  background-color: rgb(6, 26, 26);
+}
+.staff-actions #delete-btn {
+  background-color: none;
+  border: none;
+  color: rgb(185, 69, 69);
+}
+
+.content-row-staff {
+  padding: 20px;
+  margin-bottom: 10px;
+  line-height: 0.2;
+  box-shadow: 1px 1px 1px grey;
+}
+.delete-btns-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.delete-btns-group input {
+  width: fit-content;
+  margin-right: 10px;
+}
+.delete-btns-group #delete-btn {
+  background-color: rgb(185, 69, 69);
+}
+.delete-btns-group input:hover {
+  opacity: 0.8;
+}
+.create-user-model #create-user-btn {
+  background-color: rgb(37, 63, 52);
+  width: max-content;
+  padding: 10px 20px;
+  color: rgb(209, 209, 209);
+}
+.create-user-model #create-user-btn:hover {
+  background-color: rgb(12, 20, 17);
+}
+
+.modal-content #debit-btn,
+.modal-content #credit-btn {
+  background-color: rgb(37, 63, 52);
+  width: max-content;
+  color: rgba(240, 248, 255, 0.829);
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.modal-content #debit-btn:hover,
+.modal-content #credit-btn:hover {
+  background-color: rgb(27, 44, 37);
+}
+
+/* style user profile */
+.user-profile {
+  position: absolute;
+  z-index: -1;
+  background-color: rgb(10, 46, 46);
+  right: 0;
+  padding: 20px;
+  border-radius: 5px;
+  line-height: 0.4;
+  text-align: center;
+  display: none;
+}
+
+.user-profile-hide {
+  position: absolute;
+  z-index: -1;
+  background-color: rgb(10, 46, 46);
+  right: 0;
+  padding: 20px;
+  border-radius: 5px;
+  line-height: 0.4;
+  text-align: center;
+}
+
+.user-profile-hide a:hover {
+  color: rgb(171, 172, 171);
+  cursor: pointer;
+}
