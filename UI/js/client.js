@@ -99,7 +99,6 @@ const openCreateAccountModel = () => {
 
 const openDetailModel = id => {
   // get id of the bank  and qury its details
-
   accountDetailModel.style.display = 'block';
 };
 
