@@ -1,6 +1,7 @@
-// login auth
 const loginForm = document.getElementById('login-form');
+const errLabel = document.getElementById('error-label');
 
+// handle login
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   const username = e.target['username'].value;
