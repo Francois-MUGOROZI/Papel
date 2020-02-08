@@ -12,6 +12,7 @@
     "no-console": "off",
     "func-names": "off",
     "no-process-exit": "off",
-    "camelcase": "warn"
+    "camelcase": "warn",
+    "object-shorthand": "off"
   }
 }

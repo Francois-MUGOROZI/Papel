@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
 }
 .homepage-header {
   background-color: rgb(53, 171, 84);
@@ -32,6 +33,7 @@ a {
   width: 50px;
   height: 50px;
   margin-right: 5px;
+  border-radius: 50%;
 }
 .header-container .login {
   color: rgb(240, 247, 242);
@@ -45,6 +47,7 @@ a {
   width: 50px;
   height: 50px;
   margin-left: 5px;
+  border-radius: 50%;
 }
 .header-container .login:hover {
   background-color: rgb(48, 129, 70);
@@ -60,13 +63,10 @@ a {
 .services-row {
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin: auto;
-  align-items: center;
-  margin-bottom: 2%;
+  padding: 20px;
+  margin: 1%;
 }
 .sercives-col {
-  margin-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,6 +74,8 @@ a {
   background-color: rgb(53, 171, 84);
   padding: 20px;
   color: rgb(240, 247, 242);
+  width: 100%;
+  margin: 10px;
 }
 .sercives-col i {
   font-size: 2em;
@@ -88,4 +90,185 @@ footer {
   display: flex;
   justify-content: flex-end;
   padding: 5px;
+}
+
+/* Media query section for responsiveness */
+
+/* Mobile  */
+@media only screen and (max-width: 768px) {
+  .services-row {
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin: 1%;
+  }
+
+  .sercives-col {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arvo', serif;
+  overflow-x: hidden;
+}
+.homepage-header {
+  background-color: rgb(10, 46, 46);
+  padding: 10px;
+  opacity: 0.6;
+  width: 100% !important;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+}
+a {
+  text-decoration: none;
+}
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+.header-logo h2 {
+  color: rgb(240, 247, 242);
+}
+.header-logo:hover {
+  opacity: 0.8;
+}
+.header-logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.header-container .login {
+  color: rgb(240, 247, 242);
+  font-size: 1.2em;
+  padding: 8px;
+  margin-left: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+.header-container .user img {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 50%;
+}
+.header-container .login:hover {
+  background-color: rgba(133, 136, 133, 0.178);
+}
+
+.home-banner {
+  background-image: url('../assets/banner.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  color: rgb(0, 0, 0);
+  padding: 10% 20px;
+  width: 100% !important;
+}
+.banner-btns {
+  padding-top: 20px;
+}
+.banner-btns a {
+  background-color: rgb(117, 121, 117);
+  padding: 10px 30px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.2em;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+.banner-btns a:hover {
+  background-color: rgb(65, 66, 65);
+}
+.services-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2%;
+  margin: 20px;
+}
+.sercives-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(10, 46, 46);
+  opacity: 0.6;
+  padding: 20px;
+  color: rgb(240, 247, 242);
+  width: 100%;
+  margin: 10px;
+}
+.sercives-col i {
+  font-size: 2em;
+}
+.service-container h1 {
+  text-align: center;
+  color: rgb(8, 8, 8);
+}
+.bottom-signup {
+  display: flex;
+  justify-content: center;
+}
+.bottom-signup a {
+  background-color: rgb(117, 121, 117);
+  padding: 10px 50px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.5em;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.bottom-signup a:hover {
+  background-color: rgb(65, 66, 65);
+}
+.service-container h1 {
+  opacity: 0.7;
+}
+
+footer {
+  background-color: rgb(10, 46, 46);
+  display: flex;
+  justify-content: center;
+  opacity: 0.6;
+  color: rgba(160, 153, 153, 0.938);
+  width: 100%;
+}
+footer a {
+  color: cadetblue;
+}
+
+/* Media query section for responsiveness */
+
+/* Mobile  */
+@media only screen and (max-width: 768px) {
+  .services-row {
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 2%;
+    margin: 20px;
+  }
+
+  .sercives-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(10, 46, 46);
+    opacity: 0.6;
+    padding: 20px;
+    color: rgb(240, 247, 242);
+    width: 90%;
+    margin-bottom: 10px;
+  }
 }
