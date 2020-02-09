@@ -13,6 +13,8 @@
     "func-names": "off",
     "no-process-exit": "off",
     "camelcase": "warn",
-    "object-shorthand": "off"
+    "object-shorthand": "off",
+    "dot-notation": "off",
+    "no-undef": "off"
   }
 }
