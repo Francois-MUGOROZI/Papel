@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="../css/font-awesome/css/font-awesome.min.css"
+    />
+    <title>Papel | Staff Dashboard</title>
+  </head>
+  <body onload="initialSetup()">
+    <!-- The top appbar -->
+    <header class="appBar">
+      <div class="header">
+        <button class="menu" id="menu" onclick="handleMenuBtn()"><i class="fa fa-bars"></i></button>
+        <div class="header-logo">
+          <a href="#">
+            <img src="../assets/bank.png" alt="Bank" />&nbsp;
+            <h4>Papel</h4>
+          </a>
+        </div>
+        <div class="header-content">
+         
+            <div class="user">
+                <img src="../assets/user.jpg" alt="user" onclick="openUser()" />
+                <div class="user-profile" id="user-profile">
+                    <h5>Username: Fraesd</h5>
+                    <h6>Category</h6>
+                    <a id="logout2">
+                        Logout
+                    </a>
+                </div>
+                </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- The sidebar for menus -->
+    <div class="sidebar" id="sidebar">
+      <ul>
+        <li class="list-item" id="user-side-account">
+          <h4>Accounts</h4>
+        </li>
+        <hr />
+        <li class="list-item" id="logout">
+            <a>
+              <h4>Logout</h4>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+    <!-- main content rendered depending on the user logged in  -->
+    <div class="main-content" id="main">
+      <div class="contents">
+        <h4 id="User-content-heading">Bank Accounts</h4>
+        <div class="accounts" id="accounts">
+          <div class="content-row-staff">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Number: 6846513564</h5>
+            <div class="staff-actions">
+              <button id="debit-btn" onclick="openDebitModel()">Debit</button>
+              <button id="credit-btn" onclick="openCreditModel()">Credit</button>
+              <button id="record-btn" onclick="openRecordsModel(id)">Records</button>
+              <button id="delete-btn" onclick="openDeleteModel(id)">Delete</button>
+            </div>
+          </div>
+          <div class="content-row-staff">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Number: 6846513564</h5>
+            <div class="staff-actions">
+              <button id="debit-btn" onclick="openDebitModel()">Debit</button>
+              <button id="credit-btn" onclick="openCreditModel()">Credit</button>
+              <button id="record-btn" onclick="openRecordsModel(id)">Records</button>
+              <button id="delete-btn" onclick="openDeleteModel(id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the footer section  -->
+    <footer>
+      <small
+        >Created by
+        <a href="http://" target="_blank" rel="noopener noreferrer"
+          >Francois
+        </a>
+        <small
+          >Powered by
+          <a href="http://andela.com" target="_blank" rel="noopener noreferrer"
+            >Andela</a
+          ></small
+        ></small
+      >
+    </footer>
+
+    <!-- message model  -->
+    <div id="message-model" class="create-account-modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" onclick="closeMessageModel()">&times;</span>
+          <h5 id="message-title">Message Title</h5>
+          <p id="message-body">Message Body </p>
+        </div>
+    </div>
+
+    <!-- Model section for debitingt  -->
+    <div id="debit-model" class="debit-model">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeDebitModel()">&times;</span>
+        <p>Debit a Bank Account</p>
+        <form id="debit-form">
+          <label for="name">Account Number:46879845456</label>
+          <input hidden
+          /><br />
+          <label for="amount">Amount:</label>
+         <input type="number" required placeholder="Amount To Debit" name="amount">
+          <br />
+          <input
+            type="submit"
+            name="debit-btn"
+            value="Debit"
+            id="debit-btn"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- model for crediting -->
+    <div id="credit-model" class="credit-model">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeCreditModel()">&times;</span>
+        <p>Credit a Bank Account</p>
+        <form id="credit-form">
+          <label for="name">Account Number:46879845456</label>
+          <input hidden
+          /><br />
+          <label for="amount">Amount:</label>
+         <input type="number" required placeholder="Amount To Debit" name="amount">
+          <br />
+          <input
+            type="submit"
+            name="credit-btn"
+            value="Credit"
+            id="credit-btn"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- delete confirmation model  -->
+    <div id="delete-model" class="delete-model">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="cancelDelete()">&times;</span>
+        <p>Are you sure to delete this Bank Account?</p>
+        <form id="delete-form">
+          <label for="name">Account Number:46879845456</label>
+          <input hidden
+          />
+          <div class="delete-btns-group">
+                <input
+                type="submit"
+                name="delete-btn"
+                value="Delete"
+                id="delete-btn"
+                />
+                <input
+                type="button" onclick="cancelDelete()"
+                name="credit-btn"
+                value="Cancel"
+                id="cancel-delete-btn"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- specific account details and transaction model -->
+    <div id="records-model" class="records-model">
+      <!-- Modal content -->
+      <div class="account-detail-model-content">
+        <span class="close" onclick="closeRecordsModel()">&times;</span>
+        <p>Bank Account Details</p>
+        <div class="accounts" id="accounts">
+          <div class="detail-content-row">
+            <h5>Account Name: Ubumwe</h4>
+            <h5>Owner: Maliza</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h4>Balance: $7856</h4>
+          </div>
+          <hr>
+          <h5>Transactions History</h5>
+          <div>
+            <div class="detail-content-row">
+              <h4>Created On: 4th, Feb, 2020</h4>
+              <h6>Type: Debit</h6>
+              <h6>Old balance: $4565</h6>
+              <h4>New balance: $7856</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/staff.js"></script>
+    <script src="../js/logout.js"></script>
+  </body>
+</html>

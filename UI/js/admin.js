@@ -51,6 +51,7 @@ const openRecordsModel = id => {
 const openDeleteModel = id => {
   deleteModel.style.display = 'block';
 };
+
 const cancelDelete = () => {
   deleteModel.style.display = 'none';
 };
