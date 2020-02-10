@@ -1,5 +1,5 @@
 const app = require('express')();
-const pool = require('./config/dbConnection'); // get the connection to database
+const { pool } = require('./config/dbConnection'); // get the connection to database
 // routes
 
 // test
