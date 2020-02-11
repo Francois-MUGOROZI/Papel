@@ -1,7 +1,7 @@
 import express from 'express';
 import pool from './database/database';
 
-const app = express();
+const app = express(); // create express application
 
 // routes
 app.get('/api/test', (req, res) => {
