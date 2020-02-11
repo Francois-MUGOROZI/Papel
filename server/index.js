@@ -1,5 +1,4 @@
-import express from 'express';
-import pool from './config/db';
+const express = require('express');
 
 const app = express();
 

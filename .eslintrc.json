@@ -16,6 +16,7 @@
   },
   "rules": {
     "import/no-cycle": 0,
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-unused-vars": "warn"
   }
 }
