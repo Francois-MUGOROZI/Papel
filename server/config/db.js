@@ -5,4 +5,6 @@ const pool = new Pool({
   ssl: true
 });
 
+pool.connect();
+
 export default pool;
