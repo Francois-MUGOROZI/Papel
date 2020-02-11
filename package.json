@@ -4,35 +4,34 @@
   "description": "The Papel bank online ",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Francois-MUGOROZI/Papel.git"
+    "dev": "nodemon --exec  babel-node -- server/index.js",
+    "start": "babel-node -- server/index.js"
   },
   "author": "Francois MUGOROZI",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Francois-MUGOROZI/Papel/issues"
-  },
   "dependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.2",
+    "babel-register": "^6.26.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
-    "mocha": "^7.0.1",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^7.18.1"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-node": "^4.0.0",
+    "babel-install": "2.1.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "install-peerdeps": "^2.0.1",
     "prettier": "^1.19.1"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }

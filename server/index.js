@@ -1,13 +1,17 @@
-const app = require('express')();
-const { pool } = require('./config/dbConnection'); // get the connection to database
-// routes
+import express from 'express';
+import pool from './config/db';
 
-// test
+const app = express();
+
 app.get('/api/test', (req, res) => {
-  pool.query('CREATE TABLE users(ID SERIAL PRIMARY KEY)', (err, result) => {
-    if (err) res.status(501).json({ error: 'Connection Failed' });
-    else res.status(200).json({ status: 'Connection a OK' });
-  });
+  pool
+    .query('CREATE TABLE ccounts(ID PRIMARY KEY')
+    .then(() => {
+      res.json({ meassage: 'Connected' });
+    })
+    .catch(err => {
+      res.json({ error: 'Failed to connect', err });
+    });
 });
-// start the server
-app.listen(process.env.PORT || 5000);
+
+app.listen(5000);

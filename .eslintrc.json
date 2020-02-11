@@ -1,20 +1,21 @@
 {
   "env": {
-    "commonjs": true,
-    "es6": false,
-    "node": true
+    "browser": true,
+    "es6": true,
+    "mocha": true
   },
-  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
+  "extends": ["airbnb-base", "prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
   "rules": {
-    "prettier/prettier": "error",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "camelcase": "warn",
-    "object-shorthand": "off",
-    "dot-notation": "off",
-    "no-undef": "off"
+    "import/no-cycle": 0,
+    "prettier/prettier": "error"
   }
 }
