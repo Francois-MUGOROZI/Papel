@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec  babel-node -- server/index.js",
     "start": "babel-node -- server/index.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/* --timeout 10000 --recursive --exit"
   },
   "author": "Francois MUGOROZI",
   "license": "ISC",
@@ -17,22 +17,24 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
     "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "chai-things": "^0.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^7.0.1",
     "pg": "^7.18.1"
   },
   "devDependencies": {
     "babel-install": "2.1.0",
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "mocha": "^7.0.1",
     "prettier": "^1.19.1"
   },
   "engines": {
