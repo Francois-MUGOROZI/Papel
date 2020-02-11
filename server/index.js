@@ -1,9 +1,5 @@
-import express from 'express';
+import http from 'http';
+import app from './app';
 
-const app = express();
-
-app.get('/api/test', (req, res) => {
-  res.json({ status: 'Mocha configured' });
-});
-
-app.listen(process.env.PORT || 5000);
+const server = http.createServer(app);
+server.listen(process.env.PORT || 7000, () => {});
