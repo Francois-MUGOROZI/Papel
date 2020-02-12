@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --exec  babel-node -- server/index.js",
     "start": "babel-node -- server/index.js",
-    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/* --timeout 10000 --recursive --exit"
+    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/* --timeout 10000 --recursive --exit",
+    "db": "nodemon --exec  babel-node -- server/database/Database.js"
   },
   "author": "Francois MUGOROZI",
   "license": "ISC",
