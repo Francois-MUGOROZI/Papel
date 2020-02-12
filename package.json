@@ -17,16 +17,21 @@
     "@babel/node": "^7.6.2",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
+    "@hapi/joi": "^17.1.0",
     "babel-register": "^6.26.0",
+    "bcrypt": "^3.0.8",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "chai-things": "^0.2.0",
+    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^7.0.1",
-    "pg": "^7.18.1"
+    "pg": "^7.18.1",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "babel-install": "2.1.0",
