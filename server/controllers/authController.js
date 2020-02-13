@@ -6,6 +6,7 @@ import Database from '../database/database';
 const user = new User(); // initialise new user
 const database = new Database(); // initialize database connection
 
+// sinup controller
 export const signup = async (req, res) => {
   try {
     const {
@@ -50,8 +51,20 @@ export const signup = async (req, res) => {
     } else {
       res.status(500).json({
         status: res.statusCode,
-        err
+        error: err.message
       });
     }
+  }
+};
+
+// login controller
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+  } catch (err) {
+    res.status(500).json({
+      status: res.statusCode,
+      error: err.message
+    });
   }
 };
