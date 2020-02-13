@@ -1,4 +1,4 @@
 import bcrypt from 'bcrypt';
 
-export const passHash = password =>
-  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+const passHash = pswd => bcrypt.hashSync(pswd, bcrypt.genSaltSync(5));
+export default passHash;

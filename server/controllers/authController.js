@@ -1,11 +1,12 @@
+import jwt from 'jsonwebtoken';
 import User from '../models/User';
-import tokenGenerate from '../helpers/tokenGen';
+import keys from '../config/keys';
 import Database from '../database/database';
 
 const user = new User(); // initialise new user
 const database = new Database(); // initialize database connection
 
-export const signup = (req, res) => {
+export const signup = async (req, res) => {
   try {
     const {
       firstName,
@@ -17,8 +18,29 @@ export const signup = (req, res) => {
       password
     } = req.body;
 
-    const userTable = database.createUserTable();
-    userTable.then(v => res.json({ v }));
+    const userTable = await database.createUserTable();
+    if (userTable) {
+      user.setUser(firstName, lastName, email, type, isAdmin, status, password);
+      const newUser = user.getUser();
+      await database.addUser(newUser);
+      const token = jwt.sign({ id: newUser.id }, keys.JWT_SECRETE, {
+        expiresIn: '24h'
+      });
+
+      res.status(201).json({
+        status: res.statusCode,
+        message: 'User Created Successfully',
+        data: {
+          token,
+          userProfile: {
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            id: newUser.id
+          }
+        }
+      });
+    }
   } catch (err) {
     if (err.routine === '_bt_check_unique') {
       res.status(409).json({
