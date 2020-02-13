@@ -29,13 +29,13 @@ class Database {
     this.createBankAccountTable = `CREATE TABLE IF NOT EXISTS
       accounts(
         id UUID PRIMARY KEY,
-        "accountNumber" INT(15) NOT NULL,
+        "accountNumber" INTEGER NOT NULL,
         "accountName" VARCHAR(50),
         "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
         type VARCHAR(20) NOT NULL,
         status VARCHAR(20) NOT NULL,
-        balance FLOAT
+        balance float
       )`;
 
     //  create transaction table on first run
@@ -44,7 +44,7 @@ class Database {
         id UUID PRIMARY KEY,
         "createdOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         type VARCHAR(20) NOT NULL,
-        "accountNumber" INT(15) NOT NULL,
+        "accountNumber" INTENGER NOT NULL,
         cashier UUID NOT NULL,
         amount FLOAT NOT NULL,
         "oldBalance" FLOAT,
@@ -79,9 +79,10 @@ class Database {
   // handle add bank account
   async addAccount(newAccount) {
     this.addAccountSql = `INSERT INTO 
-    accounts( id,"accountNumber",owner,type,status,balance,"accountName")
+    accounts( id,"accountNumber", owner,type,status,balance,"accountName")
     VALUES('${newAccount.id}','${newAccount.accountNumber}','${newAccount.owner}','${newAccount.type}',
     '${newAccount.status}','${newAccount.balance}','${newAccount.accountName}')`;
+    return pool.query(this.addAccountSql);
   }
 
   // handle add transaction query
@@ -90,6 +91,7 @@ class Database {
     transactions( id,"accountNumber",type,cashier,amount,"oldBalance","newBalance")
     VALUES('${newTrans.id}','${newTrans.accountNumber}','${newTrans.type}',
     '${newTrans.cashier}','${newTrans.amount}','${newTrans.oldBalance}','${newTrans.newBalance}')`;
+    return pool.query(this.addTransSql);
   }
 
   // handle get users
