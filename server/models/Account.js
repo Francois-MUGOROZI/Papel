@@ -19,7 +19,7 @@ class Account {
     this.status = status;
     this.owner = owner;
     this.balance = balance;
-    this.accountNumber = Math.floor(Math.random() * 1000000 + Date.now());
+    this.accountNumber = 897986546;
   }
 
   // get account
