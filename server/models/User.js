@@ -16,7 +16,7 @@ class User {
 
   // setting up user
 
-  setUser(firstName, lastName, password, email, type, isAdmin, status) {
+  setUser(firstName, lastName, email, type, isAdmin, status, password) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;

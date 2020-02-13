@@ -5,7 +5,7 @@ import Database from '../database/database';
 const user = new User(); // initialise new user
 const database = new Database(); // initialize database connection
 
-export const signup = async (req, res) => {
+export const signup = (req, res) => {
   try {
     const {
       firstName,
@@ -17,27 +17,8 @@ export const signup = async (req, res) => {
       password
     } = req.body;
 
-    const userTable = await database.createUserTable();
-    if (userTable) {
-      user.setUser(firstName, lastName, password, email, type, isAdmin, status);
-      const newUser = user.getUser();
-      await database.addUser(newUser);
-      const { userId } = newUser;
-      const newToken = tokenGenerate({ userId });
-      res.status(201).json({
-        status: res.statusCode,
-        message: 'User created successfully',
-        data: {
-          token: newToken,
-          userDetails: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            id: user.id
-          }
-        }
-      });
-    }
+    const userTable = database.createUserTable();
+    userTable.then(v => res.json({ v }));
   } catch (err) {
     if (err.routine === '_bt_check_unique') {
       res.status(409).json({
@@ -52,5 +33,3 @@ export const signup = async (req, res) => {
     }
   }
 };
-
-export default { signup };
