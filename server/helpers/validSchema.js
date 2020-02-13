@@ -66,3 +66,20 @@ export const accountSchema = Joi.object({
     .max(10)
     .required()
 });
+
+// validate transaction
+export const transSchema = Joi.object({
+  type: Joi.string()
+    .alphanum()
+    .max(10)
+    .required(),
+  accountNumber: Joi.string()
+    .alphanum()
+    .max(10)
+    .required(),
+  amount: Joi.number().required(),
+  cashier: Joi.string()
+    .alphanum()
+    .max(10)
+    .required()
+});

@@ -1,7 +1,8 @@
 import {
   signupSchema,
   loginSchema,
-  accountSchema
+  accountSchema,
+  transSchema
 } from '../helpers/validSchema';
 
 // validate the signup parameters
@@ -33,6 +34,23 @@ export const validateAccount = (req, res, next) => {
     type: req.body.type,
     status: req.body.status,
     owner: req.body.owner
+  });
+
+  if (error) {
+    res.status(422).json({
+      status: res.statusCode,
+      error: 'Invalid inputs'
+    });
+  } else next();
+};
+
+// valite transaction
+export const validateTrans = (req, res, next) => {
+  const { error } = transSchema.validate({
+    type: req.body.type,
+    accountNumber: req.body.accountNumber,
+    amount: req.body.amount,
+    cashier: req.body.cashier
   });
 
   if (error) {
