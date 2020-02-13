@@ -166,10 +166,11 @@ class Database {
     return pool.query(this.activateUserSql);
   }
 
-  // find user for login verification
+  // finding user for login
   async findUser(email) {
-    this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
-    return pool.query(this.findUserSql);
+    this.findUserReq = `SELECT * FROM 
+      users where email = '${email}'`;
+    return pool.query(this.findUserReq);
   }
 }
 
