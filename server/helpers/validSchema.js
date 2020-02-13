@@ -50,3 +50,19 @@ export const loginSchema = Joi.object({
     .pattern(/^[a-zA-Z0-9]{3,30}$/)
     .required()
 });
+
+// validating account
+export const accountSchema = Joi.object({
+  type: Joi.string()
+    .alphanum()
+    .max(10)
+    .required(),
+  status: Joi.string()
+    .alphanum()
+    .max(10)
+    .required(),
+  owner: Joi.string()
+    .alphanum()
+    .max(10)
+    .required()
+});
