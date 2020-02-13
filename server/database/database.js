@@ -163,6 +163,12 @@ class Database {
     this.activateUserSql = `UPDATE users SET status='${status}' WHERE id='${id}'`;
     return pool.query(this.activateUserSql);
   }
+
+  // find user for login verification
+  async findUser(email) {
+    this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
+    return pool.query(this.findUserSql);
+  }
 }
 
 export default Database;

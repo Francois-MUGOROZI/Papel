@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import keys from '../config/keys';
 import Database from '../database/database';
+import compareToHashed from '../helpers/compareHash';
 
 const user = new User(); // initialise new user
 const database = new Database(); // initialize database connection
@@ -61,6 +62,34 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const matches = await database.findUser(email);
+    if (matches.rows.length) {
+      const hashedPass = matches.rows[0].password;
+      const areMatched = compareToHashed(hashedPass, password);
+      if (areMatched) {
+        const { firstName, lastName, id } = matches.rows[0];
+        const token = jwt.sign({ id }, keys.JWT_SECRETE, {
+          expiresIn: '24h'
+        });
+        res.status(200).json({
+          status: res.statusCode,
+          message: 'User logged in successfully',
+          data: {
+            token,
+            userDetails: {
+              firstName,
+              lastName,
+              email,
+              id
+            }
+          }
+        });
+      }
+    }
+    res.status(401).json({
+      status: res.statusCode,
+      error: 'Invalid credentials'
+    });
   } catch (err) {
     res.status(500).json({
       status: res.statusCode,

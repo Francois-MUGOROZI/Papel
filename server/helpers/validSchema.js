@@ -1,5 +1,6 @@
 import Joi from '@hapi/joi';
 
+// validating signup info
 export const signupSchema = Joi.object({
   firstName: Joi.string()
     .alphanum()
@@ -33,6 +34,18 @@ export const signupSchema = Joi.object({
     })
     .required(),
 
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    .required()
+});
+
+// validating login info
+export const loginSchema = Joi.object({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2
+    })
+    .required(),
   password: Joi.string()
     .pattern(/^[a-zA-Z0-9]{3,30}$/)
     .required()
