@@ -16,39 +16,39 @@ class Database {
     this.createUserOnFirst = `CREATE TABLE IF NOT EXISTS
     users(
       id UUID PRIMARY KEY,
-      firstName VARCHAR(200) NOT NULL,
-      lastName VARCHAR(200) NOT NULL,
+     "firstName" VARCHAR(200) NOT NULL,
+      "lastName" VARCHAR(200) NOT NULL,
       email VARCHAR(200) UNIQUE NOT NULL,
       password VARCHAR(200) NOT NULL,
-      isAdmin BOOLEAN DEFAULT FALSE,
-      type:VARCHAR(50) NOT NULL DEFUALT client,
+     "isAdmin" BOOLEAN DEFAULT FALSE,
+      type VARCHAR(50) NOT NULL DEFAULT '${'client'}',
       status VARCHAR(20) NOT NULL,
-      createdOn  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`;
     // create  bank account table for first time
     this.createBankAccountTable = `CREATE TABLE IF NOT EXISTS
       accounts(
         id UUID PRIMARY KEY,
-        accountNumber INT(15) NOT NULL,
-        accountName VARCHAR(50),
-        createdOn  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        "accountNumber" INTEGER NOT NULL,
+        "accountName" VARCHAR(50),
+        "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
         type VARCHAR(20) NOT NULL,
         status VARCHAR(20) NOT NULL,
-        balance FLOAT
+        balance float
       )`;
 
     //  create transaction table on first run
     this.createTransTable = `CREATE TABLE IF NOT EXISTS
       transactions(
         id UUID PRIMARY KEY,
-        createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        "createdOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         type VARCHAR(20) NOT NULL,
-        accountNumber INT(15) NOT NULL,
+        "accountNumber" INTENGER NOT NULL,
         cashier UUID NOT NULL,
         amount FLOAT NOT NULL,
-        oldBalance FLOAT,
-        newBalance FLOAT
+        "oldBalance" FLOAT,
+        "newBalance" FLOAT
       )`;
   }
 
@@ -70,7 +70,7 @@ class Database {
   // handling add user functionality
   async addUser(newUser) {
     this.addUserSql = `INSERT INTO 
-    users( id,firstName,lastName,email,password,type,isAdmin,status)
+    users( id,"firstName","lastName",email,password,type,"isAdmin",status)
     VALUES('${newUser.id}','${newUser.firstName}','${newUser.lastName}','${newUser.email}',
     '${newUser.password}','${newUser.type}','${newUser.isAdmin}','${newUser.status}')`;
     return pool.query(this.addUserSql);
@@ -79,17 +79,19 @@ class Database {
   // handle add bank account
   async addAccount(newAccount) {
     this.addAccountSql = `INSERT INTO 
-    accounts( id,accountNumber,owner,type,status,balance,accountName)
+    accounts( id,"accountNumber", owner,type,status,balance,"accountName")
     VALUES('${newAccount.id}','${newAccount.accountNumber}','${newAccount.owner}','${newAccount.type}',
     '${newAccount.status}','${newAccount.balance}','${newAccount.accountName}')`;
+    return pool.query(this.addAccountSql);
   }
 
   // handle add transaction query
   async addTrans(newTrans) {
     this.addTransSql = `INSERT INTO 
-    transactions( id,accountNumber,type,cashier,amount,oldBalance,newBalance)
+    transactions( id,"accountNumber",type,cashier,amount,"oldBalance","newBalance")
     VALUES('${newTrans.id}','${newTrans.accountNumber}','${newTrans.type}',
     '${newTrans.cashier}','${newTrans.amount}','${newTrans.oldBalance}','${newTrans.newBalance}')`;
+    return pool.query(this.addTransSql);
   }
 
   // handle get users
@@ -112,7 +114,7 @@ class Database {
 
   // get specific account details
   async getSpecAccountDetail(accountNumber) {
-    this.viewSpecAccountDetSql = `SELECT * FROM accounts WHERE accountNumber='${accountNumber}' `;
+    this.viewSpecAccountDetSql = `SELECT * FROM accounts WHERE "accountNumber"='${accountNumber}' `;
     return pool.query(this.viewSpecAccountDetSql);
   }
 
@@ -124,7 +126,7 @@ class Database {
 
   // handle view transaction accounts
   async getTrans(accountNumber) {
-    this.viewTransSql = `SELECT * FROM transactions WHERE accountNumber='${accountNumber}' `;
+    this.viewTransSql = `SELECT * FROM transactions WHERE "accountNumber"='${accountNumber}' `;
     return pool.query(this.viewTransSql);
   }
 
@@ -136,19 +138,19 @@ class Database {
 
   // updating database functionality
   async updateAccount(accountNumber, amount) {
-    this.updateAccountSql = `UPDATE accounts SET amount='${amount} WHERE accountNumber='${accountNumber}''`;
+    this.updateAccountSql = `UPDATE accounts SET amount='${amount} WHERE "accountNumber"='${accountNumber}''`;
     return pool.query(this.updateAccountSql);
   }
 
   // deleting bank account
   async deleteAccount(accountNumber) {
-    this.deleteAccountSql = `DELETE FROM accounts WHERE accountNumber='${accountNumber}'`;
+    this.deleteAccountSql = `DELETE FROM accounts WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.deleteAccountSql);
   }
 
   // delete transaction
   async deleteTrans(accountNumber) {
-    this.deleteTransSql = `DELETE FROM transations WHERE accountNumber='${accountNumber}'`;
+    this.deleteTransSql = `DELETE FROM transations WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.deleteTransSql);
   }
 
@@ -162,6 +164,12 @@ class Database {
   async activateUser(id, status) {
     this.activateUserSql = `UPDATE users SET status='${status}' WHERE id='${id}'`;
     return pool.query(this.activateUserSql);
+  }
+
+  // find user for login verification
+  async findUser(email) {
+    this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
+    return pool.query(this.findUserSql);
   }
 }
 

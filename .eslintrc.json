@@ -18,6 +18,9 @@
     "import/no-cycle": 0,
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
-    "no-console": "off"
+    "no-console": "off",
+    "prefer-destructuring": "warn",
+    "prefer-const": "warn",
+    "import/prefer-default-export": 0
   }
 }
