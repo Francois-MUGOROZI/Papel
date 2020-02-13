@@ -85,11 +85,12 @@ export const login = async (req, res) => {
           }
         });
       }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Invalid credentials'
+      });
     }
-    res.status(401).json({
-      status: res.statusCode,
-      error: 'Invalid credentials'
-    });
   } catch (err) {
     res.status(500).json({
       status: res.statusCode,

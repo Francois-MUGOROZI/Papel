@@ -165,7 +165,7 @@ class Database {
   }
 
   // finding user for login
-  async findUser({ email }) {
+  async findUser(email) {
     this.findUserReq = `SELECT * FROM 
       users where email = '${email}'`;
     return pool.query(this.findUserReq);
