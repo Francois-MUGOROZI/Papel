@@ -44,7 +44,7 @@ class Database {
         id UUID PRIMARY KEY,
         "createdOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         type VARCHAR(20) NOT NULL,
-        "accountNumber" INTENGER NOT NULL,
+        "accountNumber" INTEGER NOT NULL,
         cashier UUID NOT NULL,
         amount FLOAT NOT NULL,
         "oldBalance" FLOAT,
@@ -138,7 +138,7 @@ class Database {
 
   // updating database functionality
   async updateAccount(accountNumber, amount) {
-    this.updateAccountSql = `UPDATE accounts SET amount='${amount} WHERE "accountNumber"='${accountNumber}''`;
+    this.updateAccountSql = `UPDATE accounts SET balance='${amount}' WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.updateAccountSql);
   }
 
