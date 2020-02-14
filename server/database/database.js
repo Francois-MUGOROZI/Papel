@@ -88,7 +88,7 @@ class Database {
   // handle add transaction query
   async addTrans(newTrans) {
     this.addTransSql = `INSERT INTO 
-    transactions( id,"accountNumber",type,cashier,amount,"oldBalance","newBalance")
+    transactions(id, "accountNumber",type,cashier,amount,"oldBalance","newBalance")
     VALUES('${newTrans.id}','${newTrans.accountNumber}','${newTrans.type}',
     '${newTrans.cashier}','${newTrans.amount}','${newTrans.oldBalance}','${newTrans.newBalance}')`;
     return pool.query(this.addTransSql);
@@ -155,14 +155,14 @@ class Database {
   }
 
   // activate / deactivate account
-  async activateAccount(id, status) {
-    this.activateSql = `UPDATE accounts SET status='${status}' WHERE id='${id}'`;
+  async activateAccount(accountNumber, status) {
+    this.activateSql = `UPDATE accounts SET status='${status}' WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.activateSql);
   }
 
   // activate / deactivate user account
-  async activateUser(id, status) {
-    this.activateUserSql = `UPDATE users SET status='${status}' WHERE id='${id}'`;
+  async activateUser(email, status) {
+    this.activateUserSql = `UPDATE users SET status='${status}' WHERE email='${email}'`;
     return pool.query(this.activateUserSql);
   }
 

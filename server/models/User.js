@@ -4,6 +4,7 @@ import passHash from '../helpers/passHash';
 class User {
   // initialization
   constructor() {
+    this.id = '';
     this.firstName = '';
     this.lastName = '';
     this.email = '';
@@ -11,12 +12,12 @@ class User {
     this.isAdmin = '';
     this.status = '';
     this.password = '';
-    this.id = 0;
   }
 
   // setting up user
 
   setUser(firstName, lastName, email, type, isAdmin, status, password) {
+    this.id = generateId();
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -24,20 +25,19 @@ class User {
     this.isAdmin = isAdmin;
     this.status = status;
     this.password = passHash(password);
-    this.id = generateId();
   }
 
   // user getter
   getUser() {
     return {
-      id: this.id,
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
       type: this.type,
       isAdmin: this.isAdmin,
       status: this.status,
-      password: this.password
+      password: this.password,
+      id: this.id
     };
   }
 }

@@ -12,10 +12,10 @@ class Transaction {
   }
 
   setTransaction(type, accountNumber, cashier, amount, oldBalance, newBalance) {
-    this.id = generateId();
     this.type = type;
+    this.id = generateId();
     this.accountNumber = accountNumber;
-    this.cashier = generateId();
+    this.cashier = cashier;
     this.amount = amount;
     this.oldBalance = oldBalance;
     this.newBalance = newBalance;
@@ -23,13 +23,13 @@ class Transaction {
 
   getTransaction() {
     return {
-      id: this.id,
       type: this.type,
       accountNumber: this.accountNumber,
       cashier: this.cashier,
       amount: this.amount,
       oldBalance: this.oldBalance,
-      newBalance: this.newBalance
+      newBalance: this.newBalance,
+      id: this.id
     };
   }
 }

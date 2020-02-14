@@ -33,7 +33,7 @@ export const validateAccount = (req, res, next) => {
   const { error } = accountSchema.validate({
     type: req.body.type,
     status: req.body.status,
-    owner: req.body.owner
+    owner: req.body.userId
   });
 
   if (error) {
@@ -50,7 +50,7 @@ export const validateTrans = (req, res, next) => {
     type: req.body.type,
     accountNumber: req.body.accountNumber,
     amount: req.body.amount,
-    cashier: req.body.cashier
+    cashier: req.body.userId
   });
 
   if (error) {

@@ -17,7 +17,7 @@ class Account {
     this.accountName = accountName;
     this.type = type;
     this.status = status;
-    this.owner = generateId();
+    this.owner = owner;
     this.balance = balance;
     this.accountNumber = 897986546;
   }
@@ -25,13 +25,13 @@ class Account {
   // get account
   getAccount() {
     return {
-      id: this.id,
       accountNumber: this.accountNumber,
       accountName: this.accountName,
       owner: this.owner,
       type: this.type,
       status: this.status,
-      balance: this.balance
+      balance: this.balance,
+      id: this.id
     };
   }
 }
