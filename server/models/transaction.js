@@ -15,7 +15,7 @@ class Transaction {
     this.id = generateId();
     this.type = type;
     this.accountNumber = accountNumber;
-    this.cashier = cashier;
+    this.cashier = generateId();
     this.amount = amount;
     this.oldBalance = oldBalance;
     this.newBalance = newBalance;

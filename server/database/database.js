@@ -29,7 +29,7 @@ class Database {
     this.createBankAccountTable = `CREATE TABLE IF NOT EXISTS
       accounts(
         id UUID PRIMARY KEY,
-        "accountNumber" INTEGER NOT NULL,
+        "accountNumber" INTEGER NOT NULL UNIQUE,
         "accountName" VARCHAR(50),
         "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
