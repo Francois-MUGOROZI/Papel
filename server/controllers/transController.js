@@ -50,3 +50,18 @@ export const createTransaction = async (req, res) => {
     errorHandle(res, err);
   }
 };
+
+// get account transaction history
+export const viewTransaction = async (req, res) => {
+  try {
+    const accountNumber = req.params.account;
+    // check if userId is allowed to perform this
+    const transac = await database.getTrans(accountNumber);
+    res.status(200).json({
+      status: res.statusCode,
+      data: transac.rows
+    });
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
