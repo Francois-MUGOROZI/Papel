@@ -12,8 +12,8 @@ export const createTransaction = async (req, res) => {
     const accountTable = await database.createTransactionTable();
     if (accountTable) {
       // get the old balance of axxount
-      const oldBalance = await database.getSpecAccountDetail(accountNumber)
-        .rows[0].balance;
+      const old = await database.getSpecAccountDetail(accountNumber);
+      const oldBalance = old.rows[0].balance;
       let newBalnce;
       if (type === 'debit') {
         newBalnce = oldBalance - amount;
