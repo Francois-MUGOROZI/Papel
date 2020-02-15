@@ -74,3 +74,40 @@ export const viewSpecAccount = async (req, res) => {
     errorHandle(res, err);
   }
 };
+
+export const actDeactAccount = async (req, res) => {
+  try {
+    const { userEmail, status } = req.body;
+    const { accountNumber } = req.params;
+
+    // check if userId is allowed to perform this
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin') {
+      const updated = await database.activateAccount(accountNumber, status);
+      if (updated) {
+        const acc = await database.getSpecAccountDetail(accountNumber);
+        const row = acc.rows[0];
+        res.status(200).json({
+          status: res.statusCode,
+          message: `Account ${
+            status === 'active'
+              ? ' Activeted successfully'
+              : ' Deactivated successfully'
+          }`,
+          data: {
+            accountNumber: row.accountNumber,
+            status: row.status
+          }
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
