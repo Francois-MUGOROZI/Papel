@@ -150,7 +150,7 @@ class Database {
 
   // delete transaction
   async deleteTrans(accountNumber) {
-    this.deleteTransSql = `DELETE FROM transations WHERE "accountNumber"='${accountNumber}'`;
+    this.deleteTransSql = `DELETE FROM transactions WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.deleteTransSql);
   }
 
