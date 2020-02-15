@@ -172,6 +172,12 @@ class Database {
   }
 
   // find user for login verification
+  async findAllUsers() {
+    this.findUserSql = `SELECT * FROM users`;
+    return pool.query(this.findUserSql);
+  }
+
+  // find user for login verification
   async findUser(email) {
     this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
     return pool.query(this.findUserSql);

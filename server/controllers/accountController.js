@@ -5,6 +5,28 @@ import errorHandle from '../helpers/errorHandler';
 const account = new Account(); // initialise new user
 const database = new Database(); // initialize database connection
 
+// format result for a client
+const formatClientRes = (email, data) => {
+  return data.map(val => ({
+    createdOn: val.createdOn,
+    accountNumber: val.accountNumber,
+    ownerEmail: email,
+    type: val.type,
+    status: val.status,
+    balance: val.balance
+  }));
+};
+
+const findUserEmail = (id, users) => {
+  const { email } = users.find(val => {
+    if (val.id === id) {
+      return val.email;
+    }
+    return null;
+  });
+  return email;
+};
+
 // add account
 export const createAccount = async (req, res) => {
   try {
@@ -46,19 +68,30 @@ export const viewAccounts = async (req, res) => {
   try {
     // check if userId is allowed to perform this
     let accounts;
-    const user = await database.findUser(req.body.userEmail);
+    const { userEmail, userId } = req.body;
+    const user = await database.findUser(userEmail);
     const found = user.rows[0].type;
     if (found === 'client') {
-      accounts = await database.getSpecAccount(req.body.userId);
+      accounts = await database.getSpecAccount(userId);
+
       res.status(200).json({
         status: res.statusCode,
-        data: accounts.rows
+        data: formatClientRes(userEmail, accounts.rows)
       });
     } else if (found === 'admin' || found === 'staff') {
       accounts = await database.getAccounts();
+      const users = await database.findAllUsers();
+      const foundUsers = users.rows;
       res.status(200).json({
         status: res.statusCode,
-        data: accounts.rows
+        data: accounts.rows.map(val => ({
+          createdOn: val.createdOn,
+          accountNumber: val.accountNumber,
+          type: val.type,
+          status: val.status,
+          balance: val.balance,
+          ownerEmail: findUserEmail(val.owner, foundUsers)
+        }))
       });
     } else {
       res.status(401).json({
@@ -84,13 +117,22 @@ export const viewActiveDormant = async (req, res) => {
       accounts = await database.getActiveAccountForClient(userId, status);
       res.status(200).json({
         status: res.statusCode,
-        data: formatAccRes(accounts.rows)
+        data: formatClientRes(userEmail, accounts.rows)
       });
     } else if (found === 'admin' || found === 'staff') {
-      accounts = await database.getAccounts();
+      accounts = await database.getActiveAccount(status);
+      const users = await database.findAllUsers();
+      const foundUsers = users.rows;
       res.status(200).json({
         status: res.statusCode,
-        data: formatAccRes(accounts.rows)
+        data: accounts.rows.map(val => ({
+          createdOn: val.createdOn,
+          accountNumber: val.accountNumber,
+          type: val.type,
+          status: val.status,
+          balance: val.balance,
+          ownerEmail: findUserEmail(val.owner, foundUsers)
+        }))
       });
     } else {
       res.status(401).json({
@@ -115,7 +157,7 @@ export const viewSpecAccount = async (req, res) => {
       accounts = await database.getSpecAccount(userId);
       res.status(200).json({
         status: res.statusCode,
-        data: formatRes(accounts.rows)
+        data: formatClientRes(userEmail, accounts.rows)
       });
     } else if (found === 'admin' || found === 'staff') {
       const { email } = req.params;
@@ -123,9 +165,18 @@ export const viewSpecAccount = async (req, res) => {
       const foundId = accId.rows[0].id;
       if (foundId) {
         accounts = await database.getSpecAccount(foundId);
+        const users = await database.findAllUsers();
+        const foundUsers = users.rows;
         res.status(200).json({
           status: res.statusCode,
-          data: formatRes(accounts.rows)
+          data: accounts.rows.map(val => ({
+            createdOn: val.createdOn,
+            accountNumber: val.accountNumber,
+            type: val.type,
+            status: val.status,
+            balance: val.balance,
+            ownerEmail: findUserEmail(val.owner, foundUsers)
+          }))
         });
       } else {
         res.status(404).json({
