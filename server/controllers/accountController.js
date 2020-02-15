@@ -20,7 +20,14 @@ export const createAccount = async (req, res) => {
         await database.addAccount(newAccount);
         res.status(201).json({
           status: res.statusCode,
-          data: newAccount
+          data: {
+            accountNumber: newAccount.accountNumber,
+            firstName: user.rows[0].firstName,
+            lastName: user.rows[0].lastName,
+            email: user.rows[0].email,
+            type: newAccount.type,
+            openingBalance: newAccount.balance
+          }
         });
       } else {
         res.status(401).json({
@@ -34,7 +41,7 @@ export const createAccount = async (req, res) => {
   }
 };
 
-// get accounts
+// get all accounts
 export const viewAccounts = async (req, res) => {
   try {
     // check if userId is allowed to perform this
@@ -67,12 +74,30 @@ export const viewAccounts = async (req, res) => {
 // get active and dormant accounts
 export const viewActiveDormant = async (req, res) => {
   try {
+    // check if userId is allowed to perform this
+    let accounts;
+    const { userEmail, userId } = req.body;
     const { status } = req.params;
-    const accounts = await database.getActiveAccount(status);
-    res.status(200).json({
-      status: res.statusCode,
-      data: accounts.rows
-    });
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'client') {
+      accounts = await database.getActiveAccountForClient(userId, status);
+      res.status(200).json({
+        status: res.statusCode,
+        data: formatAccRes(accounts.rows)
+      });
+    } else if (found === 'admin' || found === 'staff') {
+      accounts = await database.getAccounts();
+      res.status(200).json({
+        status: res.statusCode,
+        data: formatAccRes(accounts.rows)
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
   } catch (err) {
     errorHandle(res, err);
   }
@@ -81,12 +106,39 @@ export const viewActiveDormant = async (req, res) => {
 // get account for specific user
 export const viewSpecAccount = async (req, res) => {
   try {
-    const { owner } = req.params;
-    const accounts = await database.getSpecAccount(owner);
-    res.status(200).json({
-      status: res.statusCode,
-      data: accounts.rows
-    });
+    // check if userId is allowed to perform this
+    let accounts;
+    const { userEmail, userId } = req.body;
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'client') {
+      accounts = await database.getSpecAccount(userId);
+      res.status(200).json({
+        status: res.statusCode,
+        data: formatRes(accounts.rows)
+      });
+    } else if (found === 'admin' || found === 'staff') {
+      const { email } = req.params;
+      const accId = await database.findUser(email);
+      const foundId = accId.rows[0].id;
+      if (foundId) {
+        accounts = await database.getSpecAccount(foundId);
+        res.status(200).json({
+          status: res.statusCode,
+          data: formatRes(accounts.rows)
+        });
+      } else {
+        res.status(404).json({
+          status: res.statusCode,
+          error: 'Not found'
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
   } catch (err) {
     errorHandle(res, err);
   }

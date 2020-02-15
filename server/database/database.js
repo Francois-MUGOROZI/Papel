@@ -124,6 +124,11 @@ class Database {
     return pool.query(this.viewActiveAccountSql);
   }
 
+  async getActiveAccountForClient(userId, status) {
+    this.viewActiveAccountSql = `SELECT * FROM accounts WHERE status='${status}'  AND owner='${userId}'`;
+    return pool.query(this.viewActiveAccountSql);
+  }
+
   // handle view transaction accounts
   async getTrans(accountNumber) {
     this.viewTransSql = `SELECT * FROM transactions WHERE "accountNumber"='${accountNumber}' `;
@@ -169,6 +174,11 @@ class Database {
   // find user for login verification
   async findUser(email) {
     this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
+    return pool.query(this.findUserSql);
+  }
+
+  async findUserById(id) {
+    this.findUserSql = `SELECT * FROM users WHERE id = '${id}'`;
     return pool.query(this.findUserSql);
   }
 }
