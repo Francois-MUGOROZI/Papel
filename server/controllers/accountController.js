@@ -37,11 +37,28 @@ export const createAccount = async (req, res) => {
 // get accounts
 export const viewAccounts = async (req, res) => {
   try {
-    const accounts = await database.getAccounts();
-    res.status(200).json({
-      status: res.statusCode,
-      data: accounts.rows
-    });
+    // check if userId is allowed to perform this
+    let accounts;
+    const user = await database.findUser(req.body.userEmail);
+    const found = user.rows[0].type;
+    if (found === 'client') {
+      accounts = await database.getSpecAccount(req.body.userId);
+      res.status(200).json({
+        status: res.statusCode,
+        data: accounts.rows
+      });
+    } else if (found === 'admin' || found === 'staff') {
+      accounts = await database.getAccounts();
+      res.status(200).json({
+        status: res.statusCode,
+        data: accounts.rows
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
   } catch (err) {
     errorHandle(res, err);
   }
