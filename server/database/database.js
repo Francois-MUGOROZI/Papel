@@ -135,6 +135,12 @@ class Database {
     return pool.query(this.viewTransSql);
   }
 
+  // handle view all transaction
+  async getAllTrans() {
+    this.viewTransSql = `SELECT * FROM transactions`;
+    return pool.query(this.viewTransSql);
+  }
+
   // get specific transaction
   async getSpecTrans(id) {
     this.viewSpecTransSql = `SELECT * FROM transactions WHERE id='${id}' `;
