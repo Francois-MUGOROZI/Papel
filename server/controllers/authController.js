@@ -25,9 +25,13 @@ export const signup = async (req, res) => {
       user.setUser(firstName, lastName, email, type, isAdmin, status, password);
       const newUser = user.getUser();
       await database.addUser(newUser);
-      const token = jwt.sign({ id: newUser.id }, keys.JWT_SECRETE, {
-        expiresIn: '24h'
-      });
+      const token = jwt.sign(
+        { id: newUser.id, email: newUser.email },
+        keys.JWT_SECRETE,
+        {
+          expiresIn: '24h'
+        }
+      );
 
       res.status(201).json({
         status: res.statusCode,
@@ -68,7 +72,7 @@ export const login = async (req, res) => {
       const areMatched = compareToHashed(hashedPass, password);
       if (areMatched) {
         const { firstName, lastName, id } = matches.rows[0];
-        const token = jwt.sign({ id }, keys.JWT_SECRETE, {
+        const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
           expiresIn: '24h'
         });
         res.status(200).json({
