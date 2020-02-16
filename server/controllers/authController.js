@@ -74,30 +74,45 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const matches = await database.findUser(email);
     if (matches.rows.length) {
-      const hashedPass = matches.rows[0].password;
-      const areMatched = compareToHashed(hashedPass, password);
-      if (areMatched) {
-        const { firstName, lastName, id } = matches.rows[0];
-        const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
-          expiresIn: '24h'
-        });
-        res.cookie('token', token, {
-          expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
-          secure: process.env.NODE_ENV === 'production',
-          httpOnly: true
-        });
-        res.status(200).json({
-          status: res.statusCode,
-          message: 'User logged in successfully',
-          data: {
-            token,
-            userDetails: {
-              firstName,
-              lastName,
-              email,
-              id
+      // check if user is active
+      const isActive = matches.rows[0].status;
+      if (isActive === 'active') {
+        const hashedPass = matches.rows[0].password;
+        const areMatched = compareToHashed(hashedPass, password);
+        if (areMatched) {
+          const { firstName, lastName, id } = matches.rows[0];
+          const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
+            expiresIn: '24h'
+          });
+          res.cookie('token', token, {
+            expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: true
+          });
+          res.status(200).json({
+            status: res.statusCode,
+            message: 'User logged in successfully',
+            data: {
+              token,
+              userDetails: {
+                firstName,
+                lastName,
+                email,
+                id
+              }
             }
-          }
+          });
+        } else {
+          res.status(401).json({
+            status: res.statusCode,
+            error: 'Invalid credentials'
+          });
+        }
+      } else {
+        res.status(401).json({
+          status: res.statusCode,
+          error: 'Unauthorized Access',
+          message: 'Your account is disabled'
         });
       }
     } else {

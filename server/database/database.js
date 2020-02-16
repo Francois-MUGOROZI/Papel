@@ -177,10 +177,15 @@ class Database {
     return pool.query(this.activateUserSql);
   }
 
-
-  // find user for login verification
+  // find all users
   async findAllUsers() {
     this.findUserSql = `SELECT * FROM users`;
+    return pool.query(this.findUserSql);
+  }
+
+  // find all client  users
+  async findClientUsers(type) {
+    this.findUserSql = `SELECT * FROM users WHERE type='${type}'`;
     return pool.query(this.findUserSql);
   }
 
