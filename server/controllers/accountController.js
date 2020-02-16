@@ -231,3 +231,43 @@ export const actDeactAccount = async (req, res) => {
     errorHandle(res, err);
   }
 };
+
+// delete bank account
+export const deleteAccount = async (req, res) => {
+  try {
+    const { accountNumber } = req.params;
+    // check if userId is allowed to perform this
+    const user = await database.findUser(req.body.userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin' || found === 'staff') {
+      const delAccount = await database.deleteAccount(accountNumber);
+      if (delAccount.rows) {
+        await database.createTransactionTable();
+        const transExist = await database.getTrans(accountNumber);
+        const foundTrans = transExist.rows;
+        if (foundTrans) {
+          await database.deleteTrans(accountNumber);
+        } else {
+          //
+        }
+        res.status(204).json({
+          status: res.statusCode,
+          message: 'Account deleted successfully',
+          data: delAccount.rows
+        });
+      } else {
+        res.status(404).json({
+          status: res.statusCode,
+          error: 'Not Found!'
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
