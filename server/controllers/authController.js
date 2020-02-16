@@ -33,6 +33,12 @@ export const signup = async (req, res) => {
         }
       );
 
+      res.cookie('token', token, {
+        expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true
+      });
+
       res.status(201).json({
         status: res.statusCode,
         message: 'User Created Successfully',
@@ -74,6 +80,11 @@ export const login = async (req, res) => {
         const { firstName, lastName, id } = matches.rows[0];
         const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
           expiresIn: '24h'
+        });
+        res.cookie('token', token, {
+          expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true
         });
         res.status(200).json({
           status: res.statusCode,

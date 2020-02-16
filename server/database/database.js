@@ -171,7 +171,7 @@ class Database {
     return pool.query(this.activateSql);
   }
 
-  // activate / deactivate user account
+  // activate / deactivate a bank account
   async activateUser(email, status) {
     this.activateUserSql = `UPDATE users SET status='${status}' WHERE email='${email}'`;
     return pool.query(this.activateUserSql);
