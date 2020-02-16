@@ -13,12 +13,37 @@ export const createTransaction = async (req, res) => {
     if (accountTable) {
       // get the old balance of axxount
       const old = await database.getSpecAccountDetail(accountNumber);
-      const oldBalance = old.rows[0].balance;
-      let newBalnce;
-      if (type === 'debit') {
-        newBalnce = oldBalance - amount;
+      // first check if account is active or not
+      const isActive = old.rows[0].status;
+      if (isActive === 'active') {
+        const oldBalance = old.rows[0].balance;
+        let newBalnce;
+        if (type === 'debit') {
+          newBalnce = oldBalance - amount;
+        } else {
+          newBalnce = oldBalance + amount;
+        }
+        trans.setTransaction(
+          type,
+          accountNumber,
+          cashier,
+          amount,
+          oldBalance,
+          newBalnce
+        );
+        const newTrans = trans.getTransaction();
+        await database.addTrans(newTrans);
+        await database.updateAccount(accountNumber, newBalnce);
+        res.status(201).json({
+          status: res.statusCode,
+          data: newTrans
+        });
       } else {
-        newBalnce = oldBalance + amount;
+        res.status(403).json({
+          status: res.statusCode,
+          error: 'Invalid request',
+          message: 'This account is not active'
+        });
       }
       trans.setTransaction(
         type,
@@ -45,6 +70,7 @@ export const createTransaction = async (req, res) => {
           error: 'Unauthorized Access'
         });
       }
+
     }
   } catch (err) {
     errorHandle(res, err);
@@ -54,13 +80,47 @@ export const createTransaction = async (req, res) => {
 // get account transaction history
 export const viewTransaction = async (req, res) => {
   try {
-    const accountNumber = req.params.account;
+    const { accountNumber } = req.params;
+    const { userEmail } = req.body;
     // check if userId is allowed to perform this
-    const transac = await database.getTrans(accountNumber);
-    res.status(200).json({
-      status: res.statusCode,
-      data: transac.rows
-    });
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin' || found === 'staff') {
+      const transac = await database.getTrans(accountNumber);
+      res.status(200).json({
+        status: res.statusCode,
+        data: transac.rows
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
+
+// get account transaction history
+export const viewAllTransactions = async (req, res) => {
+  try {
+    const { userEmail } = req.body;
+    // check if userId is allowed to perform this
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin') {
+      const transac = await database.getAllTrans();
+      res.status(200).json({
+        status: res.statusCode,
+        data: transac.rows
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
   } catch (err) {
     errorHandle(res, err);
   }
