@@ -8,7 +8,7 @@ const database = new Database(); // initialize database connection
 // add transaction
 export const createTransaction = async (req, res) => {
   try {
-    const { accountNumber, type, amount, cashier, userEmail } = req.body;
+    const { accountNumber, type, amount, userId, userEmail } = req.body;
     const accountTable = await database.createTransactionTable();
     if (accountTable) {
       // get the old balance of axxount
@@ -48,7 +48,7 @@ export const createTransaction = async (req, res) => {
       trans.setTransaction(
         type,
         accountNumber,
-        cashier,
+        userId,
         amount,
         oldBalance,
         newBalnce

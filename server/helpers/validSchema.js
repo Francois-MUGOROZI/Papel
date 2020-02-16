@@ -72,8 +72,5 @@ export const transSchema = Joi.object({
     .required(),
   accountNumber: Joi.required(),
   amount: Joi.number().required(),
-  cashier: Joi.string()
-    .alphanum()
-    .max(10)
-    .required()
+  cashier: Joi.string().required()
 });

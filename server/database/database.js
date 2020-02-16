@@ -88,7 +88,7 @@ class Database {
   // handle add transaction query
   async addTrans(newTrans) {
     this.addTransSql = `INSERT INTO 
-    transactions( id,"accountNumber",type,cashier,amount,"oldBalance","newBalance")
+    transactions(id, "accountNumber",type,cashier,amount,"oldBalance","newBalance")
     VALUES('${newTrans.id}','${newTrans.accountNumber}','${newTrans.type}',
     '${newTrans.cashier}','${newTrans.amount}','${newTrans.oldBalance}','${newTrans.newBalance}')`;
     return pool.query(this.addTransSql);
@@ -124,6 +124,11 @@ class Database {
     return pool.query(this.viewActiveAccountSql);
   }
 
+  async getActiveAccountForClient(userId, status) {
+    this.viewActiveAccountSql = `SELECT * FROM accounts WHERE status='${status}'  AND owner='${userId}'`;
+    return pool.query(this.viewActiveAccountSql);
+  }
+
   // handle view transaction accounts
   async getTrans(accountNumber) {
     this.viewTransSql = `SELECT * FROM transactions WHERE "accountNumber"='${accountNumber}' `;
@@ -155,22 +160,35 @@ class Database {
   }
 
   // activate / deactivate account
-  async activateAccount(id, status) {
-    this.activateSql = `UPDATE accounts SET status='${status}' WHERE id='${id}'`;
+  async activateAccount(accountNumber, status) {
+    this.activateSql = `UPDATE accounts SET status='${status}' WHERE "accountNumber"='${accountNumber}'`;
     return pool.query(this.activateSql);
   }
 
   // activate / deactivate user account
-  async activateUser(id, status) {
-    this.activateUserSql = `UPDATE users SET status='${status}' WHERE id='${id}'`;
+  async activateUser(email, status) {
+    this.activateUserSql = `UPDATE users SET status='${status}' WHERE email='${email}'`;
     return pool.query(this.activateUserSql);
   }
 
-  // finding user for login
+
+  // find user for login verification
+  async findAllUsers() {
+    this.findUserSql = `SELECT * FROM users`;
+    return pool.query(this.findUserSql);
+  }
+
+  // find user for login verification
+
   async findUser(email) {
     this.findUserReq = `SELECT * FROM 
       users where email = '${email}'`;
     return pool.query(this.findUserReq);
+  }
+
+  async findUserById(id) {
+    this.findUserSql = `SELECT * FROM users WHERE id = '${id}'`;
+    return pool.query(this.findUserSql);
   }
 }
 
