@@ -115,6 +115,11 @@ export const login = async (req, res) => {
           message: 'Your account is disabled'
         });
       }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Invalid credentials'
+      });
     }
   } catch (err) {
     res.status(500).json({

@@ -7,7 +7,24 @@ import {
 
 // validate the signup parameters
 export const validateSignup = (req, res, next) => {
-  const { error } = signupSchema.validate(req.body);
+  const {
+    firstName,
+    lastName,
+    type,
+    status,
+    isAdmin,
+    email,
+    password
+  } = req.body;
+  const { error } = signupSchema.validate({
+    firstName,
+    lastName,
+    type,
+    status,
+    isAdmin,
+    email,
+    password
+  });
   if (error) {
     res.status(422).json({
       status: res.statusCode,
