@@ -33,6 +33,12 @@ export const signup = async (req, res) => {
         }
       );
 
+      res.cookie('token', token, {
+        expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true
+      });
+
       res.status(201).json({
         status: res.statusCode,
         message: 'User Created Successfully',
@@ -75,6 +81,11 @@ export const login = async (req, res) => {
         const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
           expiresIn: '24h'
         });
+        res.cookie('token', token, {
+          expiresIn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true
+        });
         res.status(200).json({
           status: res.statusCode,
           message: 'User logged in successfully',
@@ -89,11 +100,12 @@ export const login = async (req, res) => {
           }
         });
       }
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Invalid credentials'
+      });
     }
-    res.status(401).json({
-      status: res.statusCode,
-      error: 'Invalid credentials'
-    });
   } catch (err) {
     res.status(500).json({
       status: res.statusCode,
