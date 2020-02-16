@@ -29,7 +29,7 @@ class Database {
     this.createBankAccountTable = `CREATE TABLE IF NOT EXISTS
       accounts(
         id UUID PRIMARY KEY,
-        "accountNumber" INTEGER NOT NULL,
+        "accountNumber" INTEGER NOT NULL UNIQUE,
         "accountName" VARCHAR(50),
         "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
@@ -166,10 +166,11 @@ class Database {
     return pool.query(this.activateUserSql);
   }
 
-  // find user for login verification
+  // finding user for login
   async findUser(email) {
-    this.findUserSql = `SELECT * FROM users WHERE email = '${email}'`;
-    return pool.query(this.findUserSql);
+    this.findUserReq = `SELECT * FROM 
+      users where email = '${email}'`;
+    return pool.query(this.findUserReq);
   }
 }
 

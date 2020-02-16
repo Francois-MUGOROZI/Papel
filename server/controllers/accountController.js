@@ -8,16 +8,26 @@ const database = new Database(); // initialize database connection
 // add account
 export const createAccount = async (req, res) => {
   try {
-    const { owner, type, status, accountName, balance } = req.body;
+    const { owner, type, status, accountName, balance, userEmail } = req.body;
     const accountTable = await database.createAccountTable();
     if (accountTable) {
       account.setAccount(accountName, owner, type, status, balance);
       const newAccount = account.getAccount();
-      await database.addAccount(newAccount);
-      res.status(201).json({
-        status: res.statusCode,
-        data: newAccount
-      });
+      // check if userId is allowed to perform this
+      const user = await database.findUser(userEmail);
+      const found = user.rows[0].type;
+      if (found === 'admin' || found === 'client') {
+        await database.addAccount(newAccount);
+        res.status(201).json({
+          status: res.statusCode,
+          data: newAccount
+        });
+      } else {
+        res.status(401).json({
+          status: res.statusCode,
+          error: 'Unauthorized Access'
+        });
+      }
     }
   } catch (err) {
     errorHandle(res, err);
