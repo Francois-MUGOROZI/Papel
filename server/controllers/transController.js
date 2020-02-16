@@ -54,13 +54,47 @@ export const createTransaction = async (req, res) => {
 // get account transaction history
 export const viewTransaction = async (req, res) => {
   try {
-    const accountNumber = req.params.account;
+    const { accountNumber } = req.params;
+    const { userEmail } = req.body;
     // check if userId is allowed to perform this
-    const transac = await database.getTrans(accountNumber);
-    res.status(200).json({
-      status: res.statusCode,
-      data: transac.rows
-    });
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin' || found === 'staff') {
+      const transac = await database.getTrans(accountNumber);
+      res.status(200).json({
+        status: res.statusCode,
+        data: transac.rows
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
+
+// get account transaction history
+export const viewAllTransactions = async (req, res) => {
+  try {
+    const { userEmail } = req.body;
+    // check if userId is allowed to perform this
+    const user = await database.findUser(userEmail);
+    const found = user.rows[0].type;
+    if (found === 'admin') {
+      const transac = await database.getAllTrans();
+      res.status(200).json({
+        status: res.statusCode,
+        data: transac.rows
+      });
+    } else {
+      res.status(401).json({
+        status: res.statusCode,
+        error: 'Unauthorized Access'
+      });
+    }
   } catch (err) {
     errorHandle(res, err);
   }
