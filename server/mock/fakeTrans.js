@@ -6,14 +6,6 @@ class FakeTrans {
     this.transactions = [];
   }
 
-  //   "id": "",
-  //   "type": "",
-  //   "accountNumber": "",
-  //   "cashier": "",
-  //   "amount": "",
-  //   "oldBalance": "",
-  //   "newBalance": ""
-
   generateFakeTrans() {
     const trans = {
       accountNumber: faker.random.number(),
