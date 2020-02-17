@@ -1,5 +1,6 @@
-const keys = {
-  JWT_SECRETE: 'hddhgkks-dhjhjds-sjhdjgkdf-dshhjhk'
-};
+import prodKeys from './prod';
+import devKeys from './dev';
+
+const keys = process.env.NODE_ENV === 'production' ? prodKeys : devKeys;
 
 export default keys;
