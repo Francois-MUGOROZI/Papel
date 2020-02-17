@@ -48,7 +48,8 @@ export const signup = async (req, res) => {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             email: newUser.email,
-            id: newUser.id
+            id: newUser.id,
+            type: newUser.type
           }
         }
       });
@@ -80,7 +81,7 @@ export const login = async (req, res) => {
         const hashedPass = matches.rows[0].password;
         const areMatched = compareToHashed(hashedPass, password);
         if (areMatched) {
-          const { firstName, lastName, id } = matches.rows[0];
+          const { firstName, lastName, id, type } = matches.rows[0];
           const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
             expiresIn: '24h'
           });
@@ -98,6 +99,7 @@ export const login = async (req, res) => {
                 firstName,
                 lastName,
                 email,
+                type,
                 id
               }
             }
