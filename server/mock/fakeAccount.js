@@ -6,14 +6,6 @@ class FakeAccount {
     this.accounts = [];
   }
 
-  //   "id": "",
-  //     "accountNumber": "",
-  //     "accountName": "",
-  //     "owner": "",
-  //     "type": "",
-  //     "status": "",
-  //     "balance": ""
-
   generateFakeAccount() {
     const account = {
       owner: faker.random.uuid(),
