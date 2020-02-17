@@ -6,15 +6,6 @@ class FakeUser {
     this.users = [];
   }
 
-  // "firstName": "",
-  // "lastName": "",
-  // "email": "",
-  // "type": "",
-  // "isAdmin": "",
-  // "status": "",
-  // "password": "",
-  // "id": ""
-
   generateFakeUser() {
     const password = faker.name.lastName();
     const user = {
