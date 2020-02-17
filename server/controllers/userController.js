@@ -68,6 +68,8 @@ export const createUser = async (req, res) => {
         error: err.message
       });
     }
+  }
+};
 
 export const actDeactAccount = async (req, res) => {
   try {
