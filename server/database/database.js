@@ -129,6 +129,11 @@ class Database {
     return pool.query(this.viewActiveAccountSql);
   }
 
+  async getAccountForClient(userId) {
+    this.viewActiveAccountSql = `SELECT * FROM accounts WHERE  owner='${userId}'`;
+    return pool.query(this.viewActiveAccountSql);
+  }
+
   // handle view transaction accounts
   async getTrans(accountNumber) {
     this.viewTransSql = `SELECT * FROM transactions WHERE "accountNumber"='${accountNumber}' `;
@@ -149,19 +154,19 @@ class Database {
 
   // updating database functionality
   async updateAccount(accountNumber, amount) {
-    this.updateAccountSql = `UPDATE accounts SET balance='${amount}' WHERE "accountNumber"='${accountNumber}'`;
+    this.updateAccountSql = `UPDATE accounts SET balance='${amount}' WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.updateAccountSql);
   }
 
   // deleting bank account
   async deleteAccount(accountNumber) {
-    this.deleteAccountSql = `DELETE FROM accounts WHERE "accountNumber"='${accountNumber}'`;
+    this.deleteAccountSql = `DELETE FROM accounts WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.deleteAccountSql);
   }
 
   // delete transaction
   async deleteTrans(accountNumber) {
-    this.deleteTransSql = `DELETE FROM transactions WHERE "accountNumber"='${accountNumber}'`;
+    this.deleteTransSql = `DELETE FROM transactions WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.deleteTransSql);
   }
 

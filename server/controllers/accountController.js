@@ -241,19 +241,16 @@ export const deleteAccount = async (req, res) => {
     const found = user.rows[0].type;
     if (found === 'admin' || found === 'staff') {
       const delAccount = await database.deleteAccount(accountNumber);
-      if (delAccount.rows) {
+      if (delAccount) {
         await database.createTransactionTable();
         const transExist = await database.getTrans(accountNumber);
         const foundTrans = transExist.rows;
         if (foundTrans) {
           await database.deleteTrans(accountNumber);
-        } else {
-          //
         }
-        res.status(204).json({
+        res.status(200).json({
           status: res.statusCode,
-          message: 'Account deleted successfully',
-          data: delAccount.rows
+          message: 'Account deleted successfully'
         });
       } else {
         res.status(404).json({
