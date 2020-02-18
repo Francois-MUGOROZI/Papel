@@ -10,7 +10,7 @@ cashe:
  directories:
   - node_modules
 script:
-  -npm run test
+  - npm run test
 env:
   -process.env.SECRETE_KEY = secrete_key
 after_success: npm run coverage
