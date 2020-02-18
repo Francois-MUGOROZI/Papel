@@ -51,7 +51,7 @@ export const createTransaction = async (req, res) => {
       } else {
         res.status(403).json({
           status: res.statusCode,
-          error: 'Invalid request',
+          error: 'invalid request',
           message: 'This account is not active'
         });
       }

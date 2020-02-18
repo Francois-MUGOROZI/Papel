@@ -19,7 +19,6 @@ export const validateSignup = (req, res, next) => {
       status: res.statusCode,
       error: 'invalid input'
     });
-    console.log(error);
   } else next();
 };
 

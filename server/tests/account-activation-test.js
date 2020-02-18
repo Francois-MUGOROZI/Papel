@@ -42,11 +42,11 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .get(`/api/accounts/activation/${accountNumber}`)
       .send({ status: 'active' })
       .end((err, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(401)
           .that.is.a('number');
-        expect(res.body).to.have.property('error');
+        expect(res).to.have.property('error');
         done();
       });
   });
@@ -56,11 +56,11 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .get(`/api/accounts/activation/${accountNumber}`)
       .send({ headerAuth, status: 'active' })
       .end((error, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body).to.have.property('error');
+        expect(res).to.have.property('error');
         done();
       });
   });
@@ -71,11 +71,11 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .get(`/api/accounts/activation/${accountNumber}`)
       .send({ headerAuth, status: 'active' })
       .end((err, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(200)
           .that.is.a('number');
-        expect(res.body).to.have.property('message');
+        expect(res).to.have.property('message');
         done();
       });
   });

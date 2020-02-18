@@ -39,18 +39,20 @@ export const createAccount = async (req, res) => {
       const user = await database.findUser(userEmail);
       const found = user.rows[0].role;
       if (found) {
-        await database.addAccount(newAccount);
-        res.status(201).json({
-          status: res.statusCode,
-          data: {
-            accountNumber: newAccount.accountNumber,
-            firstName: user.rows[0].firstName,
-            lastName: user.rows[0].lastName,
-            email: user.rows[0].email,
-            type: newAccount.type,
-            openingBalance: newAccount.balance
-          }
-        });
+        const cre = await database.addAccount(newAccount);
+        if (cre) {
+          res.status(201).json({
+            status: res.statusCode,
+            data: {
+              accountNumber: newAccount.accountNumber,
+              firstName: user.rows[0].firstName,
+              lastName: user.rows[0].lastName,
+              email: user.rows[0].email,
+              type: newAccount.type,
+              openingBalance: newAccount.balance
+            }
+          });
+        }
       } else {
         res.status(401).json({
           status: res.statusCode,
