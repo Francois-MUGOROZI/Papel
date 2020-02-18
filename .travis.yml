@@ -1,0 +1,18 @@
+services:
+- postgresql
+addons:
+ postgresql: "12"
+language: node_js
+node_js:
+ - "stable"
+install: npm install
+cashe:
+ directories:
+  - node_modules
+before_scripts:
+  -psql -c 'create database postgres;' -U postgres
+script:
+  -npm run test
+env:
+  -process.env.SECRETE_KEY = secrete_key
+after_success: npm run coverage

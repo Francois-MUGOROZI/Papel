@@ -16,11 +16,8 @@ const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
 const trsansaction = new FakeTrans().generateFakeTrans();
 const userCredentials = user.generateFakeUser();
-const staffCredentials = user.generateFakeUser();
 let headerAuth = '';
 let accountNumber = '';
-let owner = '';
-let cashier = '';
 
 describe('Test GET /api/transactions/:accountNumber', () => {
   before(done => {
@@ -30,8 +27,6 @@ describe('Test GET /api/transactions/:accountNumber', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
         done();
       });
   });
@@ -44,20 +39,6 @@ describe('Test GET /api/transactions/:accountNumber', () => {
       .end((err, res) => {
         accountNumber = res.body.data.accountNumber;
         trsansaction.accountNumber = accountNumber;
-      });
-    done();
-  });
-
-  before(done => {
-    staffCredentials.type = 'staff';
-    chai
-      .request(app)
-      .post('/api/auth/signup')
-      .send(staffCredentials)
-      .end((err, res) => {
-        headerAuth = res.body.data.token;
-        cashier = res.body.data.id;
-        trsansaction.cashier = cashier;
       });
     done();
   });
@@ -85,10 +66,7 @@ describe('Test GET /api/transactions/:accountNumber', () => {
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

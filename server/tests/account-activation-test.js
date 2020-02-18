@@ -14,11 +14,8 @@ const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
 let headerAuth = '';
-let owner = '';
 let accountNumber;
-const status = 'active';
 
 describe('Test PATCH /api/accounts/activation/:status', () => {
   before(done => {
@@ -28,33 +25,22 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
         chai
           .request(app)
           .post('/api/accounts/create')
           .send(account)
           .end(() => {
             accountNumber = account.accountNumber;
-            adminCredentials.type = 'admin';
           });
       });
-    before(() => {
-      chai
-        .request(app)
-        .post('/api/auth/signup')
-        .send(adminCredentials)
-        .end((err, res) => {
-          headerAuth = res.body.data.token;
-          done();
-        });
-    });
+    done();
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ status: 'active' })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -67,17 +53,14 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
-      .send({ headerAuth })
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ headerAuth, status: 'active' })
       .end((error, res) => {
         expect(res.body)
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });
@@ -85,8 +68,8 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
-      .send({ headerAuth })
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ headerAuth, status: 'active' })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')

@@ -30,14 +30,14 @@ class User {
   // user getter
   getUser() {
     return {
+      id: this.id,
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
       role: this.role,
       isAdmin: this.isAdmin,
       status: this.status,
-      password: this.password,
-      id: this.id
+      password: this.password
     };
   }
 }

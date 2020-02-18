@@ -74,7 +74,7 @@ describe('Test POST /api/auth/signup/', () => {
           .that.is.a('number');
         expect(res.body)
           .to.have.property('error')
-          .equals('invalid inputs')
+          .equals('invalid input')
           .that.is.a('string');
       });
     done();

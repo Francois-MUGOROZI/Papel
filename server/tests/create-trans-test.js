@@ -16,11 +16,8 @@ const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
 let trsansaction = new FakeTrans().generateFakeTrans();
 const userCredentials = user.generateFakeUser();
-const staffCredentials = user.generateFakeUser();
 let headerAuth = '';
 let accountNumber = '';
-let owner = '';
-let cashier = '';
 
 describe('Test POST /api/transactions/create', () => {
   before(done => {
@@ -30,8 +27,7 @@ describe('Test POST /api/transactions/create', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
+        account.headerAuth = headerAuth;
         done();
       });
   });
@@ -44,20 +40,6 @@ describe('Test POST /api/transactions/create', () => {
       .end((err, res) => {
         accountNumber = res.body.data.accountNumber;
         trsansaction.accountNumber = accountNumber;
-      });
-    done();
-  });
-
-  before(done => {
-    staffCredentials.type = 'staff';
-    chai
-      .request(app)
-      .post('/api/auth/signup')
-      .send(staffCredentials)
-      .end((err, res) => {
-        headerAuth = res.body.data.token;
-        cashier = res.body.data.id;
-        trsansaction.cashier = cashier;
       });
     done();
   });
@@ -116,6 +98,7 @@ describe('Test POST /api/transactions/create', () => {
       });
   });
   it('Should return 201 HTTP status code if successful', done => {
+    trsansaction.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/transactions/create')
