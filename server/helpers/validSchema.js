@@ -14,20 +14,6 @@ export const signupSchema = Joi.object({
     .max(40)
     .required(),
 
-  type: Joi.string()
-    .alphanum()
-    .min(2)
-    .max(10)
-    .required(),
-
-  status: Joi.string()
-    .alphanum()
-    .min(2)
-    .max(10)
-    .required(),
-
-  isAdmin: Joi.types().boolean.required(),
-
   email: Joi.string()
     .email({
       minDomainSegments: 2
@@ -54,10 +40,6 @@ export const loginSchema = Joi.object({
 // validating account
 export const accountSchema = Joi.object({
   type: Joi.string()
-    .alphanum()
-    .max(10)
-    .required(),
-  status: Joi.string()
     .alphanum()
     .max(10)
     .required(),

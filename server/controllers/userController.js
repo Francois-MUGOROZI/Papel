@@ -1,6 +1,9 @@
+import generateId from 'uuid/v1';
 import User from '../models/User';
 import Database from '../database/database';
 import errorHandle from '../helpers/errorHandler';
+import defAdmin from '../config/defaultAdmin';
+import passHash from '../helpers/passHash';
 
 const userModel = new User(); // initialise new user
 const database = new Database(); // initialize database connection
@@ -8,32 +11,16 @@ const database = new Database(); // initialize database connection
 // sinup controller
 export const createUser = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      type,
-      isAdmin,
-      status,
-      password
-    } = req.body;
+    const { firstName, lastName, email, role, password } = req.body;
 
     const userTable = await database.createUserTable();
     if (userTable) {
       // verify if the logged in is admin
       const { userEmail } = req.body;
       const admin = await database.findUser(userEmail);
-      const found = admin.rows[0].type;
+      const found = admin.rows[0].role;
       if (found === 'admin') {
-        userModel.setUser(
-          firstName,
-          lastName,
-          email,
-          type,
-          isAdmin,
-          status,
-          password
-        );
+        userModel.setUser(firstName, lastName, email, role, password);
         const newUser = userModel.getUser();
         await database.addUser(newUser);
 
@@ -45,7 +32,7 @@ export const createUser = async (req, res) => {
               firstName: newUser.firstName,
               lastName: newUser.lastName,
               email: newUser.email,
-              id: newUser.id
+              role: newUser.role
             }
           }
         });
@@ -78,7 +65,7 @@ export const actDeactAccount = async (req, res) => {
 
     // check if userId is allowed to perform this
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'admin') {
       const updated = await database.activateUser(email, status);
       if (updated) {
@@ -93,7 +80,7 @@ export const actDeactAccount = async (req, res) => {
           data: {
             userEmail: row[0].email,
             status: row[0].status,
-            type: row[0].type
+            role: row[0].role
           }
         });
       }
@@ -115,7 +102,7 @@ export const viewUsers = async (req, res) => {
 
     // check if userId is allowed to perform this
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'admin') {
       const users = await database.findAllUsers();
       const foundUsers = users.rows;
@@ -125,7 +112,7 @@ export const viewUsers = async (req, res) => {
           firstName: val.firstName,
           lastName: val.lastName,
           email: val.email,
-          type: val.type,
+          role: val.role,
           status: val.status,
           isAdmin: val.isAdmin
         }))
@@ -148,10 +135,10 @@ export const viewClientUsers = async (req, res) => {
 
     // check if userId is allowed to perform this
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
-    const { type } = req.params;
+    const found = user.rows[0].role;
+    const { role } = req.params;
     if (found === 'admin') {
-      const users = await database.findClientUsers(type);
+      const users = await database.findClientUsers(role);
       const foundUsers = users.rows;
       res.status(200).json({
         status: res.statusCode,
@@ -159,7 +146,7 @@ export const viewClientUsers = async (req, res) => {
           firstName: val.firstName,
           lastName: val.lastName,
           email: val.email,
-          type: val.type,
+          role: val.role,
           status: val.status,
           isAdmin: val.isAdmin
         }))
@@ -172,5 +159,57 @@ export const viewClientUsers = async (req, res) => {
     }
   } catch (err) {
     errorHandle(res, err);
+  }
+};
+
+// change user role by admin
+export const updateUserRoles = async (req, res) => {
+  try {
+    const userTable = await database.createUserTable();
+    if (userTable) {
+      // verify if the logged in is admin
+      const { userEmail, user, userRole } = req.body;
+      const admin = await database.findUser(userEmail);
+      const found = admin.rows[0].role;
+      if (found === 'admin') {
+        const updated = await database.updateUserRole(user, userRole);
+        const userUpdate = updated.rows[0];
+        res.status(201).json({
+          status: res.statusCode,
+          message: 'User Updated Successfully',
+          data: {
+            userProfile: {
+              firstName: userUpdate.firstName,
+              lastName: userUpdate.lastName,
+              email: userUpdate.email,
+              role: userUpdate.role
+            }
+          }
+        });
+      } else {
+        res.status(401).json({
+          status: res.statusCode,
+          error: 'Unauthorized Access'
+        });
+      }
+    }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
+
+export const createDefaultAdmin = async (req, res) => {
+  const userTable = await database.createUserTable();
+  if (userTable) {
+    const id = generateId();
+    defAdmin.id = id;
+    defAdmin.password = passHash(defAdmin.password);
+    const def = await database.createDefaultAdmin(defAdmin);
+    if (def) {
+      res.status(201).json({
+        status: res.statusCode,
+        message: 'The App Initialize successfully'
+      });
+    }
   }
 };

@@ -7,21 +7,10 @@ import {
 
 // validate the signup parameters
 export const validateSignup = (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    type,
-    status,
-    isAdmin,
-    email,
-    password
-  } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   const { error } = signupSchema.validate({
     firstName,
     lastName,
-    type,
-    status,
-    isAdmin,
     email,
     password
   });
@@ -49,7 +38,6 @@ export const validateLogin = (req, res, next) => {
 export const validateAccount = (req, res, next) => {
   const { error } = accountSchema.validate({
     type: req.body.type,
-    status: req.body.status,
     owner: req.body.userId
   });
 

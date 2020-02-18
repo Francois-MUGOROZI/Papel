@@ -34,8 +34,8 @@ export const createTransaction = async (req, res) => {
         const newTrans = trans.getTransaction();
         // check if userId is allowed to perform this
         const user = await database.findUser(userEmail);
-        const found = user.rows[0].type;
-        if (found === 'staff') {
+        const found = user.rows[0].role;
+        if (found === 'staff' || found === 'admin') {
           await database.addTrans(newTrans);
           await database.updateAccount(accountNumber, newBalnce);
           res.status(201).json({
@@ -70,7 +70,7 @@ export const viewTransaction = async (req, res) => {
       const { userEmail, userId } = req.body;
       // check if userId is allowed to perform this
       const user = await database.findUser(userEmail);
-      const found = user.rows[0].type;
+      const found = user.rows[0].role;
       if (found === 'client') {
         const userAcc = await database.getAccountForClient(userId);
         const foundUserAcc = userAcc.rows;
@@ -108,16 +108,37 @@ export const viewTransaction = async (req, res) => {
   }
 };
 
-// get account transaction history
+// get all transaction history
 export const viewAllTransactions = async (req, res) => {
   try {
     const accountTable = await database.createTransactionTable();
     if (accountTable) {
-      const { userEmail } = req.body;
+      const { userEmail, userId } = req.body;
       // check if userId is allowed to perform this
       const user = await database.findUser(userEmail);
-      const found = user.rows[0].type;
-      if (found === 'admin' || found === 'staff') {
+      const found = user.rows[0].role;
+      if (found === 'client') {
+        const userAcc = await database.getAccountForClient(userId);
+        const foundUserAcc = userAcc.rows;
+        const accExist = foundUserAcc.map(val => {
+          return val.accountNumber;
+        });
+        const match = accExist.indexOf(userId);
+        if (match) {
+          const transac = accExist.map(acc => {
+            return database.getTrans(acc);
+          });
+          res.status(200).json({
+            status: res.statusCode,
+            data: transac
+          });
+        } else {
+          res.status(401).json({
+            status: res.statusCode,
+            error: 'Unauthorized Access'
+          });
+        }
+      } else if (found === 'admin' || found === 'staff') {
         const transac = await database.getAllTrans();
         res.status(200).json({
           status: res.statusCode,

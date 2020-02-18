@@ -30,15 +30,15 @@ const findUserEmail = (id, users) => {
 // add account
 export const createAccount = async (req, res) => {
   try {
-    const { userId, type, status, accountName, balance, userEmail } = req.body;
+    const { userId, type, accountName, userEmail } = req.body;
     const accountTable = await database.createAccountTable();
     if (accountTable) {
-      account.setAccount(accountName, userId, type, status, balance);
+      account.setAccount(accountName, userId, type);
       const newAccount = account.getAccount();
       // check if userId is allowed to perform this
       const user = await database.findUser(userEmail);
-      const found = user.rows[0].type;
-      if (found === 'client') {
+      const found = user.rows[0].role;
+      if (found) {
         await database.addAccount(newAccount);
         res.status(201).json({
           status: res.statusCode,
@@ -70,7 +70,7 @@ export const viewAccounts = async (req, res) => {
     let accounts;
     const { userEmail, userId } = req.body;
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'client') {
       accounts = await database.getSpecAccount(userId);
 
@@ -112,7 +112,7 @@ export const viewActiveDormant = async (req, res) => {
     const { userEmail, userId } = req.body;
     const { status } = req.params;
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'client') {
       accounts = await database.getActiveAccountForClient(userId, status);
       res.status(200).json({
@@ -152,7 +152,7 @@ export const viewSpecAccount = async (req, res) => {
     let accounts;
     const { userEmail, userId } = req.body;
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'client') {
       accounts = await database.getSpecAccount(userId);
       res.status(200).json({
@@ -202,8 +202,8 @@ export const actDeactAccount = async (req, res) => {
 
     // check if userId is allowed to perform this
     const user = await database.findUser(userEmail);
-    const found = user.rows[0].type;
-    if (found === 'admin') {
+    const found = user.rows[0].role;
+    if (found === 'admin' || found === 'staff') {
       const updated = await database.activateAccount(accountNumber, status);
       if (updated) {
         const acc = await database.getSpecAccountDetail(accountNumber);
@@ -238,7 +238,7 @@ export const deleteAccount = async (req, res) => {
     const { accountNumber } = req.params;
     // check if userId is allowed to perform this
     const user = await database.findUser(req.body.userEmail);
-    const found = user.rows[0].type;
+    const found = user.rows[0].role;
     if (found === 'admin' || found === 'staff') {
       const delAccount = await database.deleteAccount(accountNumber);
       if (delAccount) {

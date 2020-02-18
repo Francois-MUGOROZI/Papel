@@ -10,19 +10,11 @@ const database = new Database(); // initialize database connection
 // sinup controller
 export const signup = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      type,
-      isAdmin,
-      status,
-      password
-    } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     const userTable = await database.createUserTable();
     if (userTable) {
-      user.setUser(firstName, lastName, email, type, isAdmin, status, password);
+      user.setUser(firstName, lastName, email, 'client', password);
       const newUser = user.getUser();
       await database.addUser(newUser);
       const token = jwt.sign(
@@ -48,8 +40,7 @@ export const signup = async (req, res) => {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             email: newUser.email,
-            id: newUser.id,
-            type: newUser.type
+            role: newUser.role
           }
         }
       });
@@ -81,7 +72,7 @@ export const login = async (req, res) => {
         const hashedPass = matches.rows[0].password;
         const areMatched = compareToHashed(hashedPass, password);
         if (areMatched) {
-          const { firstName, lastName, id, type } = matches.rows[0];
+          const { firstName, lastName, id, role } = matches.rows[0];
           const token = jwt.sign({ id, email }, keys.JWT_SECRETE, {
             expiresIn: '24h'
           });
@@ -99,8 +90,7 @@ export const login = async (req, res) => {
                 firstName,
                 lastName,
                 email,
-                type,
-                id
+                role
               }
             }
           });
