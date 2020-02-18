@@ -8,7 +8,7 @@ class User {
     this.firstName = '';
     this.lastName = '';
     this.email = '';
-    this.type = '';
+    this.role = '';
     this.isAdmin = '';
     this.status = '';
     this.password = '';
@@ -16,14 +16,14 @@ class User {
 
   // setting up user
 
-  setUser(firstName, lastName, email, type, isAdmin, status, password) {
+  setUser(firstName, lastName, email, role, password) {
     this.id = generateId();
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.type = type;
-    this.isAdmin = isAdmin;
-    this.status = status;
+    this.role = role;
+    this.isAdmin = role === 'admin';
+    this.status = 'active';
     this.password = passHash(password);
   }
 
@@ -33,7 +33,7 @@ class User {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      type: this.type,
+      role: this.role,
       isAdmin: this.isAdmin,
       status: this.status,
       password: this.password,

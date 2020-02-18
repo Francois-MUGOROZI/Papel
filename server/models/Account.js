@@ -7,19 +7,26 @@ class Account {
     this.accountName = '';
     this.owner = '';
     this.type = '';
-    this.status = '';
+    this.status = 'active';
     this.balance = 0;
   }
 
   // set account
-  setAccount(accountName, owner, type, status, balance) {
+  setAccount(accountName, owner, type) {
     this.id = generateId();
     this.accountName = accountName;
     this.type = type;
-    this.status = status;
     this.owner = owner;
-    this.balance = balance;
-    this.accountNumber = 897986546;
+    const dt = new Date();
+    const val =
+      dt.getFullYear() +
+      dt.getDay() +
+      dt.getMonth() +
+      dt.getHours() +
+      dt.getMinutes() +
+      dt.getSeconds();
+    const numStr = `777${val}`;
+    this.accountNumber = Number.parseInt(numStr, 10);
   }
 
   // get account

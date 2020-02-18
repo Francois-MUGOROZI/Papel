@@ -21,17 +21,17 @@ class Database {
       email VARCHAR(200) UNIQUE NOT NULL,
       password VARCHAR(200) NOT NULL,
      "isAdmin" BOOLEAN DEFAULT FALSE,
-      type VARCHAR(50) NOT NULL DEFAULT '${'client'}',
+      role VARCHAR(50) NOT NULL DEFAULT '${'client'}',
       status VARCHAR(20) NOT NULL,
-      "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      "createdOn"  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     )`;
     // create  bank account table for first time
     this.createBankAccountTable = `CREATE TABLE IF NOT EXISTS
       accounts(
         id UUID PRIMARY KEY,
-        "accountNumber" INTEGER NOT NULL UNIQUE,
-        "accountName" VARCHAR(50),
-        "createdOn"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        "accountNumber" BIGINT NOT NULL UNIQUE,
+        "accountName" VARCHAR(50) UNIQUE,
+        "createdOn"  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
         type VARCHAR(20) NOT NULL,
         status VARCHAR(20) NOT NULL,
@@ -42,9 +42,9 @@ class Database {
     this.createTransTable = `CREATE TABLE IF NOT EXISTS
       transactions(
         id UUID PRIMARY KEY,
-        "createdOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        "createdOn" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         type VARCHAR(20) NOT NULL,
-        "accountNumber" INTEGER NOT NULL,
+        "accountNumber" BIGINT NOT NULL,
         cashier UUID NOT NULL,
         amount FLOAT NOT NULL,
         "oldBalance" FLOAT,
@@ -70,18 +70,17 @@ class Database {
   // handling add user functionality
   async addUser(newUser) {
     this.addUserSql = `INSERT INTO 
-    users( id,"firstName","lastName",email,password,type,"isAdmin",status)
+    users( id,"firstName","lastName",email,password,role,"isAdmin",status)
     VALUES('${newUser.id}','${newUser.firstName}','${newUser.lastName}','${newUser.email}',
-    '${newUser.password}','${newUser.type}','${newUser.isAdmin}','${newUser.status}')`;
+    '${newUser.password}','${newUser.role}','${newUser.isAdmin}','${newUser.status}')`;
     return pool.query(this.addUserSql);
   }
 
   // handle add bank account
   async addAccount(newAccount) {
     this.addAccountSql = `INSERT INTO 
-    accounts( id,"accountNumber", owner,type,status,balance,"accountName")
-    VALUES('${newAccount.id}','${newAccount.accountNumber}','${newAccount.owner}','${newAccount.type}',
-    '${newAccount.status}','${newAccount.balance}','${newAccount.accountName}')`;
+    accounts( id,"accountNumber", owner,type,status,"accountName",balance)
+    VALUES('${newAccount.id}','${newAccount.accountNumber}','${newAccount.owner}','${newAccount.type}','${newAccount.status}','${newAccount.accountName}','${newAccount.balance}')`;
     return pool.query(this.addAccountSql);
   }
 
@@ -95,8 +94,8 @@ class Database {
   }
 
   // handle get users
-  async getUsers(type) {
-    this.viewUserSql = `SELECT * FROM users WHERE type='${type}'`;
+  async getUsers(role) {
+    this.viewUserSql = `SELECT * FROM users WHERE type='${role}'`;
     return pool.query(this.viewUserSql);
   }
 
@@ -129,6 +128,11 @@ class Database {
     return pool.query(this.viewActiveAccountSql);
   }
 
+  async getAccountForClient(userId) {
+    this.viewActiveAccountSql = `SELECT * FROM accounts WHERE  owner='${userId}'`;
+    return pool.query(this.viewActiveAccountSql);
+  }
+
   // handle view transaction accounts
   async getTrans(accountNumber) {
     this.viewTransSql = `SELECT * FROM transactions WHERE "accountNumber"='${accountNumber}' `;
@@ -149,19 +153,19 @@ class Database {
 
   // updating database functionality
   async updateAccount(accountNumber, amount) {
-    this.updateAccountSql = `UPDATE accounts SET balance='${amount}' WHERE "accountNumber"='${accountNumber}'`;
+    this.updateAccountSql = `UPDATE accounts SET balance='${amount}' WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.updateAccountSql);
   }
 
   // deleting bank account
   async deleteAccount(accountNumber) {
-    this.deleteAccountSql = `DELETE FROM accounts WHERE "accountNumber"='${accountNumber}'`;
+    this.deleteAccountSql = `DELETE FROM accounts WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.deleteAccountSql);
   }
 
   // delete transaction
   async deleteTrans(accountNumber) {
-    this.deleteTransSql = `DELETE FROM transactions WHERE "accountNumber"='${accountNumber}'`;
+    this.deleteTransSql = `DELETE FROM transactions WHERE "accountNumber"='${accountNumber}' RETURNING *`;
     return pool.query(this.deleteTransSql);
   }
 
@@ -184,8 +188,8 @@ class Database {
   }
 
   // find all client  users
-  async findClientUsers(type) {
-    this.findUserSql = `SELECT * FROM users WHERE type='${type}'`;
+  async findClientUsers(role) {
+    this.findUserSql = `SELECT * FROM users WHERE role='${role}'`;
     return pool.query(this.findUserSql);
   }
 
@@ -200,6 +204,25 @@ class Database {
   async findUserById(id) {
     this.findUserSql = `SELECT * FROM users WHERE id = '${id}'`;
     return pool.query(this.findUserSql);
+  }
+
+  // update user role
+  async updateUserRole(userEmail, role) {
+    const isAdmin = role === 'admin';
+    console.log(userEmail, isAdmin);
+    this.updateUserRoleSql = `UPDATE users SET role='${role}',"isAdmin"='${isAdmin}' WHERE email='${userEmail}' RETURNING *`;
+    return pool.query(this.updateUserRoleSql);
+  }
+
+  // create default admin users
+  async createDefaultAdmin(defaultAdmin) {
+    this.addUserSql = `INSERT INTO 
+    users( id,"firstName","lastName",email,password,role,"isAdmin",status)
+    VALUES('${defaultAdmin.id}','${defaultAdmin.firstName}','${
+      defaultAdmin.lastName
+    }','${defaultAdmin.email}',
+    '${defaultAdmin.password}','admin','${true}','active')`;
+    return pool.query(this.addUserSql);
   }
 }
 

@@ -24,7 +24,7 @@ describe('Test POST /api/auth/signup/', () => {
           .that.is.a('number');
         expect(res.body)
           .to.have.property('message')
-          .equals('User created successfully')
+          .equals('User Created Successfully')
           .that.is.a('string');
         expect(res.body)
           .to.have.property('data')
