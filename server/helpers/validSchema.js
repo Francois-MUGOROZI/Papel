@@ -41,7 +41,7 @@ export const accountSchema = Joi.object({
     .alphanum()
     .max(10)
     .required(),
-  owner: Joi.string().required()
+  owner: Joi.required()
 });
 
 // validate transaction

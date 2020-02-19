@@ -50,6 +50,44 @@ class Database {
         "oldBalance" FLOAT,
         "newBalance" FLOAT
       )`;
+
+    //  reset password table
+    this.createResetPassTableSql = `CREATE TABLE IF NOT EXISTS
+      resetpass(
+        "resetToken" TEXT,
+        expires TEXT,
+        userEmail VARCHAR(200)
+      )`;
+  }
+
+  // create user table qury run
+  async createResetPassTable() {
+    return pool.query(this.createResetPassTableSql);
+  }
+
+  // add reset password
+  async addResetPassword(token, expires, userEmail) {
+    this.addRestSql = `INSERT INTO resetpass("changedAt","resetToken",expires,"userEmail")
+    VALUES('${token}','${expires}','${userEmail}')`;
+    return pool.query(this.addRestSql);
+  }
+
+  // reset token
+  async getResetToken(token) {
+    this.addRestSql = `SELECT * FROM resetpass WHERE "resetToken"='${token}'`;
+    return pool.query(this.addRestSql);
+  }
+
+  // delete token
+  async deleteResetToken(token) {
+    this.addRestSql = `DELETE FROM resetpass WHERE "resetToken"=${token}`;
+    return pool.query(this.addRestSql);
+  }
+
+  // update user password
+  async updatePassword(user, password) {
+    this.updatePasswordSql = `UPDATE users SET password='${password}' WHERE email='${user}'`;
+    return pool.query(this.updatePasswordSql);
   }
 
   // create user table qury run
@@ -209,7 +247,6 @@ class Database {
   // update user role
   async updateUserRole(userEmail, role) {
     const isAdmin = role === 'admin';
-    console.log(userEmail, isAdmin);
     this.updateUserRoleSql = `UPDATE users SET role='${role}',"isAdmin"='${isAdmin}' WHERE email='${userEmail}' RETURNING *`;
     return pool.query(this.updateUserRoleSql);
   }
