@@ -8,9 +8,9 @@ class FakeUser {
   generateFakeUser() {
     const password = faker.name.lastName();
     const user = {
-      firstName: 'Test Name',
-      lastName: 'Test Name second',
-      email: 'test@gmail.com',
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: faker.internet.email(),
       password
     };
     this.users.push(user);
