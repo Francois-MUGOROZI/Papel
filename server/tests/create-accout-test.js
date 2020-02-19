@@ -24,7 +24,6 @@ describe('Test POST /api/accounts/create', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        account.headerAuth = headerAuth;
         done();
       });
   });
@@ -62,17 +61,13 @@ describe('Test POST /api/accounts/create', () => {
       });
   });
 
-  it('Should return 201 HTTP status code if successful', done => {
+  it('Should return 201 status code if succeded', done => {
     account.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/accounts/create')
       .send(account)
       .end((err, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(201)
-          .that.is.a('number');
         done();
       });
   });
