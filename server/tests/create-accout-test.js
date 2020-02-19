@@ -60,15 +60,4 @@ describe('Test POST /api/accounts/create', () => {
         done();
       });
   });
-
-  it('Should return 201 status code if succeded', done => {
-    account.headerAuth = headerAuth;
-    chai
-      .request(app)
-      .post('/api/accounts/create')
-      .send(account)
-      .end((err, res) => {
-        done();
-      });
-  });
 });

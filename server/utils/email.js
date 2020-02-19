@@ -1,21 +1,22 @@
 import nodemailer from 'nodemailer';
+import keys from '../config/keys';
 
 const sendEmail = async options => {
   // create transporter
   const transporter = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 25,
+    service: 'gmail',
     auth: {
-      user: '44c7f2241c61a7',
-      pass: '4d791637c71763'
+      user: keys.FROM_EMAIL,
+      pass: keys.FROM_PASSWORD
     }
   });
   // define email options
   const mailOptions = {
-    from: 'Papel bank: <papel@gmal.com>',
+    from: keys.FROM_EMAIL,
     to: options.email,
     subject: options.subject,
-    text: options.message
+    text: options.message,
+    html: options.html
   };
   // send email
   await transporter.sendMail(mailOptions);

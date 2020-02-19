@@ -4,6 +4,7 @@ import {
   login,
   forgotPassword,
   resetPassword,
+  buildResetPage,
   logout
 } from '../controllers/authController';
 import { validateSignup, validateLogin } from '../middleware/validator';
@@ -13,6 +14,7 @@ authRouter.post('/signup', validateSignup, signup);
 authRouter.post('/login', validateLogin, login);
 authRouter.get('/logout', logout);
 authRouter.post('/forgot-password', forgotPassword);
-authRouter.patch('/reset-password/:token', resetPassword);
+authRouter.get('/reset/:token', buildResetPage);
+authRouter.post('/reset-password/:tokenback', resetPassword);
 
 export default authRouter;

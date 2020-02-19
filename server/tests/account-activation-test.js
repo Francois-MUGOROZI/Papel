@@ -12,26 +12,35 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
-const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateFakeUser();
+const fakeAccount = new FakeAccount();
+const account = fakeAccount.generateFakeAccount();
 let headerAuth = '';
-let accountNumber;
+let accountNumber = '';
 
 describe('Test PATCH /api/accounts/activation/:status', () => {
   before(done => {
+    const data = {
+      email: 'francoismugorozi@gmail.com',
+      password: 'adminpass'
+    };
     chai
       .request(app)
-      .post('/api/auth/signup')
-      .send(userCredentials)
+      .post('/api/auth/login')
+      .send(data)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        chai
-          .request(app)
-          .post('/api/accounts/create')
-          .send(account)
-          .end(() => {
-            accountNumber = account.accountNumber;
-          });
+        account.headerAuth = headerAuth;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/accounts/create')
+      .send(account)
+      .end((err, res) => {
+        accountNumber = res.body.data.accountNumber;
       });
     done();
   });

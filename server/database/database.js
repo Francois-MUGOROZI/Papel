@@ -56,7 +56,7 @@ class Database {
       resetpass(
         "resetToken" TEXT,
         expires TEXT,
-        userEmail VARCHAR(200)
+        "userEmail" VARCHAR(200)
       )`;
   }
 
@@ -67,7 +67,7 @@ class Database {
 
   // add reset password
   async addResetPassword(token, expires, userEmail) {
-    this.addRestSql = `INSERT INTO resetpass("changedAt","resetToken",expires,"userEmail")
+    this.addRestSql = `INSERT INTO resetpass("resetToken",expires,"userEmail")
     VALUES('${token}','${expires}','${userEmail}')`;
     return pool.query(this.addRestSql);
   }
@@ -80,7 +80,7 @@ class Database {
 
   // delete token
   async deleteResetToken(token) {
-    this.addRestSql = `DELETE FROM resetpass WHERE "resetToken"=${token}`;
+    this.addRestSql = `DELETE FROM resetpass WHERE "resetToken"='${token}'`;
     return pool.query(this.addRestSql);
   }
 

@@ -7,7 +7,6 @@ class FakeTrans {
 
   generateFakeTrans() {
     const trans = {
-      accountNumber: faker.random.number(),
       type: 'debit',
       amount: faker.random.number()
     };
