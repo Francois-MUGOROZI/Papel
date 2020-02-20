@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon --exec  babel-node -- server/index.js",
     "start": "babel-node -- server/index.js",
-    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/signup-test.js --timeout 10000 --recursive --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/*.js --timeout 10000 --recursive --exit",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Francois MUGOROZI",
   "license": "ISC",

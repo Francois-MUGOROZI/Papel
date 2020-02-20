@@ -6,10 +6,10 @@ language: node_js
 node_js:
   - 'stable'
 install: npm install
-cashe:
+cache:
   directories:
     - node_modules
 script:
   - npm run test
-
+env: -process.env.SECRETE_KEY = secrete_key
 after_success: npm run coverage
