@@ -12,28 +12,6 @@ const user = new FakeUser();
 const data = user.generateFakeUser();
 
 describe('Test POST /api/auth/signup/', () => {
-  it('Should return 201 HTTP status code on success', done => {
-    chai
-      .request(app)
-      .post('/api/auth/signup')
-      .send(data)
-      .end((err, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(201)
-          .that.is.a('number');
-        expect(res.body)
-          .to.have.property('message')
-          .equals('User Created Successfully')
-          .that.is.a('string');
-        expect(res.body)
-          .to.have.property('data')
-          .that.includes.property('token')
-          .that.is.a('string');
-        done();
-      });
-  });
-
   it('Should return 409 HTTP status code if user already exists', done => {
     chai
       .request(app)

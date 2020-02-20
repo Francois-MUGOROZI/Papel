@@ -10,7 +10,6 @@ cashe:
   directories:
     - node_modules
 script:
-  - npm run dev
   - npm run test
 
 after_success: npm run coverage
