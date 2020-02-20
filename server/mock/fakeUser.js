@@ -16,5 +16,14 @@ class FakeUser {
     this.users.push(user);
     return user;
   }
+
+  generateAdmin() {
+    const user = {
+      email: 'francoismugorozi@gmail.com',
+      password: 'adminpass'
+    };
+    this.admin = user;
+    return user;
+  }
 }
 export default FakeUser;
