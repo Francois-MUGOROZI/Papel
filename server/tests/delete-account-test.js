@@ -13,26 +13,31 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateFakeUser();
+const userCredentials = user.generateAdmin();
 let headerAuth = '';
-let accountNumber;
+let accountNumber = '';
 
 describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
   before(done => {
     chai
       .request(app)
-      .post('/api/auth/signup')
+      .post('/api/auth/login')
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        chai
-          .request(app)
-          .post('/api/accounts/create')
-          .send(account)
-          .end(() => {
-            accountNumber = account.accountNumber;
-          });
+        account.headerAuth = headerAuth;
       });
+    done();
+  });
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/accounts/create')
+      .send(account)
+      .end(() => {
+        accountNumber = account.accountNumber;
+      });
+    done();
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
@@ -51,29 +56,14 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
+      .get(`/api/accounts/delete/4321`)
       .send({ headerAuth })
       .end((error, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body).to.have.property('error');
-        done();
-      });
-  });
-
-  it('Should return 200 HTTP status code if successful', done => {
-    chai
-      .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
-      .send({ headerAuth })
-      .end((err, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(200)
-          .that.is.a('number');
-        expect(res.body).to.have.property('message');
+        expect(res).to.have.property('error');
         done();
       });
   });

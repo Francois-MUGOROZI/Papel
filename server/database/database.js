@@ -261,6 +261,12 @@ class Database {
     '${defaultAdmin.password}','admin','${true}','active')`;
     return pool.query(this.addUserSql);
   }
+
+  // delete user account
+  async deleteUser(email) {
+    this.deleteSql = `DELETE FROM users  WHERE email='${email}'`;
+    return pool.query(this.deleteSql);
+  }
 }
 
 export default Database;

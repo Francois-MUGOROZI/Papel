@@ -4,7 +4,6 @@ import chaiThings from 'chai-things';
 import app from '../app';
 import FakeUser from '../mock/fakeUser';
 import FakeAccount from '../mock/fakeAccount';
-import FakeTrans from '../mock/fakeTrans';
 
 process.env.NODE_ENV = 'test';
 
@@ -14,16 +13,14 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
-const trsansaction = new FakeTrans().generateFakeTrans();
-const userCredentials = user.generateFakeUser();
+const userCredentials = user.generateAdmin();
 let headerAuth = '';
-let accountNumber = '';
 
-describe('Test GET /api/transactions/:accountNumber', () => {
+describe('Test GET /api/accounts/:active', () => {
   before(done => {
     chai
       .request(app)
-      .post('/api/auth/signup')
+      .post('/api/auth/login')
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
@@ -32,21 +29,20 @@ describe('Test GET /api/transactions/:accountNumber', () => {
   });
 
   before(done => {
+    account.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/accounts/create')
       .send(account)
-      .end((err, res) => {
-        accountNumber = res.body.data.accountNumber;
-        trsansaction.accountNumber = accountNumber;
+      .end(() => {
+        done();
       });
-    done();
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .post(`/api/trsansactions/${accountNumber}`)
+      .get('/api/accounts/active')
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -56,25 +52,11 @@ describe('Test GET /api/transactions/:accountNumber', () => {
         done();
       });
   });
-  it('Should return 404 HTTP status code no transaction found', done => {
-    chai
-      .request(app)
-      .get(`/api/transactions/${accountNumber}`)
-      .send({ headerAuth })
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(404)
-          .that.is.a('number');
-        expect(res.body).to.have.property('error');
-        done();
-      });
-  });
 
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/transactions/${accountNumber}`)
+      .get('/api/accounts/active')
       .send({ headerAuth })
       .end((err, res) => {
         expect(res.body)

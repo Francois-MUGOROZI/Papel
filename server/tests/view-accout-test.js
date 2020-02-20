@@ -13,20 +13,17 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateFakeUser();
+const userCredentials = user.generateAdmin();
 let headerAuth = '';
-let owner = '';
 
 describe('Test GET /api/accounts/', () => {
   before(done => {
     chai
       .request(app)
-      .post('/api/auth/signup')
+      .post('/api/auth/login')
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
         done();
       });
   });
@@ -50,20 +47,6 @@ describe('Test GET /api/accounts/', () => {
         expect(res.body)
           .to.have.property('status')
           .equals(401)
-          .that.is.a('number');
-        expect(res.body).to.have.property('error');
-        done();
-      });
-  });
-  it('Should return 404 HTTP status code no account found', done => {
-    chai
-      .request(app)
-      .get('/api/accounts')
-      .send({ headerAuth })
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(404)
           .that.is.a('number');
         expect(res.body).to.have.property('error');
         done();

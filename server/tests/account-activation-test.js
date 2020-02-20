@@ -14,22 +14,24 @@ const { expect } = chai;
 const user = new FakeUser();
 const fakeAccount = new FakeAccount();
 const account = fakeAccount.generateFakeAccount();
+const userCredentails = user.generateAdmin();
 let headerAuth = '';
 let accountNumber = '';
+const data = {
+  headerAuth,
+  status: 'active'
+};
 
 describe('Test PATCH /api/accounts/activation/:status', () => {
   before(done => {
-    const data = {
-      email: 'francoismugorozi@gmail.com',
-      password: 'adminpass'
-    };
     chai
       .request(app)
       .post('/api/auth/login')
-      .send(data)
+      .send(userCredentails)
       .end((err, res) => {
         headerAuth = res.body.data.token;
         account.headerAuth = headerAuth;
+        data.headerAuth = headerAuth;
         done();
       });
   });
@@ -51,19 +53,19 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .get(`/api/accounts/activation/${accountNumber}`)
       .send({ status: 'active' })
       .end((err, res) => {
-        expect(res)
+        expect(res.body)
           .to.have.property('status')
           .equals(401)
           .that.is.a('number');
-        expect(res).to.have.property('error');
+        expect(res.body).to.have.property('error');
         done();
       });
   });
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}`)
-      .send({ headerAuth, status: 'active' })
+      .get(`/api/accounts/activation/886465454`)
+      .send(data)
       .end((error, res) => {
         expect(res)
           .to.have.property('status')
@@ -78,13 +80,13 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
     chai
       .request(app)
       .get(`/api/accounts/activation/${accountNumber}`)
-      .send({ headerAuth, status: 'active' })
+      .send(data)
       .end((err, res) => {
-        expect(res)
+        expect(res.body)
           .to.have.property('status')
           .equals(200)
           .that.is.a('number');
-        expect(res).to.have.property('message');
+        expect(res.body).to.have.property('data');
         done();
       });
   });

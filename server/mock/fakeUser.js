@@ -20,7 +20,7 @@ class FakeUser {
   generateAdmin() {
     const user = {
       email: 'francoismugorozi@gmail.com',
-      password: 'adminpass'
+      password: 'pass123'
     };
     this.admin = user;
     return user;

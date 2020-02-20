@@ -8,7 +8,8 @@ class FakeTrans {
   generateFakeTrans() {
     const trans = {
       type: 'debit',
-      amount: faker.random.number()
+      amount: faker.random.number(),
+      accountNumber: 0
     };
     this.transactions.push(trans);
     return trans;

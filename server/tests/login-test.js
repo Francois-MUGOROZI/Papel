@@ -44,7 +44,6 @@ describe('Test POST /api/auth/login/', () => {
           .that.is.a('string');
         expect(res.body)
           .to.have.property('message')
-          .equals('User logged in successfully')
           .that.is.a('string');
         done();
       });
@@ -66,7 +65,6 @@ describe('Test POST /api/auth/login/', () => {
           .that.is.a('number');
         expect(res.body)
           .to.have.property('error')
-          .equals('Invalid credentials')
           .that.is.a('string');
         done();
       });

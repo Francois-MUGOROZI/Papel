@@ -12,7 +12,7 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
+const adminCredentials = user.generateAdmin();
 let headerAuth = '';
 
 describe('Test GET /api/users/', () => {
@@ -22,18 +22,19 @@ describe('Test GET /api/users/', () => {
       .post('/api/auth/signup')
       .send(userCredentials)
       .end(() => {
-        adminCredentials.type = 'admin';
-        chai
-          .request(app)
-          .post('/api/auth/signup')
-          .send(adminCredentials)
-          .end((err, res) => {
-            headerAuth = res.body.data.token;
-            done();
-          });
+        done();
       });
   });
-
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/auth/login')
+      .send(adminCredentials)
+      .end((err, res) => {
+        headerAuth = res.body.data.token;
+        done();
+      });
+  });
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
@@ -42,20 +43,6 @@ describe('Test GET /api/users/', () => {
         expect(res.body)
           .to.have.property('status')
           .equals(401)
-          .that.is.a('number');
-        expect(res.body).to.have.property('error');
-        done();
-      });
-  });
-  it('Should return 404 HTTP status code no users found', done => {
-    chai
-      .request(app)
-      .get('/api/users')
-      .send({ headerAuth })
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(404)
           .that.is.a('number');
         expect(res.body).to.have.property('error');
         done();

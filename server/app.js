@@ -11,7 +11,6 @@ dontenv.config();
 const app = express(); // create express application
 
 // routes
-app.use(express.static('utils'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api/auth', authRouter);

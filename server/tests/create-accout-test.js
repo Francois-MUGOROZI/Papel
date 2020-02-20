@@ -23,11 +23,28 @@ describe('Test POST /api/accounts/create', () => {
       .post('/api/auth/signup')
       .send(userCredentials)
       .end((err, res) => {
-        headerAuth = res.body.data.token;
+        headerAuth = res.body.token;
+        account.headerAuth = headerAuth;
+        done();
+      });
+  });
+  it('Should return 201 HTTP status code on success', done => {
+    chai
+      .request(app)
+      .post('/api/accounts/create')
+      .send(account)
+      .end((err, res) => {
+        console.log(res.body);
+        expect(res.body)
+          .to.have.property('status')
+          .equals(201)
+          .that.is.a('number');
+        expect(res.body).to.have.property('data');
         done();
       });
   });
   it('Should return 401 HTTP status code if no token provided', done => {
+    account = new FakeAccount().generateFakeAccount();
     chai
       .request(app)
       .post('/api/accounts/create')
@@ -55,7 +72,6 @@ describe('Test POST /api/accounts/create', () => {
           .that.is.a('number');
         expect(res.body)
           .to.have.property('error')
-          .equals('invalid input')
           .that.is.a('string');
         done();
       });
