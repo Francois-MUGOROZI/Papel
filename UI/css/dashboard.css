@@ -15,8 +15,7 @@ a {
 /* Styling the top bar */
 
 .appBar {
-  background-color: rgb(10, 46, 46);
-  opacity: 0.7;
+  background-color: #09899e;
   padding: 5px;
   width: 100% !important;
 }
@@ -33,7 +32,7 @@ a {
   color: rgba(250, 250, 250, 0.8);
 }
 .menu:hover {
-  background-color: rgb(10, 46, 46);
+  background-color: #09899e;
   opacity: 0.7;
 }
 .header-content {
@@ -47,13 +46,13 @@ a {
   height: 40px;
   margin-right: 20px;
   color: rgba(250, 250, 250, 0.8);
-  background-color: rgb(54, 59, 57);
+  background-color: #098a9e33;
 }
 .header-content .notification sup {
   color: rgb(255, 0, 0);
 }
 .header-content .notification:hover {
-  background-color: rgba(58, 65, 60, 0.49);
+  background-color: #1da6bb;
 }
 .header-content .user {
   color: rgba(250, 250, 250, 0.8);
@@ -76,13 +75,12 @@ a {
 /* Styling the sidebar */
 
 .sidebar {
-  background-color: rgba(10, 46, 46, 0.95);
+  background-color: #09899e;
   height: 100vmax;
   width: 250px;
   padding: 10px;
   color: rgba(250, 250, 250, 0.8);
   float: left;
-  opacity: 0.7;
 }
 
 li {
@@ -98,8 +96,7 @@ ul {
 }
 .list-item:hover {
   cursor: pointer;
-  background-color: rgb(10, 46, 46);
-  opacity: 0.7;
+  background-color: #1b98ac;
 }
 
 /* style yhe main content section  */
@@ -107,7 +104,7 @@ ul {
   margin-left: 300px;
 }
 .contents {
-  color: rgb(0, 0, 0);
+  color: rgba(0, 0, 0, 0.726);
   padding: 20px;
 }
 
@@ -122,15 +119,17 @@ ul {
 }
 
 footer {
-  background-color: rgb(10, 46, 46);
-  opacity: 0.7;
+  background-color: #09899e;
   display: flex;
   justify-content: center;
   padding: 5px;
-  color: rgb(6, 124, 124);
+  color: rgb(171, 194, 194);
   width: 100%;
   position: fixed;
   bottom: 0;
+}
+footer a {
+  color: rgb(154, 167, 167);
 }
 
 /* Style for the main content area  */
@@ -146,7 +145,7 @@ footer {
 }
 .create-account-btn {
   margin: 10px 0 20px 0;
-  background-color: rgb(10, 46, 46);
+  background-color: #09899e;
   opacity: 0.7;
   padding: 10px;
   border-radius: 5px;
@@ -154,7 +153,7 @@ footer {
   font-size: 1.2em;
 }
 .create-account-btn:hover {
-  background-color: rgb(7, 15, 7);
+  background-color: #09899e;
 }
 
 /* Create account model style  */
@@ -171,7 +170,6 @@ footer {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   padding: 15% 0;
 }
@@ -187,7 +185,6 @@ footer {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -195,6 +192,7 @@ footer {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
+  color: #016d7e;
   border: 1px solid #888;
   width: max-content;
 }
@@ -230,15 +228,16 @@ footer {
   margin-bottom: 10px;
 }
 label {
-  color: rgb(80, 128, 108);
+  color: #098a9ead;
 }
 .modal-content #create-btn {
-  background-color: rgb(37, 63, 52);
+  background-color: #09899e;
+  margin-top: 20px;
   color: rgb(209, 209, 209);
   width: 100%;
 }
 .modal-content #create-btn:hover {
-  background-color: rgb(22, 26, 24);
+  background-color: #1c96a8;
 }
 
 .detail-content-row {
@@ -252,14 +251,13 @@ label {
 
 /* style the staff page  */
 .staff-actions button {
-  background-color: rgb(10, 46, 46);
+  background-color: #09899e;
   padding: 10px;
   border-radius: 5px;
   color: rgba(240, 248, 255, 0.829);
-  opacity: 0.7;
 }
 .staff-actions button:hover {
-  background-color: rgb(6, 26, 26);
+  background-color: #1b97aa;
 }
 .staff-actions #delete-btn {
   background-color: none;
@@ -289,18 +287,18 @@ label {
   opacity: 0.8;
 }
 .create-user-model #create-user-btn {
-  background-color: rgb(37, 63, 52);
+  background-color: #09899e;
   width: max-content;
   padding: 10px 20px;
   color: rgb(209, 209, 209);
 }
 .create-user-model #create-user-btn:hover {
-  background-color: rgb(12, 20, 17);
+  background-color: #279daf;
 }
 
 .modal-content #debit-btn,
 .modal-content #credit-btn {
-  background-color: rgb(37, 63, 52);
+  background-color: #09899e;
   width: max-content;
   color: rgba(240, 248, 255, 0.829);
   padding: 10px 20px;
@@ -309,14 +307,14 @@ label {
 
 .modal-content #debit-btn:hover,
 .modal-content #credit-btn:hover {
-  background-color: rgb(27, 44, 37);
+  background-color: #09899e;
 }
 
 /* style user profile */
 .user-profile {
   position: absolute;
   z-index: -1;
-  background-color: rgb(10, 46, 46);
+  background-color: #09899e;
   right: 0;
   padding: 20px;
   border-radius: 5px;
@@ -327,8 +325,8 @@ label {
 
 .user-profile-hide {
   position: absolute;
-  z-index: -1;
-  background-color: rgb(10, 46, 46);
+  z-index: 1;
+  background-color: #09899e;
   right: 0;
   padding: 20px;
   border-radius: 5px;
@@ -336,7 +334,13 @@ label {
   text-align: center;
 }
 
-.user-profile-hide a:hover {
-  color: rgb(171, 172, 171);
+#logout2:hover {
+  background-color: #2aa0b3;
+  padding: 5px;
   cursor: pointer;
+}
+.search-box{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #2aa0b3;
 }

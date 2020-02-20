@@ -33,7 +33,7 @@ initialSetup = () => {
   userMenuHeading.innerHTML = 'Accounts';
   accounts.style.display = 'block';
   transaction.style.display = 'none';
-  userSideAccountItem.style.backgroundColor = 'rgb(10, 46, 46)';
+  userSideAccountItem.style.backgroundColor = '#1b98ac';
   userSideTransactionItem.style.background = 'none';
 };
 
@@ -62,7 +62,7 @@ userSideAccountItem.addEventListener('click', ev => {
   userMenuHeading.innerHTML = 'Accounts';
   accounts.style.display = 'block';
   transaction.style.display = 'none';
-  userSideAccountItem.style.backgroundColor = 'rgb(10, 46, 46)';
+  userSideAccountItem.style.backgroundColor = '#1b98ac';
   userSideTransactionItem.style.background = 'none';
 });
 userSideTransactionItem.addEventListener('click', ev => {
@@ -75,7 +75,7 @@ userSideTransactionItem.addEventListener('click', ev => {
   accounts.style.display = 'none';
   transaction.style.display = 'block';
   userSideAccountItem.style.background = 'none';
-  userSideTransactionItem.style.backgroundColor = 'rgb(10, 46, 46)';
+  userSideTransactionItem.style.backgroundColor = '#1b98ac';
   Notif.innerHTML = '';
 });
 Notif.addEventListener('click', () => {
@@ -88,7 +88,7 @@ Notif.addEventListener('click', () => {
   accounts.style.display = 'none';
   transaction.style.display = 'block';
   userSideAccountItem.style.background = 'none';
-  userSideTransactionItem.style.backgroundColor = 'rgb(10, 46, 46)';
+  userSideTransactionItem.style.backgroundColor = '#1b98ac';
   Notif.innerHTML = '';
 });
 
