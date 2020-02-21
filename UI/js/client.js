@@ -16,6 +16,7 @@ const Notif = document.getElementById('notificationIcon');
 const msgTitle = document.getElementById('message-title');
 const msgBody = document.getElementById('message-body');
 const msgModel = document.getElementById('message-model');
+const createAccountForm = document.getElementById('create-account-form');
 
 // first setups when document loaded
 initialSetup = () => {
@@ -26,8 +27,7 @@ initialSetup = () => {
     main.classList.add('main-full');
   }
   // Get the accounts from database
-
-  // populate the account div
+  // getAccount();
 
   // display the account div
   userMenuHeading.innerHTML = 'Accounts';
@@ -121,19 +121,63 @@ const openUser = () => {
 };
 
 // creating a bank account handler
-const handleCreateAccount = async ev => {
+createAccountForm.addEventListener('submit', ev => {
   ev.preventDefault();
   const accountName = ev.target['name'].value;
   const type = ev.target['type'].value;
+  console.log(accountName, type);
   // add account to database
+  axios
+    .post('https://papel-andela.herokuapp.com/api/accounts/create', {
+      accountName: accountName,
+      type: type
+    })
+    .then(res => {
+      console.log(res);
+    });
 
   // Notify the user and route back to page
   msgTitle.innerHTML = 'Creating Account';
   msgBody.innerHTML =
     'Your Bank Account Created Successfully\nYour Account Number: 1546565465';
   msgModel.style.display = 'block';
-};
+  return false;
+});
 
 const closeMessageModel = () => {
   msgModel.style.display = 'none';
+};
+
+// getting account
+const getAccount = () => {
+  let userAccounts = '';
+  axios
+    .get('https://papel-andela.herokuapp.com/api/accounts')
+    .then(res => {
+      console.log(res);
+      if (res.data.data.data) {
+        userAccounts = res.data.data.data;
+        populateAccount(userAccounts);
+      }
+    })
+    .catch(err => {
+      accounts.innerHTML = 'Something went wrong reload the page';
+    });
+};
+
+// const pulate account div
+const populateAccount = accs => {
+  accounts.innerHTML = accs
+    .map(val => {
+      `
+      <div class="content-row" id="model-1" onclick="openDetailModel(${val.accountNumber})">
+        <h5>Account Name: ${val.accountName}</h4>
+        <h5> Type: ${val.type}</h5>
+        <h5> Number: ${val.accountNumber}</h5>
+        <h5>Status: ${val.status}</h5>
+        <h4>Balance: $${val.balance}</h4>
+    </div>
+  `;
+    })
+    .join('');
 };
