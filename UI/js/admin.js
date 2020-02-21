@@ -38,7 +38,7 @@ const initialSetup = () => {
   staff.style.display = 'none';
   heading.innerHTML = 'Bank Accounts';
   createBtn.style.display = 'none';
-  bankAccMenu.style.backgroundColor = 'rgb(10, 46, 46)';
+  bankAccMenu.style.backgroundColor = '#1b98ac';
   userAccMenu.style.background = 'none';
   staffAccMenu.style.background = 'none';
 };
@@ -86,7 +86,7 @@ bankAccMenu.addEventListener('click', () => {
   staff.style.display = 'none';
   heading.innerHTML = 'Bank Accounts';
   createBtn.style.display = 'none';
-  bankAccMenu.style.backgroundColor = 'rgb(10, 46, 46)';
+  bankAccMenu.style.backgroundColor = '#1b98ac';
   userAccMenu.style.background = 'none';
   staffAccMenu.style.background = 'none';
 });
@@ -98,7 +98,7 @@ userAccMenu.addEventListener('click', () => {
   heading.innerHTML = 'User Accounts';
   createBtn.style.display = 'none';
   bankAccMenu.style.background = 'none';
-  userAccMenu.style.background = 'rgb(10, 46, 46)';
+  userAccMenu.style.background = '#1b98ac';
   staffAccMenu.style.background = 'none';
 });
 
@@ -110,7 +110,7 @@ staffAccMenu.addEventListener('click', () => {
   createBtn.style.display = 'block';
   bankAccMenu.style.background = 'none';
   userAccMenu.style.background = 'none';
-  staffAccMenu.style.background = 'rgb(10, 46, 46)';
+  staffAccMenu.style.background = '#1b98ac';
 });
 
 // user profile open

@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
-import FakeAccount from '../mock/fakeAccount';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
+import FakeAccount from '../../mock/fakeAccount';
 
 process.env.NODE_ENV = 'test';
 
@@ -12,33 +12,48 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
-const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateFakeUser();
+const fakeAccount = new FakeAccount();
+const account = fakeAccount.generateFakeAccount();
+const userCredentails = user.generateAdmin();
 let headerAuth = '';
-let accountNumber;
+let accountNumber = '';
 
-describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
+describe('Test PATCH /api/accounts/activation/:status', () => {
   before(done => {
     chai
       .request(app)
-      .post('/api/auth/signup')
-      .send(userCredentials)
+      .post('/api/users/init')
+      .end(() => {
+        done();
+      });
+  });
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/auth/login')
+      .send(userCredentails)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        chai
-          .request(app)
-          .post('/api/accounts/create')
-          .send(account)
-          .end(() => {
-            accountNumber = account.accountNumber;
-          });
+        done();
       });
+  });
+
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/accounts/create')
+      .send({ ...account, headerAuth })
+      .end((err, res) => {
+        accountNumber = res.body.data.accountNumber;
+      });
+    done();
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ status: 'active' })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -51,14 +66,14 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
-      .send({ headerAuth })
+      .patch(`/api/accounts/activation/886465454`)
+      .send({ status: 'active', headerAuth })
       .end((error, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body).to.have.property('error');
+        expect(res).to.have.property('error');
         done();
       });
   });
@@ -66,14 +81,14 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
-      .send({ headerAuth })
+      .patch(`/api/accounts/activation/${accountNumber}`)
+      .send({ status: 'active', headerAuth })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
           .equals(200)
           .that.is.a('number');
-        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
         done();
       });
   });

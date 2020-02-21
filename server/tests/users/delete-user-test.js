@@ -1,8 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
 
 process.env.NODE_ENV = 'test';
 
@@ -12,12 +12,11 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
+const adminCredentials = user.generateAdmin();
 let headerAuth = '';
 let userEmail = '';
-const status = 'active';
 
-describe('Test PATCH /api/users/activation/:useremail', () => {
+describe('Test POST /api/users/delete/:email', () => {
   before(done => {
     chai
       .request(app)
@@ -25,22 +24,31 @@ describe('Test PATCH /api/users/activation/:useremail', () => {
       .send(userCredentials)
       .end(() => {
         userEmail = userCredentials.email;
-        chai
-          .request(app)
-          .post('/api/auth/signup')
-          .send(adminCredentials)
-          .end((err, res) => {
-            headerAuth = res.body.data.token;
-            done();
-          });
+        done();
       });
   });
-
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/users/init')
+      .end(() => {
+        done();
+      });
+  });
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/auth/login')
+      .send(adminCredentials)
+      .end((err, res) => {
+        headerAuth = res.body.data.token;
+        done();
+      });
+  });
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .patch(`/api/users/activation/${userEmail}`)
-      .send({ status })
+      .delete(`/api/users/delete/${userEmail}`)
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -54,14 +62,13 @@ describe('Test PATCH /api/users/activation/:useremail', () => {
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/users/activation/${userEmail}`)
-      .send({ headerAuth, status })
+      .delete(`/api/users/delete/${userEmail}`)
+      .send({ headerAuth })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
           .equals(200)
           .that.is.a('number');
-        expect(res.body).to.have.property('data');
         done();
       });
   });

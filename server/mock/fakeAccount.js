@@ -7,7 +7,7 @@ class FakeAccount {
 
   generateFakeAccount() {
     const account = {
-      accountName: faker.name.title(),
+      accountName: faker.name.firstName(),
       type: 'loan'
     };
     this.accounts.push(account);

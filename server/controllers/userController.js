@@ -199,17 +199,56 @@ export const updateUserRoles = async (req, res) => {
 };
 
 export const createDefaultAdmin = async (req, res) => {
-  const userTable = await database.createUserTable();
-  if (userTable) {
-    const id = generateId();
-    defAdmin.id = id;
-    defAdmin.password = passHash(defAdmin.password);
-    const def = await database.createDefaultAdmin(defAdmin);
-    if (def) {
-      res.status(201).json({
-        status: res.statusCode,
-        message: 'The App Initialize successfully'
-      });
+  try {
+    const userTable = await database.createUserTable();
+    if (userTable) {
+      const id = generateId();
+      defAdmin.id = id;
+      defAdmin.password = passHash(defAdmin.password);
+      const def = await database.createDefaultAdmin(defAdmin);
+      if (def) {
+        res.status(201).json({
+          status: res.statusCode,
+          message: 'The App Initialize successfully'
+        });
+      }
     }
+  } catch (err) {
+    errorHandle(res, err);
+  }
+};
+
+// delete user
+export const deleteUserAccount = async (req, res) => {
+  try {
+    const userTable = await database.createUserTable();
+    if (userTable) {
+      // verify if the logged in is admin
+      const { userEmail } = req.body;
+      const user = req.params.email;
+      const admin = await database.findUser(userEmail);
+      const found = admin.rows[0].role;
+      if (found === 'admin') {
+        const updated = await database.deleteUser(user);
+        if (updated) {
+          res.status(200).json({
+            status: res.statusCode,
+            message: 'User deleted Successfully'
+          });
+        } else {
+          res.status(500).json({
+            status: res.statusCode,
+            error: 'Something went wrong'
+          });
+        }
+      } else {
+        res.status(401).json({
+          status: res.statusCode,
+          error: 'Unauthorized Access'
+        });
+      }
+    }
+  } catch (err) {
+    errorHandle(res, err);
   }
 };

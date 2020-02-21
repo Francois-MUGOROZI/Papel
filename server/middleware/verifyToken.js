@@ -3,7 +3,7 @@ import keys from '../config/keys';
 
 const verifyToken = async (req, res, next) => {
   try {
-    let token;
+    let token = '';
     if (process.env.NODE_ENV === 'test') {
       token = req.body.headerAuth;
     } else {
@@ -16,7 +16,7 @@ const verifyToken = async (req, res, next) => {
       });
       return;
     }
-    const decoded = await jwt.verify(token, keys.JWT_SECRETE);
+    const decoded = jwt.verify(token, keys.JWT_SECRETE);
     if (!decoded) {
       res.status(401).json({
         status: res.statusCode,

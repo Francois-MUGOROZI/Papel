@@ -30,7 +30,7 @@ class Database {
       accounts(
         id UUID PRIMARY KEY,
         "accountNumber" BIGINT NOT NULL UNIQUE,
-        "accountName" VARCHAR(50) UNIQUE,
+        "accountName" VARCHAR(50),
         "createdOn"  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
         type VARCHAR(20) NOT NULL,
@@ -260,6 +260,12 @@ class Database {
     }','${defaultAdmin.email}',
     '${defaultAdmin.password}','admin','${true}','active')`;
     return pool.query(this.addUserSql);
+  }
+
+  // delete user account
+  async deleteUser(email) {
+    this.deleteSql = `DELETE FROM users  WHERE email='${email}'`;
+    return pool.query(this.deleteSql);
   }
 }
 

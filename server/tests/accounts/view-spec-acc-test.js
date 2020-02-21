@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
-import FakeAccount from '../mock/fakeAccount';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
+import FakeAccount from '../../mock/fakeAccount';
 
 process.env.NODE_ENV = 'test';
 
@@ -12,11 +12,13 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
-let account = new FakeAccount().generateFakeAccount();
+const accounts = new FakeAccount();
+const account = accounts.generateFakeAccount();
 const userCredentials = user.generateFakeUser();
 let headerAuth = '';
+let email = '';
 
-describe('Test POST /api/accounts/create', () => {
+describe('Test GET /api/accounts/user/:email', () => {
   before(done => {
     chai
       .request(app)
@@ -24,14 +26,25 @@ describe('Test POST /api/accounts/create', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
+        email = userCredentials.email;
         done();
       });
   });
-  it('Should return 401 HTTP status code if no token provided', done => {
+
+  before(done => {
     chai
       .request(app)
       .post('/api/accounts/create')
-      .send(account)
+      .send({ ...account, headerAuth })
+      .end(() => {
+        done();
+      });
+  });
+
+  it('Should return 401 HTTP status code if no token provided', done => {
+    chai
+      .request(app)
+      .get(`/api/accounts/user/${email}`)
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -41,22 +54,18 @@ describe('Test POST /api/accounts/create', () => {
         done();
       });
   });
-  it('Should return 422 HTTP status code if account is empty', done => {
-    account = {};
-    account.headerAuth = headerAuth;
+
+  it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .post('/api/accounts/create')
-      .send(account)
-      .end((error, res) => {
+      .get(`/api/accounts/user/${email}`)
+      .send({ headerAuth })
+      .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
-          .equals(422)
+          .equals(200)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('invalid input')
-          .that.is.a('string');
+        expect(res.body).to.have.property('data');
         done();
       });
   });

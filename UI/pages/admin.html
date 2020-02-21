@@ -66,13 +66,19 @@
         <h4 id="User-content-heading">Bank Accounts</h4>
         <!-- this display bank accounts -->
         <div class="accounts" id="bank-accounts">
+          <div class="search-section">
+            <input id="search-account" class="search-box" type="text" placeholder="Account or Email to search">
+          </div>
           <div class="content-row-staff">
             <h5>Account Name: Ubumwe</h4>
             <h5> Number: 6846513564</h5>
             <div class="staff-actions">
               <!-- <button id="debit-btn" onclick="openDebitModel()">Debit</button>
               <button id="credit-btn" onclick="openCreditModel()">Credit</button> -->
+              <button id="debit-btn" onclick="openDebitModel()">Debit</button>
+              <button id="credit-btn" onclick="openCreditModel()">Credit</button>
               <button id="record-btn" onclick="openRecordsModel(id)">Records</button>
+              <button id="act-btn" onclick="openDeleteModel(id)">Activate</button>
               <button id="delete-btn" onclick="openDeleteModel(id)">Delete</button>
             </div>
           </div>
@@ -80,12 +86,16 @@
 
         <!-- this display user accounts  -->
         <div class="accounts" id="user-accounts">
+          <div class="search-section">
+            <input id="search-user" class="search-box" type="text" placeholder="Email of user to search">
+          </div>
           <div class="content-row-staff">
             <h5>First Name: Ubumwe</h4>
             <h5>Last Name: Ubumwe</h4>
             <h5> Email:francoismugorozi@gmail.com</h5>
             <div class="staff-actions">
               <button id="activate-btn" onclick="activateAccount(id)">Deactivate</button>
+              <button id="makeadmin-btn" onclick="makeAdmin(id)">Change Role</button>
             </div>
           </div>
         </div>
@@ -93,6 +103,9 @@
 
         <!-- this display admin/staff accounts  -->
         <div class="accounts" id="staff-accounts">
+          <div class="search-section">
+            <input id="search-staff" class="search-box" type="text" placeholder="Email of user to search">
+          </div>
           <div class="content-row-staff">
             <h5>First Name: Ubumwe</h4>
             <h5>Last Name: Ubumwe</h4>
@@ -100,6 +113,7 @@
             <h5> Email:francoismugorozi@gmail.com</h5>
             <div class="staff-actions">
               <button id="activate-btn" onclick="activateAccount(id)">Deactivate</button>
+              <button id="makeadmin-btn" onclick="makeAdmin(id)">Change Role</button>
             </div>
           </div>
         </div>
@@ -246,6 +260,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="../js/axios.min.js"></script>
     <script src="../js/admin.js"></script>
     <script src="../js/logout.js"></script>
   </body>

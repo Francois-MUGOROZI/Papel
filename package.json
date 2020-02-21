@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec  babel-node -- server/index.js",
     "start": "babel-node -- server/index.js",
-    "test": "mocha --require @babel/polyfill --require @babel/register server/tests/*.js --timeout 10000 --recursive --exit",
+    "test": "mocha  --require @babel/polyfill --require @babel/register server/tests/*/*.js --timeout 10000 --recursive --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Francois MUGOROZI",
@@ -24,6 +24,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "chai-things": "^0.2.0",
+    "cors": "^2.8.5",
     "coveralls": "^3.0.9",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
