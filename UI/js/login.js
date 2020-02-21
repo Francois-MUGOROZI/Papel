@@ -8,7 +8,7 @@ loginForm.addEventListener('submit', e => {
   const password = e.target['password'].value;
   console.log(username, password);
   axios
-    .post('https://papel-andela.herokuapp.com/api/auth/login', {
+    .post('http://papel-andela.herokuapp.com/api/auth/login', {
       email: username,
       password: password
     })
