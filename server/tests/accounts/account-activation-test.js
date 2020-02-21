@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
-import FakeAccount from '../mock/fakeAccount';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
+import FakeAccount from '../../mock/fakeAccount';
 
 process.env.NODE_ENV = 'test';
 
@@ -17,12 +17,16 @@ const account = fakeAccount.generateFakeAccount();
 const userCredentails = user.generateAdmin();
 let headerAuth = '';
 let accountNumber = '';
-const data = {
-  headerAuth,
-  status: 'active'
-};
 
 describe('Test PATCH /api/accounts/activation/:status', () => {
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/users/init')
+      .end(() => {
+        done();
+      });
+  });
   before(done => {
     chai
       .request(app)
@@ -30,8 +34,6 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
       .send(userCredentails)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        account.headerAuth = headerAuth;
-        data.headerAuth = headerAuth;
         done();
       });
   });
@@ -40,7 +42,7 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
     chai
       .request(app)
       .post('/api/accounts/create')
-      .send(account)
+      .send({ ...account, headerAuth })
       .end((err, res) => {
         accountNumber = res.body.data.accountNumber;
       });
@@ -64,8 +66,8 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/886465454`)
-      .send(data)
+      .patch(`/api/accounts/activation/886465454`)
+      .send({ status: 'active', headerAuth })
       .end((error, res) => {
         expect(res)
           .to.have.property('status')
@@ -79,8 +81,8 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}`)
-      .send(data)
+      .patch(`/api/accounts/activation/${accountNumber}`)
+      .send({ status: 'active', headerAuth })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')

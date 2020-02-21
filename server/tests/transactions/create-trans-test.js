@@ -1,10 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
-import FakeAccount from '../mock/fakeAccount';
-import FakeTrans from '../mock/fakeTrans';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
+import FakeAccount from '../../mock/fakeAccount';
+import FakeTrans from '../../mock/fakeTrans';
 
 process.env.NODE_ENV = 'test';
 
@@ -25,25 +25,46 @@ describe('Test POST /api/transactions/create', () => {
   before(done => {
     chai
       .request(app)
+      .post('/api/user/init')
+      .end((err, res) => {
+        done();
+      });
+  });
+  before(done => {
+    chai
+      .request(app)
       .post('/api/auth/login')
       .send(adminCredentails)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        account.headerAuth = headerAuth;
-        done();
       });
+    done();
   });
 
   before(done => {
     chai
       .request(app)
       .post('/api/accounts/create')
-      .send(account)
+      .send({ ...account, headerAuth })
       .end((err, res) => {
         accountNumber = res.body.data.accountNumber;
         trans.accountNumber = accountNumber;
       });
     done();
+  });
+
+  it('Should return 201 HTTP status code if transaction successful', done => {
+    chai
+      .request(app)
+      .post('/api/transactions/create')
+      .send({ ...trans, headerAuth })
+      .end((error, res) => {
+        expect(res.body)
+          .to.have.property('status')
+          .equals(201)
+          .that.is.a('number');
+        done();
+      });
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
@@ -65,39 +86,32 @@ describe('Test POST /api/transactions/create', () => {
     trans = {
       description: 'new trsansaction description'
     };
-    trans.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/transactions/create')
-      .send(trans)
+      .send({ ...trans, headerAuth })
       .end((error, res) => {
         expect(res.body)
           .to.have.property('status')
           .equals(422)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });
 
   it('Should return 422 HTTP status code if transaction is empty', done => {
     trans = {};
-    trans.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/transactions/create')
-      .send(trans)
+      .send({ ...trans, headerAuth })
       .end((error, res) => {
         expect(res.body)
           .to.have.property('status')
           .equals(422)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('invalid input')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

@@ -2,8 +2,8 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
 import { before } from 'mocha';
-import FakeUser from '../mock/fakeUser';
-import app from '../app';
+import FakeUser from '../../mock/fakeUser';
+import app from '../../app';
 
 chai.use(chaiHttp);
 chai.use(chaiThings);

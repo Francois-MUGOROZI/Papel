@@ -1,8 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
+import FakeAccount from '../../mock/fakeAccount';
 
 process.env.NODE_ENV = 'test';
 
@@ -11,38 +12,42 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
+const accounts = new FakeAccount();
+let account = accounts.generateFakeAccount();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateAdmin();
 let headerAuth = '';
-let userEmail = '';
-const data = { status: 'active' };
 
-describe('Test POST /api/users/activation/:email', () => {
+describe('Test POST /api/accounts/create', () => {
   before(done => {
     chai
       .request(app)
       .post('/api/auth/signup')
       .send(userCredentials)
       .end((err, res) => {
-        userEmail = userCredentials.email;
+        headerAuth = res.body.data.token;
         done();
       });
   });
-  before(done => {
+
+  it('Should return 201 HTTP status code on success', done => {
     chai
       .request(app)
-      .post('/api/auth/login')
-      .send(adminCredentials)
+      .post('/api/accounts/create')
+      .send({ ...account, headerAuth })
       .end((err, res) => {
-        headerAuth = res.body.data.token;
+        expect(res.body)
+          .to.have.property('status')
+          .equals(201)
+          .that.is.a('number');
+        expect(res.body).to.have.property('data');
         done();
       });
   });
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .patch(`/api/users/activation/${userEmail}`)
-      .send(data)
+      .post('/api/accounts/create')
+      .send(account)
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -52,19 +57,20 @@ describe('Test POST /api/users/activation/:email', () => {
         done();
       });
   });
-
-  it('Should return 201 HTTP status code if successful', done => {
-    data.headerAuth = headerAuth;
+  it('Should return 422 HTTP status code if account is empty', done => {
+    account = {};
     chai
       .request(app)
-      .patch(`/api/users/activation/${userEmail}`)
-      .send(data)
-      .end((err, res) => {
+      .post('/api/accounts/create')
+      .send({ ...account, headerAuth })
+      .end((error, res) => {
         expect(res.body)
           .to.have.property('status')
-          .equals(201)
+          .equals(422)
           .that.is.a('number');
-        expect(res.body).to.have.property('data');
+        expect(res.body)
+          .to.have.property('error')
+          .that.is.a('string');
         done();
       });
   });

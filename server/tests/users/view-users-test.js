@@ -1,9 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiThings from 'chai-things';
-import app from '../app';
-import FakeUser from '../mock/fakeUser';
-import FakeAccount from '../mock/fakeAccount';
+import app from '../../app';
+import FakeUser from '../../mock/fakeUser';
 
 process.env.NODE_ENV = 'test';
 
@@ -12,38 +11,34 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
-const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateAdmin();
+const userCredentials = user.generateFakeUser();
+const adminCredentials = user.generateAdmin();
 let headerAuth = '';
-let accountNumber = '';
 
-describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
+describe('Test GET /api/users/', () => {
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/auth/signup')
+      .send(userCredentials)
+      .end(() => {
+        done();
+      });
+  });
   before(done => {
     chai
       .request(app)
       .post('/api/auth/login')
-      .send(userCredentials)
+      .send(adminCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        account.headerAuth = headerAuth;
+        done();
       });
-    done();
   });
-  before(done => {
-    chai
-      .request(app)
-      .post('/api/accounts/create')
-      .send(account)
-      .end(() => {
-        accountNumber = account.accountNumber;
-      });
-    done();
-  });
-
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/${accountNumber}`)
+      .get('/api/users')
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -53,17 +48,18 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
         done();
       });
   });
-  it('Should return 404 HTTP status code no accounts found', done => {
+
+  it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/accounts/delete/4321`)
+      .get('/api/users')
       .send({ headerAuth })
-      .end((error, res) => {
-        expect(res)
+      .end((err, res) => {
+        expect(res.body)
           .to.have.property('status')
-          .equals(404)
+          .equals(200)
           .that.is.a('number');
-        expect(res).to.have.property('error');
+        expect(res.body).to.have.property('data');
         done();
       });
   });

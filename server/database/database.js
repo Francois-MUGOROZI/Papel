@@ -30,7 +30,7 @@ class Database {
       accounts(
         id UUID PRIMARY KEY,
         "accountNumber" BIGINT NOT NULL UNIQUE,
-        "accountName" VARCHAR(50) UNIQUE,
+        "accountName" VARCHAR(50),
         "createdOn"  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         owner UUID NOT NULL,
         type VARCHAR(20) NOT NULL,
