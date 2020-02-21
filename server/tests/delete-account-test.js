@@ -14,9 +14,7 @@ const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
 let headerAuth = '';
-let owner = '';
 let accountNumber;
 
 describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
@@ -27,27 +25,14 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
         chai
           .request(app)
           .post('/api/accounts/create')
           .send(account)
           .end(() => {
             accountNumber = account.accountNumber;
-            adminCredentials.type = 'admin';
           });
       });
-    before(() => {
-      chai
-        .request(app)
-        .post('/api/auth/signup')
-        .send(adminCredentials)
-        .end((err, res) => {
-          headerAuth = res.body.data.token;
-          done();
-        });
-    });
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
@@ -73,10 +58,7 @@ describe('Test DELETE /api/accounts/delete/:accountNumber', () => {
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

@@ -1,5 +1,4 @@
 import faker from 'faker';
-// import generateId from 'uuid/v1';
 
 class FakeTrans {
   constructor() {
@@ -8,8 +7,6 @@ class FakeTrans {
 
   generateFakeTrans() {
     const trans = {
-      accountNumber: faker.random.number(),
-      cashier: faker.random.uuid(),
       type: 'debit',
       amount: faker.random.number()
     };

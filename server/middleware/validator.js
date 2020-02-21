@@ -19,7 +19,6 @@ export const validateSignup = (req, res, next) => {
       status: res.statusCode,
       error: 'invalid input'
     });
-    console.log(error);
   } else next();
 };
 
@@ -29,7 +28,7 @@ export const validateLogin = (req, res, next) => {
   if (error) {
     res.status(422).json({
       status: res.statusCode,
-      error: 'Invalid inputs'
+      error: 'invalid input'
     });
   } else next();
 };
@@ -44,7 +43,7 @@ export const validateAccount = (req, res, next) => {
   if (error) {
     res.status(422).json({
       status: res.statusCode,
-      error: 'Invalid inputs'
+      error: 'invalid input'
     });
   } else next();
 };
@@ -61,7 +60,7 @@ export const validateTrans = (req, res, next) => {
   if (error) {
     res.status(422).json({
       status: res.statusCode,
-      error: 'Invalid inputs'
+      error: 'invalid input'
     });
   } else next();
 };

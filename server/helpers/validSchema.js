@@ -3,13 +3,11 @@ import Joi from '@hapi/joi';
 // validating signup info
 export const signupSchema = Joi.object({
   firstName: Joi.string()
-    .alphanum()
     .min(2)
     .max(40)
     .required(),
 
   lastName: Joi.string()
-    .alphanum()
     .min(2)
     .max(40)
     .required(),
@@ -43,7 +41,7 @@ export const accountSchema = Joi.object({
     .alphanum()
     .max(10)
     .required(),
-  owner: Joi.string().required()
+  owner: Joi.required()
 });
 
 // validate transaction

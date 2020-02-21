@@ -20,13 +20,12 @@ class Account {
     const dt = new Date();
     const val =
       dt.getFullYear() +
-      dt.getDay() +
       dt.getMonth() +
-      dt.getHours() +
-      dt.getMinutes() +
-      dt.getSeconds();
-    const numStr = `777${val}`;
-    this.accountNumber = Number.parseInt(numStr, 10);
+      dt.getDay() +
+      dt.getTime() +
+      Math.floor(Math.random() * 10);
+
+    this.accountNumber = Number.parseInt(`7777${val}`, 10);
   }
 
   // get account

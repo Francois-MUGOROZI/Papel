@@ -15,7 +15,6 @@ const user = new FakeUser();
 let account = new FakeAccount().generateFakeAccount();
 const userCredentials = user.generateFakeUser();
 let headerAuth = '';
-let owner = '';
 
 describe('Test POST /api/accounts/create', () => {
   before(done => {
@@ -25,8 +24,6 @@ describe('Test POST /api/accounts/create', () => {
       .send(userCredentials)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
         done();
       });
   });
@@ -60,43 +57,6 @@ describe('Test POST /api/accounts/create', () => {
           .to.have.property('error')
           .equals('invalid input')
           .that.is.a('string');
-        done();
-      });
-  });
-  it('Should return 422 HTTP status code if invalid inputs', done => {
-    account = {
-      description: 'new account description'
-    };
-    account.headerAuth = headerAuth;
-    chai
-      .request(app)
-      .post('/api/accounts/create')
-      .send(account)
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(422)
-          .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('invalid input')
-          .that.is.a('string');
-        done();
-      });
-  });
-  it('Should return 201 HTTP status code if successful', done => {
-    chai
-      .request(app)
-      .post('/api/accounts/create')
-      .send(account)
-      .end((err, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(201)
-          .that.is.a('number');
-        expect(res.body)
-          .to.have.property('message')
-          .that.is.equal('Account created successfully');
         done();
       });
   });

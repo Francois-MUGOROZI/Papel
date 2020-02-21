@@ -12,7 +12,6 @@ chai.use(chaiThings);
 const { expect } = chai;
 const user = new FakeUser();
 const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
 let headerAuth = '';
 let userEmail = '';
 
@@ -24,15 +23,6 @@ describe('Test DELETE /api/users/delete/:useremail', () => {
       .send(userCredentials)
       .end(() => {
         userEmail = userCredentials.email;
-        adminCredentials.type = 'admin';
-        chai
-          .request(app)
-          .post('/api/auth/signup')
-          .send(adminCredentials)
-          .end((err, res) => {
-            headerAuth = res.body.data.token;
-            done();
-          });
       });
   });
 
@@ -59,10 +49,7 @@ describe('Test DELETE /api/users/delete/:useremail', () => {
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

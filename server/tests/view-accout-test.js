@@ -14,7 +14,6 @@ const { expect } = chai;
 const user = new FakeUser();
 const account = new FakeAccount().generateFakeAccount();
 const userCredentials = user.generateFakeUser();
-const staffCredentials = user.generateFakeUser();
 let headerAuth = '';
 let owner = '';
 
@@ -43,18 +42,6 @@ describe('Test GET /api/accounts/', () => {
       });
   });
 
-  before(done => {
-    staffCredentials.type = 'admin';
-    chai
-      .request(app)
-      .post('/api/auth/signup')
-      .send(staffCredentials)
-      .end((err, res) => {
-        headerAuth = res.body.data.token;
-      });
-    done();
-  });
-
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
@@ -78,10 +65,7 @@ describe('Test GET /api/accounts/', () => {
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

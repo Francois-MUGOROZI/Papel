@@ -57,10 +57,7 @@ describe('Test GET /api/users/', () => {
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res.body).to.have.property('error');
         done();
       });
   });

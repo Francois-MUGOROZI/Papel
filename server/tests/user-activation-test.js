@@ -17,7 +17,7 @@ let headerAuth = '';
 let userEmail = '';
 const status = 'active';
 
-describe('Test PATCH /api/users/activation/:useremail/:status', () => {
+describe('Test PATCH /api/users/activation/:useremail', () => {
   before(done => {
     chai
       .request(app)
@@ -25,7 +25,6 @@ describe('Test PATCH /api/users/activation/:useremail/:status', () => {
       .send(userCredentials)
       .end(() => {
         userEmail = userCredentials.email;
-        adminCredentials.type = 'admin';
         chai
           .request(app)
           .post('/api/auth/signup')
@@ -40,7 +39,8 @@ describe('Test PATCH /api/users/activation/:useremail/:status', () => {
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .get(`/api/users/activation/${userEmail}/${status}`)
+      .patch(`/api/users/activation/${userEmail}`)
+      .send({ status })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')
@@ -50,29 +50,12 @@ describe('Test PATCH /api/users/activation/:useremail/:status', () => {
         done();
       });
   });
-  it('Should return 404 HTTP status code no users found', done => {
-    chai
-      .request(app)
-      .get(`/api/users/activation/${userEmail}/${status}`)
-      .send({ headerAuth })
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(404)
-          .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
-        done();
-      });
-  });
 
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/users/activation/${userEmail}/${status}`)
-      .send({ headerAuth })
+      .get(`/api/users/activation/${userEmail}`)
+      .send({ headerAuth, status })
       .end((err, res) => {
         expect(res.body)
           .to.have.property('status')

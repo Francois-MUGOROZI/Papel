@@ -1,5 +1,4 @@
 import faker from 'faker';
-// import generateId from 'uuid/v1';
 
 class FakeAccount {
   constructor() {
@@ -8,10 +7,8 @@ class FakeAccount {
 
   generateFakeAccount() {
     const account = {
-      owner: faker.random.uuid(),
-      type: 'loan',
-      status: 'active',
-      balance: faker.random.number()
+      accountName: faker.name.title(),
+      type: 'loan'
     };
     this.accounts.push(account);
     return account;

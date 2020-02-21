@@ -1,6 +1,7 @@
 import Transaction from '../models/transaction';
 import Database from '../database/database';
 import errorHandle from '../helpers/errorHandler';
+import sendEmail from '../utils/email';
 
 const trans = new Transaction();
 const database = new Database(); // initialize database connection
@@ -38,6 +39,27 @@ export const createTransaction = async (req, res) => {
         if (found === 'staff' || found === 'admin') {
           await database.addTrans(newTrans);
           await database.updateAccount(accountNumber, newBalnce);
+
+          // formulate the email to notify the client
+          try {
+            const findUserAcc = await database.getSpecAccountDetail(
+              accountNumber
+            );
+            const findUserId = findUserAcc.rows[0].owner;
+            const findEmail = await database.findUserById(findUserId);
+            const { email } = findEmail.rows[0];
+            const message = `Transaction done\nYour account ${newTrans.accountNumber} have ${newTrans.type}ed \namount:${newTrans.amount} 
+            \n Your new balance is:${newTrans.newBalance}`;
+            await sendEmail({
+              email,
+              subject: 'Your Account Transactions',
+              message,
+              html: ''
+            });
+          } catch (err) {
+            //
+          }
+
           res.status(201).json({
             status: res.statusCode,
             data: newTrans
@@ -51,7 +73,7 @@ export const createTransaction = async (req, res) => {
       } else {
         res.status(403).json({
           status: res.statusCode,
-          error: 'Invalid request',
+          error: 'invalid request',
           message: 'This account is not active'
         });
       }

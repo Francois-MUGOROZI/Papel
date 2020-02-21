@@ -12,26 +12,32 @@ chai.use(chaiHttp);
 chai.use(chaiThings);
 
 const { expect } = chai;
-const user = new FakeUser();
-const account = new FakeAccount().generateFakeAccount();
-let trsansaction = new FakeTrans().generateFakeTrans();
-const userCredentials = user.generateFakeUser();
-const staffCredentials = user.generateFakeUser();
+// const user = new FakeUser();
+const fakeAccount = new FakeAccount();
+const account = fakeAccount.generateFakeAccount();
+// const fakeTrans = new FakeTrans();
+let trsansaction = {
+  accountNumber: '',
+  type: 'debit',
+  amount: 50
+};
+// const userCredentials = user.generateFakeUser();
 let headerAuth = '';
 let accountNumber = '';
-let owner = '';
-let cashier = '';
 
 describe('Test POST /api/transactions/create', () => {
   before(done => {
+    const data = {
+      email: 'francoismugorozi@gmail.com',
+      password: 'adminpass'
+    };
     chai
       .request(app)
-      .post('/api/auth/signup')
-      .send(userCredentials)
+      .post('/api/auth/login')
+      .send(data)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
+        account.headerAuth = headerAuth;
         done();
       });
   });
@@ -47,24 +53,10 @@ describe('Test POST /api/transactions/create', () => {
       });
     done();
   });
-
-  before(done => {
-    staffCredentials.type = 'staff';
-    chai
-      .request(app)
-      .post('/api/auth/signup')
-      .send(staffCredentials)
-      .end((err, res) => {
-        headerAuth = res.body.data.token;
-        cashier = res.body.data.id;
-        trsansaction.cashier = cashier;
-      });
-    done();
-  });
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .post('/api/trsansactions/create')
+      .post('/api/transactions/create')
       .send(trsansaction)
       .end((err, res) => {
         expect(res.body)
@@ -75,25 +67,7 @@ describe('Test POST /api/transactions/create', () => {
         done();
       });
   });
-  it('Should return 422 HTTP status code if transaction is empty', done => {
-    trsansaction = {};
-    trsansaction.headerAuth = headerAuth;
-    chai
-      .request(app)
-      .post('/api/transactions/create')
-      .send(trsansaction)
-      .end((error, res) => {
-        expect(res.body)
-          .to.have.property('status')
-          .equals(422)
-          .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('invalid input')
-          .that.is.a('string');
-        done();
-      });
-  });
+
   it('Should return 422 HTTP status code if invalid inputs', done => {
     trsansaction = {
       description: 'new trsansaction description'
@@ -115,19 +89,23 @@ describe('Test POST /api/transactions/create', () => {
         done();
       });
   });
-  it('Should return 201 HTTP status code if successful', done => {
+
+  it('Should return 422 HTTP status code if transaction is empty', done => {
+    trsansaction = {};
+    trsansaction.headerAuth = headerAuth;
     chai
       .request(app)
       .post('/api/transactions/create')
       .send(trsansaction)
-      .end((err, res) => {
+      .end((error, res) => {
         expect(res.body)
           .to.have.property('status')
-          .equals(201)
+          .equals(422)
           .that.is.a('number');
         expect(res.body)
-          .to.have.property('message')
-          .that.is.contain('successfully');
+          .to.have.property('error')
+          .equals('invalid input')
+          .that.is.a('string');
         done();
       });
   });

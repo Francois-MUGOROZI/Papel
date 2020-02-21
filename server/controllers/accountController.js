@@ -1,6 +1,7 @@
 import Account from '../models/Account';
 import Database from '../database/database';
 import errorHandle from '../helpers/errorHandler';
+import sendEmail from '../utils/email';
 
 const account = new Account(); // initialise new user
 const database = new Database(); // initialize database connection
@@ -40,6 +41,17 @@ export const createAccount = async (req, res) => {
       const found = user.rows[0].role;
       if (found) {
         await database.addAccount(newAccount);
+        const message = `Conglaturations\nYour account created and your account number is: ${newAccount.accountNumber}`;
+        try {
+          await sendEmail({
+            email: userEmail,
+            subject: 'Your Account created',
+            message,
+            html: ''
+          });
+        } catch (err) {
+          //
+        }
         res.status(201).json({
           status: res.statusCode,
           data: {

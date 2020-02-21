@@ -12,72 +12,64 @@ chai.use(chaiThings);
 
 const { expect } = chai;
 const user = new FakeUser();
-const account = new FakeAccount().generateFakeAccount();
-const userCredentials = user.generateFakeUser();
-const adminCredentials = user.generateFakeUser();
+const fakeAccount = new FakeAccount();
+const account = fakeAccount.generateFakeAccount();
 let headerAuth = '';
-let owner = '';
-let accountNumber;
-const status = 'active';
+let accountNumber = '';
 
 describe('Test PATCH /api/accounts/activation/:status', () => {
   before(done => {
+    const data = {
+      email: 'francoismugorozi@gmail.com',
+      password: 'adminpass'
+    };
     chai
       .request(app)
-      .post('/api/auth/signup')
-      .send(userCredentials)
+      .post('/api/auth/login')
+      .send(data)
       .end((err, res) => {
         headerAuth = res.body.data.token;
-        owner = userCredentials.id;
-        account.owner = owner;
-        chai
-          .request(app)
-          .post('/api/accounts/create')
-          .send(account)
-          .end(() => {
-            accountNumber = account.accountNumber;
-            adminCredentials.type = 'admin';
-          });
+        account.headerAuth = headerAuth;
+        done();
       });
-    before(() => {
-      chai
-        .request(app)
-        .post('/api/auth/signup')
-        .send(adminCredentials)
-        .end((err, res) => {
-          headerAuth = res.body.data.token;
-          done();
-        });
-    });
+  });
+
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/accounts/create')
+      .send(account)
+      .end((err, res) => {
+        accountNumber = res.body.data.accountNumber;
+      });
+    done();
   });
 
   it('Should return 401 HTTP status code if no token provided', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ status: 'active' })
       .end((err, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(401)
           .that.is.a('number');
-        expect(res.body).to.have.property('error');
+        expect(res).to.have.property('error');
         done();
       });
   });
   it('Should return 404 HTTP status code no accounts found', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
-      .send({ headerAuth })
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ headerAuth, status: 'active' })
       .end((error, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(404)
           .that.is.a('number');
-        expect(res.body)
-          .to.have.property('error')
-          .equals('Not found')
-          .that.is.a('string');
+        expect(res).to.have.property('error');
         done();
       });
   });
@@ -85,14 +77,14 @@ describe('Test PATCH /api/accounts/activation/:status', () => {
   it('Should return 200 HTTP status code if successful', done => {
     chai
       .request(app)
-      .get(`/api/accounts/activation/${accountNumber}/${status}`)
-      .send({ headerAuth })
+      .get(`/api/accounts/activation/${accountNumber}`)
+      .send({ headerAuth, status: 'active' })
       .end((err, res) => {
-        expect(res.body)
+        expect(res)
           .to.have.property('status')
           .equals(200)
           .that.is.a('number');
-        expect(res.body).to.have.property('message');
+        expect(res).to.have.property('message');
         done();
       });
   });
