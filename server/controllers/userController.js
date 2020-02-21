@@ -199,18 +199,22 @@ export const updateUserRoles = async (req, res) => {
 };
 
 export const createDefaultAdmin = async (req, res) => {
-  const userTable = await database.createUserTable();
-  if (userTable) {
-    const id = generateId();
-    defAdmin.id = id;
-    defAdmin.password = passHash(defAdmin.password);
-    const def = await database.createDefaultAdmin(defAdmin);
-    if (def) {
-      res.status(201).json({
-        status: res.statusCode,
-        message: 'The App Initialize successfully'
-      });
+  try {
+    const userTable = await database.createUserTable();
+    if (userTable) {
+      const id = generateId();
+      defAdmin.id = id;
+      defAdmin.password = passHash(defAdmin.password);
+      const def = await database.createDefaultAdmin(defAdmin);
+      if (def) {
+        res.status(201).json({
+          status: res.statusCode,
+          message: 'The App Initialize successfully'
+        });
+      }
     }
+  } catch (err) {
+    errorHandle(res, err);
   }
 };
 
