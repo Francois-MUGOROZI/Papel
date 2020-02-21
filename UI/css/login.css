@@ -1,28 +1,76 @@
 @import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
 body {
   margin: 0;
-  background-image: url('../assets/login2.jpg');
+  font-family: 'Arvo', serif;
+  overflow-x: hidden;
+  background-image: url('../assets/login-background.jpg');
   background-attachment: fixed;
   background-size: cover;
-  font-family: 'Arvo', serif;
+}
+.homepage-header {
+  background-color: #09899e;
+  padding: 5px;
+  width: 100% !important;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+}
+a {
+  text-decoration: none;
+}
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+.header-logo h2 {
+  color: rgba(248, 248, 248, 0.938);
+  text-align: center;
+}
+.header-logo:hover {
+  opacity: 0.8;
+}
+.header-logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.header-container .login {
+  color: rgba(248, 248, 248, 0.938);
+  text-align: center;
+  font-size: 1.2em;
+  padding: 8px;
+  margin-left: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+.header-container .user img {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 50%;
+}
+.header-container .login:hover {
+  background-color: #20a3b8;
 }
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  margin: auto;
-  margin-top: 40px;
-  border-radius: 10px;
   padding: 20px;
-  background-image: url('../assets/login-background.jpg');
-  background-attachment: fixed;
-  background-size: cover;
 }
 .login-container h1 {
   text-align: center;
-  color: #028b9569;
+  color: #098a9e81;
 }
 .login-container input {
   padding: 10px;
@@ -32,26 +80,24 @@ body {
   margin-bottom: 10px;
 }
 label {
-  color: #028b95;
-}
-.login-container #login-btn,
-#signup-btn {
-  background-color: #028b95;
-  color: rgba(248, 248, 248, 0.938);
-  width: 97%;
-}
-.login-container #login-btn:hover {
-  background-color: #119ea8;
-}
-.login-container #signup-btn:hover {
-  background-color: #0f9ba5;
-}
-.have-account {
   text-align: right;
   font-size: 1.2em;
   margin-bottom: 40px;
-  color: #076970a9;
+  color: #1e9fb37a;
 }
-.have-account a{
-color: #033c41;
+.have-account a {
+  color: #a0cee080;
+}
+footer {
+  background-color: #09899e;
+  display: flex;
+  justify-content: center;
+  color: rgba(248, 248, 248, 0.938);
+  width: 100%;
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+}
+footer a {
+  color: rgba(248, 248, 248, 0.644);
 }

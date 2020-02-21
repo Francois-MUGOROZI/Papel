@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
 }
 .homepage-header {
-  background-color: #028b95;
+  background-color: #09899e;
   padding: 5px;
   width: 100% !important;
 }
@@ -30,6 +30,7 @@ a {
 }
 .header-logo h2 {
   color: rgba(248, 248, 248, 0.938);
+  text-align: center;
 }
 .header-logo:hover {
   opacity: 0.8;
@@ -42,9 +43,7 @@ a {
 }
 .header-container .login {
   color: rgba(248, 248, 248, 0.938);
-  font-size: 1.2em;
   padding: 8px;
-  margin-left: 5px;
   border-radius: 5px;
   text-align: center;
 }
@@ -55,7 +54,7 @@ a {
   border-radius: 50%;
 }
 .header-container .login:hover {
-  background-color: #14a5af;
+  background-color: #20a3b8;
 }
 
 .home-banner {
@@ -63,6 +62,8 @@ a {
   background-attachment: fixed;
   background-size: cover;
   color: rgba(248, 248, 248, 0.938);
+  font-size: 0.8em;
+  letter-spacing: 1.5px;
   padding: 10% 20px;
   letter-spacing: 1.5px;
   font-size: 0.8em;
@@ -72,7 +73,7 @@ a {
   padding-top: 20px;
 }
 .banner-btns a {
-  background-color: #028b95;
+  background-color: #09899e;
   padding: 10px 30px;
   color: rgba(248, 248, 248, 0.938);
   font-size: 1.2em;
@@ -80,7 +81,7 @@ a {
   margin-right: 20px;
 }
 .banner-btns a:hover {
-  background-color: #14a5af;
+  background-color: #20a3b8;
 }
 .services-row {
   display: flex;
@@ -93,9 +94,10 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #028b95 !important;
+  background-color: #09899e !important;
   padding: 20px;
   color: rgba(248, 248, 248, 0.938);
+  text-align: center;
   width: 100%;
   margin: 10px;
   text-align: center;
@@ -105,13 +107,14 @@ a {
 }
 .service-container h1 {
   text-align: center;
+  color: #09899e;
 }
 .bottom-signup {
   display: flex;
   justify-content: center;
 }
 .bottom-signup a {
-  background-color: #028b95;
+  background-color: #09899e;
   padding: 10px 50px;
   color: rgba(248, 248, 248, 0.938);
   font-size: 1.5em;
@@ -119,14 +122,11 @@ a {
   margin-bottom: 20px;
 }
 .bottom-signup a:hover {
-  background-color: #1ba8b3;
-}
-.service-container h1 {
-  color: #028b95;
+  background-color: #20a3b8;
 }
 
 footer {
-  background-color: #028b95;
+  background-color: #09899e;
   display: flex;
   justify-content: center;
   color: rgba(248, 248, 248, 0.938);
@@ -134,7 +134,7 @@ footer {
   padding: 5px;
 }
 footer a {
-  color: rgb(4, 71, 75);
+  color: rgba(248, 248, 248, 0.644);
 }
 
 /* Media query section for responsiveness */
@@ -154,11 +154,5 @@ footer a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #028b95;
-    opacity: 0.6;
-    padding: 20px;
-    color: rgba(248, 248, 248, 0.938);
-    width: 90%;
-    margin-bottom: 10px;
   }
 }
