@@ -12,7 +12,7 @@ dontenv.config();
 const app = express(); // create express application
 
 // routes
-app.use(cors);
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api/auth', authRouter);
