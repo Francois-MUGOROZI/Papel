@@ -270,11 +270,8 @@ export const resetPassword = async (req, res) => {
       .update(req.params.tokenback)
       .digest('hex');
     const userFind = await database.getResetToken(hashToken);
-    console.log(hashToken);
-    console.log(userFind.rows[0].resetToken);
     const found = userFind.rows[0].expires;
     const email = userFind.rows[0].userEmail;
-    console.log(email);
     if (found) {
       const expired = Date.parse(found) < new Date();
       if (expired) {
