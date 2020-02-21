@@ -1,14 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
 body {
   margin: 0;
+  padding: 0;
+  font-family: 'Arvo', serif;
+  overflow-x: hidden;
 }
 .homepage-header {
-  background-color: rgb(53, 171, 84);
-  padding: 10px;
+  background-color: #09899e;
+  padding: 5px;
+  width: 100% !important;
 }
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 20px;
 }
 a {
   text-decoration: none;
@@ -23,69 +29,130 @@ a {
   align-items: center;
 }
 .header-logo h2 {
-  color: rgb(240, 247, 242);
+  color: rgba(248, 248, 248, 0.938);
+  text-align: center;
 }
 .header-logo:hover {
   opacity: 0.8;
 }
 .header-logo img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin-right: 5px;
+  border-radius: 50%;
 }
 .header-container .login {
-  color: rgb(240, 247, 242);
-  font-size: 1.2em;
+  color: rgba(248, 248, 248, 0.938);
   padding: 8px;
-  margin-left: 5px;
   border-radius: 5px;
   text-align: center;
 }
 .header-container .user img {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   margin-left: 5px;
+  border-radius: 50%;
 }
 .header-container .login:hover {
-  background-color: rgb(48, 129, 70);
+  background-color: #20a3b8;
 }
 
 .home-banner {
-  background-image: url('../images/banner.jpg');
+  background-image: url('../assets/banner.jpg');
   background-attachment: fixed;
   background-size: cover;
-  color: rgb(2, 54, 17);
-  padding: 15%;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 0.8em;
+  letter-spacing: 1.5px;
+  padding: 10% 20px;
+  letter-spacing: 1.5px;
+  font-size: 0.8em;
+  width: 100% !important;
+}
+.banner-btns {
+  padding-top: 20px;
+}
+.banner-btns a {
+  background-color: #09899e;
+  padding: 10px 30px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.2em;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+.banner-btns a:hover {
+  background-color: #20a3b8;
 }
 .services-row {
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin: auto;
-  align-items: center;
-  margin-bottom: 2%;
+  padding: 2%;
+  margin: 20px;
 }
 .sercives-col {
-  margin-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(53, 171, 84);
+  background-color: #09899e !important;
   padding: 20px;
-  color: rgb(240, 247, 242);
+  color: rgba(248, 248, 248, 0.938);
+  text-align: center;
+  width: 100%;
+  margin: 10px;
+  text-align: center;
 }
 .sercives-col i {
   font-size: 2em;
 }
 .service-container h1 {
   text-align: center;
-  color: rgb(53, 171, 84);
+  color: #09899e;
+}
+.bottom-signup {
+  display: flex;
+  justify-content: center;
+}
+.bottom-signup a {
+  background-color: #09899e;
+  padding: 10px 50px;
+  color: rgba(248, 248, 248, 0.938);
+  font-size: 1.5em;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.bottom-signup a:hover {
+  background-color: #20a3b8;
 }
 
 footer {
-  background-color: rgb(48, 129, 70);
+  background-color: #09899e;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  color: rgba(248, 248, 248, 0.938);
+  width: 100%;
   padding: 5px;
+}
+footer a {
+  color: rgba(248, 248, 248, 0.644);
+}
+
+/* Media query section for responsiveness */
+
+/* Mobile  */
+@media only screen and (max-width: 768px) {
+  .services-row {
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 2%;
+    margin: 20px;
+  }
+
+  .sercives-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }

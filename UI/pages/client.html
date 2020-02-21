@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="../css/font-awesome/css/font-awesome.min.css"
+    />
+    <title>Papel | User Dashboard</title>
+  </head>
+  <body onload="initialSetup()">
+    <!-- The top appbar -->
+    <header class="appBar">
+      <div class="header">
+        <button class="menu" id="menu"><i class="fa fa-bars"></i></button>
+        <div class="header-logo">
+          <a href="index.html">
+            <img src="../assets/bank.png" alt="Bank" />&nbsp;
+            <h4>Papel</h4>
+          </a>
+        </div>
+        <div class="header-content">
+          <button class="notification">
+            <i class="fa fa-bell"  id="notificationIcon"><sup>785</sup></i>
+          </button>
+          <div class="user">
+            <img src="../assets/user.jpg" alt="user" onclick="openUser()"/>
+            <div class="user-profile" id="user-profile">
+                <h5>Username: Fraesd</h5>
+                <h6>Category</h6>
+                <a  id="logout2">
+                   Logout
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- The sidebar for menus -->
+    <div class="sidebar" id="sidebar">
+      <ul>
+        <li class="list-item" id="user-side-account">
+          <h4>Accounts</h4>
+        </li>
+        <li class="list-item" id="user-side-transaction">
+          <h4>Transactions</h4>
+        </li>
+        <hr />
+        <li class="list-item" id="logout">
+          <a>
+            <h4>Logout</h4>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- main content rendered depending on the user logged in  -->
+    <div class="main-content" id="main">
+      <div class="contents">
+        <h4 id="User-content-heading">Main contents</h4>
+        <div class="accounts" id="accounts">
+          <div class="content-row" id="model-1" onclick="openDetailModel(45)">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h4>Balance: $7856</h4>
+          </div>
+          <button class="create-account-btn" onclick="openCreateAccountModel()">
+            Create Account
+          </button>
+        </div>
+        <div class="transactions" id="transactions">
+          <div class="content-row">
+            <h4>Created On: 4th, Feb, 2020</h4>
+            <h6>Type: Credit</h6>
+            <h6>Account Number: 6846513564</h6>
+            <h6>Old balance: $4565</h6>
+            <h4>New balance: $7856</h4>
+          </div>
+          <div class="content-row">
+            <h4>Created On: 4th, Feb, 2020</h4>
+            <h6>Type: Debit</h6>
+            <h6>Account Number: 6846513564</h6>
+            <h6>Old balance: $4565</h6>
+            <h4>New balance: $7856</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the footer section  -->
+    <footer>
+      <small
+        >Created by
+        <a href="http://" target="_blank" rel="noopener noreferrer"
+          >Francois
+        </a>
+        <small
+          >Powered by
+          <a href="http://andela.com" target="_blank" rel="noopener noreferrer"
+            >Andela</a
+          ></small
+        ></small
+      >
+    </footer>
+
+    <!-- Model section for user to create account  -->
+    <div id="message-model" class="create-account-modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeMessageModel()">&times;</span>
+        <h5 id="message-title">Message Title</h5>
+        <p id="message-body">Message Body </p>
+      </div>
+    </div>
+
+    <!-- specific account details and transaction model -->
+    <div id="account-detail-model" class="account-detail-model">
+      <!-- Modal content -->
+      <div class="account-detail-model-content">
+        <span class="close" onclick="closeDetailModel()">&times;</span>
+        <p>Bank Account Details</p>
+        <div class="accounts" id="accounts">
+          <div class="detail-content-row">
+            <h5>Account Name: Ubumwe</h4>
+            <h5> Type: Saving</h5>
+            <h5> Number: 6846513564</h5>
+            <h5>Opened: 4th, Feb, 2020 <span> Status: Active</span></h5>
+            <h4>Balance: $7856</h4>
+          </div>
+          <hr>
+          <h5>Transactions History</h5>
+          <div>
+            <div class="detail-content-row">
+              <h4>Created On: 4th, Feb, 2020</h4>
+              <h6>Type: Debit</h6>
+              <h6>Old balance: $4565</h6>
+              <h4>New balance: $7856</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- message model  -->
+    <div id="create-account-model" class="create-account-modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeCreateAccountModel()">&times;</span>
+        <p>Create a Bank Account</p>
+        <form id="create-account-form">
+          <label for="name">Account Name:</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Account Name"
+            required
+            id="name"
+          /><br />
+          <label for="type">Account Type:</label>
+          <select name="type" id="type">
+            <option value="Saving">Saving</option>
+            <option value="Laon">Laon</option>
+          </select>
+          <br />
+          <input
+            type="submit"
+            name="create-btn"
+            value="Create"
+            id="create-btn"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/client.js"></script>
+    <script src="../js/logout.js"></script>
+  </body>
+</html>

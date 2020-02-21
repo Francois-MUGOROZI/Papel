@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/login.css" />
+    <title>Papel | Login</title>
+  </head>
+  <body>
+    <header class="homepage-header">
+      <div class="header-container">
+        <div></div>
+        <a href="index.html">
+          <div class="header-logo">
+            <img src="../assets/bank.png" alt="" />
+            <h2>Papel</h2>
+          </div></a
+        >
+        <div class="header-content">
+          <a href="client.html" class="login">Accounts</a>
+          <a href="login.html" class="login">Login</a>
+          <a href="signup.html" class="login">Signup</a>
+          <a href="signup.html" class="user">
+            <img src="../assets/user.jpg" alt="" />
+          </a>
+        </div>
+      </div>
+    </header>
+    <div class="login-container">
+      <h1>Login To Papel</h1>
+      <form id="login-form">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          id="username"
+          required
+        /><br />
+        <label for="password">Password :</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          id="password"
+        /><br />
+        <small id="error-label"></small>
+        <input type="submit" name="login-btn" value="Login" id="login-btn" />
+      </form>
+      <h6 class="have-account">
+        Don't have an account? <a href="signup.html">Signup</a>
+      </h6>
+    </div>
+
+    <!-- the footer section  -->
+    <footer>
+      <small
+        >Created by
+        <a href="http://" target="_blank" rel="noopener noreferrer"
+          >Francois
+        </a>
+        <small
+          >Powered by
+          <a href="http://andela.com" target="_blank" rel="noopener noreferrer"
+            >Andela</a
+          ></small
+        ></small
+      >
+    </footer>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/login.js"></script>
+  </body>
+</html>
